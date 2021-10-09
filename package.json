@@ -1,9 +1,24 @@
 {
-  "dependencies": {
-    "cors": "^2.8.5",
-    "ejs": "^3.1.6",
-    "express": "^4.17.1",
-    "helmet": "^4.6.0",
-    "mysql2": "^2.3.0"
-  }
+	"name": "sistema",
+	"version": "1.0.0",
+	"main": "index.js",
+	"author": "EdgardAlas <edgardalasu@gmail.com>",
+	"license": "MIT",
+	"scripts": {
+		"start": "node server.js",
+		"dev": "nodemon server.js"
+	},
+	"dependencies": {
+		"cors": "^2.8.5",
+		"dotenv": "^10.0.0",
+		"ejs": "^3.1.6",
+		"express": "^4.17.1",
+		"helmet": "^4.6.0",
+		"jsonwebtoken": "^8.5.1",
+		"mysql2": "^2.3.0",
+		"sequelize": "^6.7.0"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.13"
+	}
 }
