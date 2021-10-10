@@ -13,7 +13,7 @@ class App {
 	middlewares() {
 		this.server.use(cors());
 		this.server.use(helmet());
-		this.server.use(express.static(path.resolve(__dirname, './public')));
+		this.server.use(express.static(path.resolve(__dirname, '../public')));
 		this.server.set('view engine', 'ejs');
 		this.server.set('views', path.resolve(__dirname, './views'));
 	}
