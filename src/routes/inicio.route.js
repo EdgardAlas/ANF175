@@ -8,18 +8,8 @@ routes.get('/', csrfProteccion, (req, res) => {
 	});
 });
 
-routes.post(
-	'/',
-	[
-		(req, res, next) => {
-			console.log(req);
-			next();
-		},
-		csrfProteccion,
-	],
-	(req, res) => {
-		res.json({ msg: 'procede este formulario' });
-	}
-);
+routes.post('/', [csrfProteccion], (req, res) => {
+	res.json({ msg: 'procede este formulario' });
+});
 
 module.exports = routes;
