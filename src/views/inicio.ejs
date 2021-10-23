@@ -8,5 +8,35 @@
 	</head>
 	<body>
 		<h1>Sistema mamalon de analisis financiero</h1>
+		<form method="POST" id="form">
+			<input type="hidden" name="_csrf" value="<%= token %>" id="token" />
+			<input type="submit" value="Submit" />
+		</form>
+		<div class="mensaje"></div>
+		<script>
+			document
+				.querySelector('#form')
+				.addEventListener('submit', async (e) => {
+					e.preventDefault();
+					try {
+						const data = await fetch('/', {
+							method: 'post',
+							headers: {
+								'Content-type': 'application/json',
+							},
+							body: JSON.stringify({
+								_csrf: document.querySelector('#token').value,
+							}),
+						});
+						const json = await data.json();
+						console.log(json);
+						const p = document.createElement('P');
+						p.textContent = json.msg;
+						document.querySelector('.mensaje').appendChild(p);
+					} catch (error) {
+						console.error(error);
+					}
+				});
+		</script>
 	</body>
 </html>
