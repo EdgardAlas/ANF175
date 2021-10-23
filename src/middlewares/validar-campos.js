@@ -1,7 +1,7 @@
-import { validationResult } from 'express-validator';
-import { StatusCodes } from 'http-status-codes';
+const { validationResult } = require('express-validator');
+const { StatusCodes } = require('http-status-codes');
 
-export const validarCampos = (req, res, next) => {
+const validarCampos = (req, res, next) => {
 	const errorFormatter = ({ msg, param }) => {
 		return `{"${param}": "${msg}"}`;
 	};
@@ -9,8 +9,13 @@ export const validarCampos = (req, res, next) => {
 	if (!result.isEmpty()) {
 		return res
 			.status(StatusCodes.BAD_REQUEST)
-			.json({ errores: result.array() });
+			.json({ errores: result.array().map((res) => JSON.parse(res)) });
 	}
+	// result.array();
 
 	next();
+};
+
+module.exports = {
+	validarCampos,
 };
