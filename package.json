@@ -19,9 +19,9 @@
 		"sequelize": "^6.7.0"
 	},
 	"devDependencies": {
-		"nodemon": "^2.0.13",
 		"colors": "^1.4.0",
 		"eslint": "^7.27.0",
+		"nodemon": "^2.0.14",
 		"prettier": "2.3.0"
 	}
 }
