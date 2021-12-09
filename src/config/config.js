@@ -2,9 +2,10 @@ require('dotenv').config();
 
 module.exports = {
 	port: process.env.PORT || 5000,
-	DB_PORT: process.env.DB_PORT || 3306,
-	DB_USUARIO: process.env.DB_USUARIO || 'root',
-	DB_PASSWORD: process.env.DB_PASSWORD || '',
-	DB_NAME: process.env.DB_NAME || '',
-	DB_HOST: process.env.DB_HOST || 'localhost',
+	db_port: process.env.DB_PORT || 3306,
+	db_usuario: process.env.DB_USUARIO || 'root',
+	db_password: process.env.DB_PASSWORD || '',
+	db_name: process.env.DB_NAME || '',
+	db_host: process.env.DB_HOST || 'localhost',
+	db_dialect: process.env.DB_DIALECT || 'mysql',
 };
