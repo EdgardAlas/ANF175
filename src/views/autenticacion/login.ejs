@@ -23,23 +23,29 @@
 			<h1>Iniciar sesion</h1>
 			<form class="d-grid gap-3" id="form-login">
 				<div>
-					<label for="" class="form-label">Usuario/correo</label>
+					<label for="" class="form-label">Usuario/correo *</label>
 					<input
 						type="text"
 						class="form-control"
 						name="usuario"
 						id="usuario"
 					/>
+					<div class="invalid-feedback" id="error-usuario">
+						El usuario/correo no puede quedar vacio
+					</div>
 				</div>
 
 				<div>
-					<label for="" class="form-label">Contraseña</label>
+					<label for="" class="form-label">Contraseña *</label>
 					<input
 						type="password"
 						class="form-control"
 						name="clave"
 						id="clave"
 					/>
+					<div class="invalid-feedback" id="error-clave">
+						La contraseña no puede quedar vacia
+					</div>
 				</div>
 
 				<div class="form-check">
@@ -54,7 +60,8 @@
 					</label>
 				</div>
 
-				<div class="d-flex flex-row-reverse">
+				<div class="d-flex flex-row-reverse gap-3">
+					<div class="spinner-border order-1 d-none" id="cargando"></div>
 					<button class="btn btn-dark text-white fw-bold" id="btn-submit">
 						<i class="bi bi-box-arrow-in-right"></i>
 						Iniciar sesión

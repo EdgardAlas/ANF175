@@ -1,13 +1,14 @@
 // const csrfProteccion = require('../middlewares/csruf');
 const { Router } = require('express');
-const { vistaLogin } = require('../controllers/autenticacion.controller');
-const { vistaPublica, vistaProtegida } = require('../middlewares/valida-rutas');
+const { StatusCodes } = require('http-status-codes');
+const loginValidations = require('../validations/login.validations');
 
 const routes = Router();
 
-routes.get('/login', vistaPublica, vistaLogin);
-routes.get('/', vistaProtegida, (req, res) => {
-	res.render('inicio');
+routes.post('/login', loginValidations, (req, res) => {
+	res.status(StatusCodes.OK).json({
+		tes: ' hoa',
+	});
 });
 
 module.exports = routes;
