@@ -6,6 +6,9 @@ const cookieParser = require('cookie-parser');
 const fileUpload = require('express-fileupload');
 const { db } = require('./database/db');
 const { port } = require('./config/config');
+const { Rol } = require('./models/Rol');
+const { Usuario } = require('./models/Usuario');
+const { Empleado } = require('./models/Empleado');
 require('console-error');
 require('./database/relaciones');
 
@@ -43,6 +46,41 @@ class App {
 		try {
 			await db.sync({
 				force: false,
+			});
+			await Rol.findOrCreate({
+				where: { id: 1 },
+				defaults: {
+					rol: 'Adminitrador',
+				},
+			});
+			await Rol.findOrCreate({
+				where: { id: 2 },
+				defaults: {
+					rol: 'Usuario',
+				},
+			});
+			await Rol.findOrCreate({
+				where: { id: 3 },
+				defaults: {
+					rol: 'Vendedor',
+				},
+			});
+			await Usuario.findOrCreate({
+				where: { id: '20e29809-de83-4802-8928-a9b0bf88557b' },
+				defaults: {
+					clave: '$2a$10$3YqgxPbAAhrMQbbatdNL7e7bW4qV/96scb6Ux.MI1hsMTIF6PqgNy',
+					usuario: 'admin',
+					correo_electronico: 'admin@admin.com',
+					estado_usuario: true,
+					rol_fk: 1,
+				},
+			});
+			await Empleado.findOrCreate({
+				where: { id: 'c98189b2-6c78-41d8-abee-7eef9d1978f2' },
+				defaults: {
+					usuario_fk: '20e29809-de83-4802-8928-a9b0bf88557b',
+					estado_empleado: true,
+				},
 			});
 		} catch (error) {
 			console.error(error);

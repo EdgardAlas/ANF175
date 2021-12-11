@@ -14,7 +14,7 @@ const Usuario = db.define(
 		clave: {
 			type: DataTypes.STRING(80),
 		},
-		nombre: {
+		usuario: {
 			type: DataTypes.STRING(255),
 		},
 		estado_usuario: {

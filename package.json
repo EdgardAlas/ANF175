@@ -25,7 +25,8 @@
 		"jsonwebtoken": "^8.5.1",
 		"mariadb": "^2.5.5",
 		"mysql2": "^2.3.0",
-		"sequelize": "^6.7.0"
+		"sequelize": "^6.7.0",
+		"uuid": "^8.3.2"
 	},
 	"devDependencies": {
 		"colors": "^1.4.0",
