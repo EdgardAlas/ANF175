@@ -1,3 +1,14 @@
+.bg-gray {
+	background-color: #f3f4f6 !important;
+}
+
+.login-logo {
+	position: absolute;
+	width: 15%;
+	right: 0;
+	top: 0;
+}
+
 .login-container {
 	width: 90%;
 }

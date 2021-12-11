@@ -1,10 +1,9 @@
 // const csrfProteccion = require('../middlewares/csruf');
 const { Router } = require('express');
-const routes = Router();
-const render = (vista) => `autenticacion/${vista}`;
+const { vistaLogin } = require('../controllers/autenticacion.controller');
 
-routes.get('/login', (req, res) => {
-	res.render(render('login'));
-});
+const routes = Router();
+
+routes.get('/login', vistaLogin);
 
 module.exports = routes;

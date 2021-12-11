@@ -11,9 +11,9 @@ const hashClave = async (clave = '') => {
 	});
 };
 
-const compararClave = async (clave, hash) => {
+const compararClave = (clave, hash) => {
 	try {
-		const comparar = await bcrypt.compareSync(clave, hash);
+		const comparar = bcrypt.compareSync(clave, hash);
 		return comparar;
 	} catch (error) {
 		return false;

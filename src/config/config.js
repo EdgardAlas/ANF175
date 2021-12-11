@@ -8,4 +8,7 @@ module.exports = {
 	db_name: process.env.DB_NAME || 'anf175',
 	db_host: process.env.DB_HOST || 'localhost',
 	db_dialect: process.env.DB_DIALECT || 'mysql',
+	session_key: process.env.SESSION_KEY || 'abc',
+	jwt_key: process.env.JWT_KEY || 'abc',
+	maxAge: 10800000,
 };
