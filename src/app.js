@@ -52,6 +52,9 @@ class App {
 	rutas() {
 		// this.server.use('/', require('./routes/inicio.route'));
 		this.server.use('/', require('./routes/autenticacion.route'));
+		this.server.use('*', (req, res) => {
+			res.status(404).render('errores/no-encontrado');
+		});
 	}
 
 	iniciar() {
