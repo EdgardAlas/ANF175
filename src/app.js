@@ -42,7 +42,7 @@ class App {
 		// Aca ira la inicializacion de la base de datos
 		try {
 			await db.sync({
-				force: true,
+				force: false,
 			});
 		} catch (error) {
 			console.error(error);
@@ -50,7 +50,8 @@ class App {
 	}
 
 	rutas() {
-		this.server.use('/', require('./routes/inicio.route'));
+		// this.server.use('/', require('./routes/inicio.route'));
+		this.server.use('/', require('./routes/autenticacion.route'));
 	}
 
 	iniciar() {
