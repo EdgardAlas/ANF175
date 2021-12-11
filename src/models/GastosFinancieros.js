@@ -1,7 +1,7 @@
-import { DataTypes } from 'sequelize/dist';
-import { db } from '../../database/db';
+const { DataTypes } = require('sequelize');
+const { db } = require('../database/db');
 
-export const GastosFinancieros = db.define(
+const GastosFinancieros = db.define(
 	'gastos_financieros',
 	{
 		id: {
@@ -17,3 +17,5 @@ export const GastosFinancieros = db.define(
 		timestamps: false,
 	}
 );
+
+module.exports = { GastosFinancieros };

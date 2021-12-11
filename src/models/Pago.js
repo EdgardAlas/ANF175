@@ -1,7 +1,7 @@
-import { DataTypes } from 'sequelize/dist';
-import { db } from '../../database/db';
+const { DataTypes } = require('sequelize');
+const { db } = require('../database/db');
 
-export const Pago = db.define(
+const Pago = db.define(
 	'pago',
 	{
 		id: {
@@ -14,15 +14,11 @@ export const Pago = db.define(
 		fecha: {
 			type: DataTypes.DATE,
 		},
-		prestamo: {
-			type: DataTypes.INTEGER,
-		},
-		empleado: {
-			type: DataTypes.STRING(36),
-		},
 	},
 	{
 		tableName: 'pago',
 		timestamps: false,
 	}
 );
+
+module.exports = { Pago };

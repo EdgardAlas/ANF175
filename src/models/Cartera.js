@@ -1,7 +1,7 @@
-import { DataTypes } from 'sequelize/dist';
-import { db } from '../../database/db';
+const { DataTypes } = require('sequelize');
+const { db } = require('../database/db');
 
-export const Cartera = db.define(
+const Cartera = db.define(
 	'cartera',
 	{
 		id: {
@@ -11,15 +11,11 @@ export const Cartera = db.define(
 		incobrable: {
 			type: DataTypes.BOOLEAN,
 		},
-		cliente: {
-			type: DataTypes.STRING(36),
-		},
-		empleado: {
-			type: DataTypes.STRING(36),
-		},
 	},
 	{
 		tableName: 'cartera',
 		timestamps: false,
 	}
 );
+
+module.exports = { Cartera };

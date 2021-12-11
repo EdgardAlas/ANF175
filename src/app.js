@@ -4,8 +4,10 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const fileUpload = require('express-fileupload');
-
+const { db } = require('./database/db');
 const { port } = require('./config/config');
+require('console-error');
+require('./database/relaciones');
 
 class App {
 	constructor() {
@@ -36,8 +38,15 @@ class App {
 		this.server.set('views', path.resolve(__dirname, './views'));
 	}
 
-	db() {
+	async baseDatos() {
 		// Aca ira la inicializacion de la base de datos
+		try {
+			await db.sync({
+				force: true,
+			});
+		} catch (error) {
+			console.error(error);
+		}
 	}
 
 	rutas() {
@@ -45,7 +54,7 @@ class App {
 	}
 
 	iniciar() {
-		this.db();
+		this.baseDatos();
 		this.middlewares();
 		this.rutas();
 

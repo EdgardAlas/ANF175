@@ -1,7 +1,7 @@
-import { DataTypes } from 'sequelize/dist';
-import { db } from '../../database/db';
+const { DataTypes } = require('sequelize');
+const { db } = require('../database/db');
 
-export const Prestamo = db.define(
+const Prestamo = db.define(
 	'prestamo',
 	{
 		id: {
@@ -26,18 +26,11 @@ export const Prestamo = db.define(
 		valor_total: {
 			type: DataTypes.FLOAT,
 		},
-		cartera: {
-			type: DataTypes.INTEGER,
-		},
-		tasa_interes: {
-			type: DataTypes.INTEGER,
-		},
-		gastos_financieros: {
-			type: DataTypes.INTEGER,
-		},
 	},
 	{
 		tableName: 'prestamo',
 		timestamps: false,
 	}
 );
+
+module.exports = { Prestamo };

@@ -1,7 +1,7 @@
-import { DataTypes } from 'sequelize/dist';
-import { db } from '../../database/db';
+const { DataTypes } = require('sequelize');
+const { db } = require('../database/db');
 
-export const Departamento = db.define(
+const Departamento = db.define(
 	'departamento',
 	{
 		id: {
@@ -17,3 +17,5 @@ export const Departamento = db.define(
 		timestamps: false,
 	}
 );
+
+module.exports = { Departamento };

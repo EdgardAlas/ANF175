@@ -1,7 +1,7 @@
-import { DataTypes } from 'sequelize/dist';
-import { db } from '../../database/db';
+const { DataTypes } = require('sequelize');
+const { db } = require('../database/db');
 
-export const TasaInteres = db.define(
+const TasaInteres = db.define(
 	'tasa_interes',
 	{
 		id: {
@@ -17,3 +17,5 @@ export const TasaInteres = db.define(
 		timestamps: false,
 	}
 );
+
+module.exports = { TasaInteres };

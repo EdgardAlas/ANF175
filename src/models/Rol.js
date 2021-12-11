@@ -1,7 +1,7 @@
-import { DataTypes } from 'sequelize/dist';
-import { db } from '../../database/db';
+const { DataTypes } = require('sequelize');
+const { db } = require('../database/db');
 
-export const Rol = db.define(
+const Rol = db.define(
 	'rol',
 	{
 		id: {
@@ -9,7 +9,6 @@ export const Rol = db.define(
 			type: DataTypes.INTEGER.UNSIGNED,
 		},
 		rol: {
-			primaryKey: true,
 			type: DataTypes.STRING(13),
 		},
 	},
@@ -18,3 +17,5 @@ export const Rol = db.define(
 		timestamps: false,
 	}
 );
+
+module.exports = { Rol };

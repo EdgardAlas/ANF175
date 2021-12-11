@@ -1,7 +1,7 @@
-import { DataTypes } from 'sequelize/dist';
-import { db } from '../../database/db';
+const { DataTypes } = require('sequelize');
+const { db } = require('../database/db');
 
-export const Municipio = db.define(
+const Municipio = db.define(
 	'municipio',
 	{
 		id: {
@@ -11,12 +11,11 @@ export const Municipio = db.define(
 		municipio: {
 			type: DataTypes.STRING(255),
 		},
-		departamento: {
-			type: DataTypes.INTEGER,
-		},
 	},
 	{
 		tableName: 'municipio',
 		timestamps: false,
 	}
 );
+
+module.exports = { Municipio };

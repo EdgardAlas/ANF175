@@ -1,7 +1,7 @@
-import { DataTypes } from 'sequelize/dist';
-import { db } from '../../database/db';
+const { DataTypes } = require('sequelize');
+const { db } = require('../database/db');
 
-export const TipoCuenta = db.define(
+const TipoCuenta = db.define(
 	'tipo_cuenta',
 	{
 		id: {
@@ -17,3 +17,5 @@ export const TipoCuenta = db.define(
 		timestamps: false,
 	}
 );
+
+module.exports = { TipoCuenta };

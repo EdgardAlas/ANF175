@@ -1,7 +1,7 @@
-import { DataTypes } from 'sequelize/dist';
-import { db } from '../../database/db';
+const { DataTypes } = require('sequelize');
+const { db } = require('../database/db');
 
-export const Empleado = db.define(
+const Empleado = db.define(
 	'empleado',
 	{
 		id: {
@@ -20,12 +20,13 @@ export const Empleado = db.define(
 		estado_empleado: {
 			type: DataTypes.BOOLEAN,
 		},
-		usuario: {
-			type: DataTypes.STRING(36),
-		},
 	},
 	{
 		tableName: 'empleado',
 		timestamps: false,
 	}
 );
+
+module.exports = {
+	Empleado,
+};

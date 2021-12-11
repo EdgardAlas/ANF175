@@ -1,7 +1,7 @@
-import { DataTypes } from 'sequelize/dist';
-import { db } from '../../database/db';
+const { DataTypes } = require('sequelize');
+const { db } = require('../database/db');
 
-export const InfoContable = db.define(
+const InfoContable = db.define(
 	'info_contable',
 	{
 		id: {
@@ -14,9 +14,6 @@ export const InfoContable = db.define(
 		anio: {
 			type: DataTypes.INTEGER,
 		},
-		cliente: {
-			type: DataTypes.STRING(36),
-		},
 		tipo_cuenta: {
 			type: DataTypes.INTEGER,
 		},
@@ -26,3 +23,5 @@ export const InfoContable = db.define(
 		timestamps: false,
 	}
 );
+
+module.exports = { InfoContable };

@@ -1,7 +1,7 @@
-import { DataTypes } from 'sequelize/dist';
-import { db } from '../../database/db';
+const { DataTypes } = require('sequelize');
+const { db } = require('../database/db');
 
-export const Telefono = db.define(
+const Telefono = db.define(
 	'telefono',
 	{
 		id: {
@@ -11,12 +11,11 @@ export const Telefono = db.define(
 		telefono: {
 			type: DataTypes.STRING(9),
 		},
-		cliente: {
-			type: DataTypes.STRING(36),
-		},
 	},
 	{
 		tableName: 'telefono',
 		timestamps: false,
 	}
 );
+
+module.exports = { Telefono };

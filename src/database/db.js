@@ -1,12 +1,14 @@
-import { Sequelize } from 'sequelize';
-import config from '../config/config';
+const { Sequelize } = require('sequelize');
+const config = require('../config/config');
 
-export const db = new Sequelize({
+const db = new Sequelize({
 	dialect: config.db_dialect,
-	host: config.db_usuario,
-	username: config.username,
+	host: config.db_host,
+	username: config.db_usuario,
 	password: config.db_password,
 	port: config.db_port,
 	database: config.db_name,
 	logging: true,
 });
+
+module.exports = { db };

@@ -1,7 +1,7 @@
-import { DataTypes } from 'sequelize/dist';
-import { db } from '../../database/db';
+const { DataTypes } = require('sequelize');
+const { db } = require('../database/db');
 
-export const Activo = db.define(
+const Activo = db.define(
 	'activo',
 	{
 		id: {
@@ -32,12 +32,6 @@ export const Activo = db.define(
 		estado_adquisicion: {
 			type: DataTypes.BOOLEAN,
 		},
-		tipo_activo: {
-			type: DataTypes.INTEGER,
-		},
-		empleado: {
-			type: DataTypes.STRING(36),
-		},
 		ubicacion: {
 			type: DataTypes.STRING(50),
 		},
@@ -47,3 +41,5 @@ export const Activo = db.define(
 		timestamps: false,
 	}
 );
+
+module.exports = { Activo };

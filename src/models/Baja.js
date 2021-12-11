@@ -1,7 +1,7 @@
-import { DataTypes } from 'sequelize/dist';
-import { db } from '../../database/db';
+const { DataTypes } = require('sequelize');
+const { db } = require('../database/db');
 
-export const Baja = db.define(
+const Baja = db.define(
 	'baja',
 	{
 		id: {
@@ -17,12 +17,11 @@ export const Baja = db.define(
 		fecha_baja: {
 			type: DataTypes.DATE,
 		},
-		activo: {
-			type: DataTypes.INTEGER,
-		},
 	},
 	{
 		tableName: 'baja',
 		timestamps: false,
 	}
 );
+
+module.exports = { Baja };
