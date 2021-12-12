@@ -21,28 +21,38 @@
 				class="login-logo"
 			/>
 			<h1>Iniciar sesion</h1>
-			<form class="d-grid gap-3" id="form-login">
+			<form class="d-grid" id="form-login">
 				<div>
-					<label for="" class="form-label">Usuario/correo *</label>
-					<input
-						type="text"
-						class="form-control"
-						name="usuario"
-						id="usuario"
-					/>
+					<label for="" class="form-label">Usuario *</label>
+					<div class="input-group mb-3">
+						<span class="input-group-text" id="basic-addon1"
+							><i class="bi bi-person"></i
+						></span>
+						<input
+							type="text"
+							class="form-control"
+							name="usuario"
+							id="usuario"
+						/>
+					</div>
 					<div class="invalid-feedback" id="error-usuario">
-						El usuario/correo no puede quedar vacio
+						El usuario no puede quedar vacio
 					</div>
 				</div>
 
 				<div>
 					<label for="" class="form-label">Contraseña *</label>
-					<input
-						type="password"
-						class="form-control"
-						name="clave"
-						id="clave"
-					/>
+					<div class="input-group mb-3">
+						<span class="input-group-text" id="basic-addon1"
+							><i class="bi bi-key"></i
+						></span>
+						<input
+							type="password"
+							class="form-control"
+							name="clave"
+							id="clave"
+						/>
+					</div>
 					<div class="invalid-feedback" id="error-clave">
 						La contraseña no puede quedar vacia
 					</div>

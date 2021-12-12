@@ -1,4 +1,4 @@
-((api, alerta, tabla) => {
+((api, alerta, tabla, confirmacion) => {
 	const dui = document.getElementById('dui');
 	const nombre = document.getElementById('nombre');
 	const telefono = document.getElementById('telefono');
@@ -6,7 +6,13 @@
 	const usuario = document.getElementById('usuario');
 	const clave = document.getElementById('clave');
 	const empleadoForm = document.getElementById('agregar-empleado-form');
+	const btnEmpleadoForm = document.getElementById('btn-agregar-empleado');
+	const tituloModal = document.getElementById('agregarEmpleadoModal');
+	const mostrarClave = document.getElementById('mostrar-clave');
+	const iconoEditar = document.getElementById('icono-editar');
+	const btnTexto = document.getElementById('btn-texto');
 
+	let id = '';
 	const mascaraDUI = IMask(dui, {
 		mask: '00000000-0',
 	});
@@ -24,13 +30,54 @@
 		obtenerEmpleados();
 	});
 
+	mostrarClave.addEventListener('change', ({ target }) => {
+		const checked = target.checked;
+
+		if (checked) return (clave.type = 'text');
+		clave.type = 'password';
+	});
+
+	document
+		.getElementById('tbody-empleados')
+		.addEventListener('click', function ({ target }) {
+			const editar = target.classList.contains('editar-empleado');
+			if (!editar) {
+				return;
+			}
+			tituloModal.textContent = 'Editar empleado';
+			btnTexto.textContent = 'Editar';
+			dui.value = target.dataset.dui;
+			nombre.value = target.dataset.nombre;
+			telefono.value = target.dataset.telefono;
+			usuario.value = target.dataset.usuario;
+			correo.value = target.dataset.correo;
+			id = target.dataset.id;
+			clave.required = false;
+			iconoEditar.classList.add('bi-pencil-square');
+			iconoEditar.classList.remove('bi-check-square');
+		});
+
 	document
 		.getElementById('agregar-empleado-modal')
 		.addEventListener('hidden.bs.modal', () => {
+			btnTexto.textContent = 'Agregar';
+			clave.type = 'password';
+			tituloModal.textContent = 'Agregar empleado';
+			clave.required = true;
 			empleadoForm.reset();
 			mascaraDUI.updateValue();
 			mascaraNombre.updateValue();
 			mascaraTelefono.updateValue();
+			if (iconoEditar.classList.contains('bi-pencil-square')) {
+				iconoEditar.classList.remove('bi-pencil-square');
+				iconoEditar.classList.add('bi-check-square');
+			}
+		});
+
+	document
+		.getElementById('agregar-empleado-modal')
+		.addEventListener('shown.bs.modal', () => {
+			dui.focus();
 		});
 
 	empleadoForm.addEventListener('submit', registrarEmpleado);
@@ -48,22 +95,59 @@
 			empleadoForm: empleadoForm.value,
 		};
 
-		try {
-			const [resp, data] = await api({
-				url: 'empleado',
-				method: 'POST',
-				json,
-			});
-			if (data.status === 201) {
-				alerta('Se ha regitrado el empleado con exito', 'success');
-				bootstrap.Modal.getInstance(
-					document.getElementById('agregar-empleado-modal')
-				).hide();
-				obtenerEmpleados();
-			}
-		} catch (error) {
-			console.log(error);
+		if (btnTexto.textContent === 'Editar') {
+			return editarEmpleado(json);
 		}
+
+		confirmacion({
+			icon: 'warning',
+			texto: '¿Seguro de agregar este empleado?',
+			titulo: 'Advertencia',
+			cb: async function () {
+				try {
+					const [resp, data] = await api({
+						url: 'empleado',
+						method: 'POST',
+						json,
+					});
+					if (data.status === 201) {
+						alerta('Se ha regitrado el empleado con exito', 'success');
+						bootstrap.Modal.getInstance(
+							document.getElementById('agregar-empleado-modal')
+						).hide();
+						obtenerEmpleados();
+					}
+				} catch (error) {
+					console.log(error);
+				}
+			},
+		});
+	}
+
+	function editarEmpleado(json = {}) {
+		confirmacion({
+			icon: 'warning',
+			texto: '¿Seguro de editar este registro?',
+			titulo: 'Advertencia',
+			cb: async function () {
+				try {
+					const [resp, data] = await api({
+						url: `empleado/${id}`,
+						method: 'PATCH',
+						json,
+					});
+					if (data.status === 201) {
+						alerta('Se ha editado el empleado con exito', 'success');
+						bootstrap.Modal.getInstance(
+							document.getElementById('agregar-empleado-modal')
+						).hide();
+						obtenerEmpleados();
+					}
+				} catch (error) {
+					console.log(error);
+				}
+			},
+		});
 	}
 
 	async function obtenerEmpleados() {
@@ -89,8 +173,30 @@
 												<td>${empleado.telefono}</td>
 												<td>${empleado.usuario}</td>
 												<td>
-													<button type="button" class="btn btn-warning text-white" data-id="${empleado.id}">
-														<i class="bi bi-pencil-square"></i>
+													<button 
+														type="button" 
+														class="btn btn-warning text-white editar-empleado" 
+														data-id="${empleado.id}"
+														data-bs-toggle="modal"
+														data-bs-target="#agregar-empleado-modal"
+														data-backdrop="static"
+														data-keyboard="false"
+														data-dui=${empleado.dui}
+														data-id=${empleado.id}
+														data-nombre=${empleado.nombre}
+														data-telefono=${empleado.telefono}
+														data-usuario=${empleado.usuario}
+														data-correo=${empleado.correo_electronico}
+													>
+														<i 
+															data-dui=${empleado.dui}
+															data-id=${empleado.id}
+															data-nombre=${empleado.nombre}
+															data-telefono=${empleado.telefono}
+															data-usuario=${empleado.usuario}
+															data-correo=${empleado.correo_electronico}
+															class="bi bi-pencil-square editar-empleado"
+															></i>
 													</button>
 												</td>
 											</tr>`;
@@ -111,4 +217,4 @@
 		const btn = document.getElementById('btn-agregar-empleado');
 		btn.disabled = !btn.disabled;
 	}
-})(api, alerta, tabla);
+})(api, alerta, tabla, confirmacion);

@@ -37,6 +37,57 @@ const registrarEmpleado = async (req, res) => {
 	}
 };
 
+const editarEmpleado = async (req, res) => {
+	try {
+		const { dui, nombre, telefono, correo, usuario, clave } = req.body;
+		const { id } = req.params;
+
+		const hash = await hashClave(clave);
+
+		await db.transaction(async (t) => {
+			if (clave !== undefined || clave.length > 0) {
+				await Empleado.update(
+					{
+						dui,
+						nombre,
+						telefono,
+						correo_electronico: correo,
+						usuario,
+						clave: hash,
+					},
+					{
+						transaction: t,
+						where: {
+							id,
+						},
+					}
+				);
+			} else {
+				await Empleado.update(
+					{
+						dui,
+						nombre,
+						telefono,
+						correo_electronico: correo,
+						usuario,
+					},
+					{
+						transaction: t,
+						where: {
+							id,
+						},
+					}
+				);
+			}
+		});
+		return res.status(StatusCodes.CREATED).json({
+			msg: 'se ha editado con exito el empleado',
+		});
+	} catch (error) {
+		console.log(error);
+	}
+};
+
 const obtenerEmpleados = async (req, res) => {
 	try {
 		const empleados = await Empleado.findAll({
@@ -70,5 +121,6 @@ const obtenerEmpleados = async (req, res) => {
 };
 module.exports = {
 	registrarEmpleado,
+	editarEmpleado,
 	obtenerEmpleados,
 };

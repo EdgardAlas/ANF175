@@ -65,3 +65,25 @@ const tabla = (tabla) => {
 		});
 	}
 };
+
+const confirmacion = ({
+	titulo = '',
+	texto = '',
+	icon = '',
+	cb = () => {},
+}) => {
+	Swal.fire({
+		title: titulo,
+		text: texto,
+		icon,
+		showCancelButton: true,
+		confirmButtonColor: '#3085d6',
+		cancelButtonColor: '#d33',
+		confirmButtonText: 'Si',
+		cancelButtonText: 'No',
+	}).then((result) => {
+		if (result.isConfirmed) {
+			cb();
+		}
+	});
+};

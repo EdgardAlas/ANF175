@@ -4,7 +4,7 @@
 			<div class="nav">
 				<% if(rol==="Administrador"){ %>
 				<div class="sb-sidenav-menu-heading">Core</div>
-				<a class="nav-link" href="/empleados">
+				<a class="nav-link <%= pagina === 'empleados' ? "active" : "" %>" href="/empleados">
 					<div class="sb-nav-link-icon">
 						<i class="fas fa-tachometer-alt"></i>
 					</div>
