@@ -7,7 +7,6 @@ const fileUpload = require('express-fileupload');
 const { db } = require('./database/db');
 const { port } = require('./config/config');
 const { Rol } = require('./models/Rol');
-const { Usuario } = require('./models/Usuario');
 const { Empleado } = require('./models/Empleado');
 require('console-error');
 require('./database/relaciones');
@@ -50,7 +49,7 @@ class App {
 			await Rol.findOrCreate({
 				where: { id: 1 },
 				defaults: {
-					rol: 'Adminitrador',
+					rol: 'Administrador',
 				},
 			});
 			await Rol.findOrCreate({
@@ -65,21 +64,13 @@ class App {
 					rol: 'Vendedor',
 				},
 			});
-			await Usuario.findOrCreate({
-				where: { id: '20e29809-de83-4802-8928-a9b0bf88557b' },
-				defaults: {
-					clave: '$2a$10$3YqgxPbAAhrMQbbatdNL7e7bW4qV/96scb6Ux.MI1hsMTIF6PqgNy',
-					usuario: 'admin',
-					correo_electronico: 'admin@admin.com',
-					estado_usuario: true,
-					rol_fk: 1,
-				},
-			});
 			await Empleado.findOrCreate({
 				where: { id: 'c98189b2-6c78-41d8-abee-7eef9d1978f2' },
 				defaults: {
-					usuario_fk: '20e29809-de83-4802-8928-a9b0bf88557b',
 					estado_empleado: true,
+					clave: '$2a$10$3YqgxPbAAhrMQbbatdNL7e7bW4qV/96scb6Ux.MI1hsMTIF6PqgNy',
+					usuario: 'admin',
+					correo_electronico: 'admin@admin.com',
 				},
 			});
 		} catch (error) {
@@ -91,6 +82,7 @@ class App {
 		// this.server.use('/', require('./routes/inicio.route'));
 		this.server.use('/', require('./routes/vistas.route'));
 		this.server.use('/api/auth', require('./routes/autenticacion.route'));
+		this.server.use('/api/empleado', require('./routes/empleados.route'));
 		this.server.use('*', (req, res) => {
 			res.status(404).render('errores/no-encontrado');
 		});

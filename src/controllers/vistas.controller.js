@@ -6,6 +6,10 @@ const vistaLogin = async (req, res) => {
 	res.render(render('login'));
 };
 
+const vistaEmpleados = (req, res) => {
+	res.render('empleados/empleados');
+};
+
 const logout = async (req, res) => {
 	eliminarSesion(res);
 	res.redirect('/login');
@@ -14,4 +18,5 @@ const logout = async (req, res) => {
 module.exports = {
 	vistaLogin,
 	logout,
+	vistaEmpleados,
 };

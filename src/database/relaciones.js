@@ -16,28 +16,27 @@ const { TasaInteres } = require('../models/TasaInteres');
 const { Telefono } = require('../models/Telefono');
 const { TipoActivo } = require('../models/TipoActivo');
 const { TipoCuenta } = require('../models/TipoCuenta');
-const { Usuario } = require('../models/Usuario');
 const { Vehiculo } = require('../models/Vehiculo');
 
 // Ref: rol.id < usuario.rol;
 
-Rol.hasMany(Usuario, {
+Rol.hasMany(Empleado, {
 	foreignKey: 'rol_fk',
 });
 
-Usuario.belongsTo(Rol, {
+Empleado.belongsTo(Rol, {
 	foreignKey: 'rol_fk',
 });
 
 // Ref: usuario.id - empleado.usuario;
 
-Usuario.hasOne(Empleado, {
-	foreignKey: 'usuario_fk',
-});
+// Usuario.hasOne(Empleado, {
+// 	foreignKey: 'usuario_fk',
+// });
 
-Empleado.belongsTo(Usuario, {
-	foreignKey: 'usuario_fk',
-});
+// Empleado.belongsTo(Usuario, {
+// 	foreignKey: 'usuario_fk',
+// });
 
 // Ref: tipo_activo.id < activo.tipo_activo;
 

@@ -41,9 +41,13 @@
 				usuario,
 				clave,
 			});
-			const [res, data] = await api('auth/login', {
-				usuario,
-				clave,
+			const [res, data] = await api({
+				url: 'auth/login',
+				json: {
+					usuario,
+					clave,
+				},
+				method: 'POST',
 			});
 
 			cargando();

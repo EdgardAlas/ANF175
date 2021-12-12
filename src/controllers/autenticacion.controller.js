@@ -3,7 +3,7 @@ const { db } = require('../database/db');
 const { crearSesion } = require('../helpers/crear-sesion');
 const { generarJWT } = require('../helpers/generar-jwt');
 const { compararClave } = require('../helpers/hash-clave');
-const { Usuario } = require('../models/Usuario');
+const { Empleado } = require('../models/Empleado');
 
 const login = async (req, res) => {
 	const { usuario, clave } = req.body;
@@ -12,7 +12,7 @@ const login = async (req, res) => {
 		let encontrado = null;
 
 		await db.transaction(async (t) => {
-			encontrado = await Usuario.findOne({
+			encontrado = await Empleado.findOne({
 				where: {
 					usuario,
 				},

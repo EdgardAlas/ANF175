@@ -8,17 +8,29 @@ const colores = {
 	info: '#00cfdd',
 };
 
-const api = (url = '', json = {}) =>
+const api = ({ url = '', json = {}, method = 'GET' }) =>
 	new Promise(async (resolve, reject) => {
 		try {
-			const data = await fetch(`${baseURL}/${url}`, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				credentials: 'include',
-				body: JSON.stringify(json),
-			});
+			let data = {};
+			if (method === 'GET' || method == 'DELETE') {
+				data = await fetch(`${baseURL}/${url}`, {
+					method,
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					credentials: 'include',
+				});
+			} else {
+				data = await fetch(`${baseURL}/${url}`, {
+					method,
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					credentials: 'include',
+					body: JSON.stringify(json),
+				});
+			}
+
 			const resp = await data.json();
 			return resolve([resp, data]);
 		} catch (error) {

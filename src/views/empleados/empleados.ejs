@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<%- include("../partials/header.ejs", { titulo: "Dashboard - SB Admin"
+		})%>
+	</head>
+	<body class="sb-nav-fixed">
+		<%- include("../partials/navbar.ejs")%>
+		<div id="layoutSidenav">
+			<%- include("../partials/sidebar.ejs")%>
+			<div id="layoutSidenav_content">
+				<main>
+					<div class="container-fluid px-4">
+						<h1 class="mt-4">Empleados</h1>
+						<div class="row gap-3">
+							<div class="col-12">
+								<button
+									class="btn btn-primary text-white"
+									data-bs-toggle="modal"
+									data-bs-target="#agregar-empleado-modal"
+									data-backdrop="static"
+									data-keyboard="false"
+								>
+									Agregar empleado
+								</button>
+							</div>
+							<div class="col-12 table-responsive">
+								<table id="tabla-empleados">
+									<thead>
+										<tr>
+											<th>DUI</th>
+											<th>Nombre</th>
+											<th>Telefono</th>
+											<th>Usuario</th>
+										</tr>
+									</thead>
+									<tbody id="tbody-empleados"></tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</main>
+				<footer class="py-4 bg-light mt-auto">
+					<div class="container-fluid px-4">
+						<div
+							class="
+								d-flex
+								align-items-center
+								justify-content-between
+								small
+							"
+						>
+							<div class="text-muted">
+								Copyright &copy; Your Website 2021
+							</div>
+							<div>
+								<a href="#">Privacy Policy</a>
+								&middot;
+								<a href="#">Terms &amp; Conditions</a>
+							</div>
+						</div>
+					</div>
+				</footer>
+			</div>
+		</div>
+		<%- include("../modales/agregar-empleado.ejs") %> <%-
+		include("../partials/scripts.ejs")%>
+		<script src="/js/empleados.js?t=<%= Date.now() %>"></script>
+	</body>
+</html>
