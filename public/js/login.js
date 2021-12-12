@@ -56,6 +56,15 @@
 
 				return;
 			}
+
+			if (data.status === 401) {
+				alerta(res.msg, 'danger');
+				return;
+			}
+
+			if (data.status === 200) {
+				location.replace('/');
+			}
 		} catch (error) {
 			console.log(error);
 		}
