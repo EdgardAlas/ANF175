@@ -30,6 +30,12 @@
 		obtenerEmpleados();
 	});
 
+	correo.addEventListener('keyup', existCorreo);
+
+	dui.addEventListener('keyup', existeDUI);
+
+	usuario.addEventListener('keyup', existeUsuario);
+
 	mostrarClave.addEventListener('change', ({ target }) => {
 		const checked = target.checked;
 
@@ -216,5 +222,77 @@
 	function registrando() {
 		const btn = document.getElementById('btn-agregar-empleado');
 		btn.disabled = !btn.disabled;
+	}
+
+	async function existCorreo({ target }) {
+		if (correo.value.trim().length === 0) {
+			return;
+		}
+
+		let url = `empleado/correo/${correo.value}`;
+		if (btnTexto.textContent === 'Editar') {
+			url += `?id=${id}`;
+		}
+		try {
+			const [resp, data] = await api({
+				url,
+				method: 'GET',
+			});
+			if (resp.existe) {
+				alerta('Este correo ya esta en uso', 'warning');
+				correo.value = '';
+				correo.focus();
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
+	async function existeDUI() {
+		if (dui.value.trim().length === 0) {
+			return;
+		}
+
+		let url = `empleado/dui/${dui.value}`;
+		if (btnTexto.textContent === 'Editar') {
+			url += `?id=${id}`;
+		}
+		try {
+			const [resp, data] = await api({
+				url,
+				method: 'GET',
+			});
+			if (resp.existe) {
+				alerta('Este DUI ya esta en uso', 'warning');
+				dui.value = '';
+				dui.focus();
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
+	async function existeUsuario() {
+		if (usuario.value.trim().length === 0) {
+			return;
+		}
+
+		let url = `empleado/usuario/${usuario.value}`;
+		if (btnTexto.textContent === 'Editar') {
+			url += `?id=${id}`;
+		}
+		try {
+			const [resp, data] = await api({
+				url,
+				method: 'GET',
+			});
+			if (resp.existe) {
+				alerta('Este usuario ya esta en uso', 'warning');
+				usuario.value = '';
+				usuario.focus();
+			}
+		} catch (error) {
+			console.log(error);
+		}
 	}
 })(api, alerta, tabla, confirmacion);

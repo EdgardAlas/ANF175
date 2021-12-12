@@ -119,8 +119,101 @@ const obtenerEmpleados = async (req, res) => {
 		console.log(error);
 	}
 };
+
+const existeCorreo = async (req, res) => {
+	const { id } = req.query;
+	const { correo: correo_electronico } = req.params;
+
+	try {
+		let existe = false;
+		if (id !== undefined || id) {
+			existe = await Empleado.findOne({
+				where: {
+					correo_electronico,
+					[Op.not]: {
+						id,
+					},
+				},
+			});
+		} else {
+			existe = await Empleado.findOne({
+				where: {
+					correo_electronico,
+				},
+			});
+		}
+		return res.status(StatusCodes.OK).json({
+			existe: !!existe,
+		});
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+const existeDUI = async (req, res) => {
+	const { id } = req.query;
+	const { dui } = req.params;
+
+	try {
+		let existe = false;
+		if (id !== undefined || id) {
+			existe = await Empleado.findOne({
+				where: {
+					dui,
+					[Op.not]: {
+						id,
+					},
+				},
+			});
+		} else {
+			existe = await Empleado.findOne({
+				where: {
+					dui,
+				},
+			});
+		}
+		return res.status(StatusCodes.OK).json({
+			existe: !!existe,
+		});
+	} catch (error) {
+		console.log(error);
+	}
+};
+const existeUsuario = async (req, res) => {
+	const { id } = req.query;
+	const { usuario } = req.params;
+
+	try {
+		let existe = false;
+		if (id !== undefined || id) {
+			existe = await Empleado.findOne({
+				where: {
+					usuario,
+					[Op.not]: {
+						id,
+					},
+				},
+			});
+		} else {
+			existe = await Empleado.findOne({
+				where: {
+					usuario,
+				},
+			});
+		}
+		return res.status(StatusCodes.OK).json({
+			existe: !!existe,
+		});
+	} catch (error) {
+		console.log(error);
+	}
+};
+
 module.exports = {
 	registrarEmpleado,
 	editarEmpleado,
 	obtenerEmpleados,
+	existeCorreo,
+	existeDUI,
+	existeUsuario,
 };

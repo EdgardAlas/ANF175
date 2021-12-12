@@ -6,6 +6,7 @@ const colores = {
 	success: '#39da8a',
 	danger: '#ff5b5c',
 	info: '#00cfdd',
+	warning: '#fdac41',
 };
 
 const api = ({ url = '', json = {}, method = 'GET' }) =>
