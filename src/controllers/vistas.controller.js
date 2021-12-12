@@ -7,7 +7,9 @@ const vistaLogin = async (req, res) => {
 };
 
 const vistaEmpleados = (req, res) => {
-	res.render('empleados/empleados');
+	res.render('empleados/empleados', {
+		rol: req.rol,
+	});
 };
 
 const logout = async (req, res) => {

@@ -7,6 +7,7 @@ const Pago = db.define(
 		id: {
 			primaryKey: true,
 			type: DataTypes.INTEGER.UNSIGNED,
+			autoIncrement: true,
 		},
 		monto_cuota: {
 			type: DataTypes.FLOAT,

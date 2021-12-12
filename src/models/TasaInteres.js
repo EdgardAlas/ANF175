@@ -7,6 +7,7 @@ const TasaInteres = db.define(
 		id: {
 			primaryKey: true,
 			type: DataTypes.INTEGER.UNSIGNED,
+			autoIncrement: true,
 		},
 		porcentaje: {
 			type: DataTypes.FLOAT,

@@ -7,6 +7,7 @@ const Telefono = db.define(
 		id: {
 			primaryKey: true,
 			type: DataTypes.INTEGER.UNSIGNED,
+			autoIncrement: true,
 		},
 		telefono: {
 			type: DataTypes.STRING(9),

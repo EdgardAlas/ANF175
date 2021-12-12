@@ -12,7 +12,7 @@ const routes = Router();
 routes.get('/login', vistaPublica, vistaLogin);
 
 routes.get('/', vistaProtegida, (req, res) => {
-	res.render('inicio');
+	res.render('inicio', { rol: req.rol });
 });
 
 routes.get('/empleados', vistaProtegida, vistaEmpleados);

@@ -2,6 +2,7 @@ const { StatusCodes } = require('http-status-codes');
 const { Op } = require('sequelize');
 
 const { db } = require('../database/db');
+const { hashClave } = require('../helpers/hash-clave');
 const { Empleado } = require('../models/Empleado');
 const { Rol } = require('../models/Rol');
 
@@ -10,6 +11,9 @@ const registrarEmpleado = async (req, res) => {
 		const { dui, nombre, telefono, correo, usuario, clave } = req.body;
 
 		let empleado = null;
+
+		const hash = await hashClave(clave);
+
 		await db.transaction(async (t) => {
 			empleado = await Empleado.create(
 				{
@@ -18,7 +22,7 @@ const registrarEmpleado = async (req, res) => {
 					telefono,
 					correo_electronico: correo,
 					usuario,
-					clave,
+					clave: hash,
 					rol_fk: 3,
 				},
 				{ transaction: t }

@@ -7,6 +7,7 @@ const Hipoteca = db.define(
 		id: {
 			primaryKey: true,
 			type: DataTypes.INTEGER.UNSIGNED,
+			autoIncrement: true,
 		},
 		nombre: {
 			type: DataTypes.STRING(255),

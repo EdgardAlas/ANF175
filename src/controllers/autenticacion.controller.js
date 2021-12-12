@@ -4,6 +4,7 @@ const { crearSesion } = require('../helpers/crear-sesion');
 const { generarJWT } = require('../helpers/generar-jwt');
 const { compararClave } = require('../helpers/hash-clave');
 const { Empleado } = require('../models/Empleado');
+const { Rol } = require('../models/Rol');
 
 const login = async (req, res) => {
 	const { usuario, clave } = req.body;
@@ -16,6 +17,12 @@ const login = async (req, res) => {
 				where: {
 					usuario,
 				},
+				include: [
+					{
+						model: Rol,
+						attributes: ['rol'],
+					},
+				],
 				transaction: t,
 			});
 		});
@@ -35,7 +42,8 @@ const login = async (req, res) => {
 		}
 
 		const token = await generarJWT({
-			id: usuario.id,
+			id: encontrado.id,
+			rol: encontrado.rol.rol,
 		});
 
 		crearSesion(res, token);

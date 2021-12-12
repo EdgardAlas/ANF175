@@ -7,6 +7,7 @@ const Cliente = db.define(
 		id: {
 			primaryKey: true,
 			type: DataTypes.STRING(36),
+			defaultValue: DataTypes.UUIDV4,
 		},
 		dui: {
 			type: DataTypes.STRING(10),

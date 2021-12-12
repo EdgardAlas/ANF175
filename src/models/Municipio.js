@@ -7,6 +7,7 @@ const Municipio = db.define(
 		id: {
 			primaryKey: true,
 			type: DataTypes.INTEGER.UNSIGNED,
+			autoIncrement: true,
 		},
 		municipio: {
 			type: DataTypes.STRING(255),

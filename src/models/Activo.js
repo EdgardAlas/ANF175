@@ -7,6 +7,7 @@ const Activo = db.define(
 		id: {
 			primaryKey: true,
 			type: DataTypes.INTEGER.UNSIGNED,
+			autoIncrement: true,
 		},
 		tipo_adquisicion: {
 			type: DataTypes.BOOLEAN,

@@ -7,6 +7,7 @@ const Rol = db.define(
 		id: {
 			primaryKey: true,
 			type: DataTypes.INTEGER.UNSIGNED,
+			autoIncrement: true,
 		},
 		rol: {
 			type: DataTypes.STRING(13),

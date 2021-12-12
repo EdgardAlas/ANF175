@@ -1,4 +1,4 @@
-((api, alerta) => {
+((api, alerta, tabla) => {
 	const dui = document.getElementById('dui');
 	const nombre = document.getElementById('nombre');
 	const telefono = document.getElementById('telefono');
@@ -80,12 +80,9 @@
 					fragmento.appendChild(tpl.content);
 				});
 				document.getElementById('tbody-empleados').innerHTML = '';
-				console.log(fragmento);
 				document.getElementById('tbody-empleados').append(fragmento);
-				const datatablesSimple = document.getElementById('tabla-empleados');
-				if (datatablesSimple) {
-					new simpleDatatables.DataTable(datatablesSimple);
-				}
+				tabla('tabla-empleados');
+
 				registrando();
 			}
 		} catch (error) {
@@ -97,4 +94,4 @@
 		const btn = document.getElementById('btn-agregar-empleado');
 		btn.disabled = !btn.disabled;
 	}
-})(api, alerta);
+})(api, alerta, tabla);

@@ -49,3 +49,19 @@ const alerta = (texto, alerta) => {
 		},
 	}).showToast();
 };
+
+const tabla = (tabla) => {
+	const datatablesSimple = document.getElementById(tabla);
+	if (datatablesSimple) {
+		new simpleDatatables.DataTable(datatablesSimple, {
+			perPage: 5,
+			labels: {
+				placeholder: 'Buscar...', // The search input placeholder
+				perPage: '{select} por página', // per-page dropdown label
+				noRows: 'No hay datos para mostrar', // Message shown when there are no records to show
+				noResults: 'No hay datos para mostrar en la busqueda', // Message shown when there are no search results
+				info: 'Mostrando {start} de {end} de {rows} registros', //
+			},
+		});
+	}
+};

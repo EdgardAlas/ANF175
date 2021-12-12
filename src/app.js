@@ -71,6 +71,7 @@ class App {
 					clave: '$2a$10$3YqgxPbAAhrMQbbatdNL7e7bW4qV/96scb6Ux.MI1hsMTIF6PqgNy',
 					usuario: 'admin',
 					correo_electronico: 'admin@admin.com',
+					rol_fk: 1,
 				},
 			});
 		} catch (error) {

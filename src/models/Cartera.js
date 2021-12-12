@@ -7,6 +7,7 @@ const Cartera = db.define(
 		id: {
 			primaryKey: true,
 			type: DataTypes.INTEGER.UNSIGNED,
+			autoIncrement: true,
 		},
 		incobrable: {
 			type: DataTypes.BOOLEAN,

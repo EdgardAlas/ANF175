@@ -7,6 +7,7 @@ const TipoCuenta = db.define(
 		id: {
 			primaryKey: true,
 			type: DataTypes.INTEGER.UNSIGNED,
+			autoIncrement: true,
 		},
 		tipo_cuenta: {
 			type: DataTypes.STRING(30),

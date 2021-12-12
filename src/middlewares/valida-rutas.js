@@ -10,8 +10,9 @@ const rutaProtegida = (req, res, next) => {
 	}
 
 	try {
-		const { id } = jwt.verify(token, process.env.JWT_KEY);
+		const { id, rol } = jwt.verify(token, process.env.JWT_KEY);
 		req.id = id;
+		req.rol = rol;
 	} catch (error) {
 		return res.status(401).json({
 			msg: 'Token no válido',
@@ -29,8 +30,9 @@ const vistaProtegida = (req, res, next) => {
 	}
 
 	try {
-		const { id } = jwt.verify(token, process.env.JWT_KEY);
+		const { id, rol } = jwt.verify(token, process.env.JWT_KEY);
 		req.id = id;
+		req.rol = rol;
 	} catch (error) {
 		return res.redirect('/login');
 	}

@@ -7,6 +7,7 @@ const Baja = db.define(
 		id: {
 			primaryKey: true,
 			type: DataTypes.INTEGER.UNSIGNED,
+			autoIncrement: true,
 		},
 		motivo: {
 			type: DataTypes.STRING(255),

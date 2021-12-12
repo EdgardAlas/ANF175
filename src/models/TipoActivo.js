@@ -7,6 +7,7 @@ const TipoActivo = db.define(
 		id: {
 			primaryKey: true,
 			type: DataTypes.INTEGER.UNSIGNED,
+			autoIncrement: true,
 		},
 		codigo_correlativo: {
 			type: DataTypes.STRING(7),

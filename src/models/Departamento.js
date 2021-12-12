@@ -7,6 +7,7 @@ const Departamento = db.define(
 		id: {
 			primaryKey: true,
 			type: DataTypes.INTEGER.UNSIGNED,
+			autoIncrement: true,
 		},
 		departamento: {
 			type: DataTypes.STRING(255),

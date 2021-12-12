@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<%- include("partials/header.ejs", { titulo: "Dashboard - SB Admin" })%>
+		<%- include("partials/header.ejs", { titulo: "Dashboard - SB Admin"})%>
 	</head>
 	<body class="sb-nav-fixed">
 		<%- include("partials/navbar.ejs")%>
 		<div id="layoutSidenav">
-			<%- include("partials/sidebar.ejs")%>
+			<%- include("partials/sidebar.ejs", {rol})%>
 			<div id="layoutSidenav_content">
 				<main>
 					<div class="container-fluid px-4">
