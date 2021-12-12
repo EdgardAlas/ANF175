@@ -7,6 +7,11 @@ const crearSesion = (res, token) => {
 	});
 };
 
+const eliminarSesion = (res) => {
+	res.clearCookie('Authorization');
+};
+
 module.exports = {
 	crearSesion,
+	eliminarSesion,
 };
