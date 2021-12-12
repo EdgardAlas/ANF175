@@ -1,0 +1,11 @@
+requisitos
+instalar node v. minima 14.18.2
+instalar yarn
+
+abrir la carpeta del proyecto en una terminal
+
+ejecutar este comando solo una vez o cuando se indique
+yarn install
+
+y para iniciar el proyectto
+yarn dev
