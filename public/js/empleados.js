@@ -7,6 +7,19 @@
 	const clave = document.getElementById('clave');
 	const empleadoForm = document.getElementById('agregar-empleado-form');
 
+	const mascaraDUI = IMask(dui, {
+		mask: '00000000-0',
+	});
+	const mascaraNombre = IMask(nombre, {
+		mask: /^[a-zA-Z\s]*$/,
+	});
+	const mascaraTelefono = IMask(telefono, {
+		mask: '#000-0000',
+		definitions: {
+			'#': /[6-7]/,
+		},
+	});
+
 	document.addEventListener('DOMContentLoaded', () => {
 		obtenerEmpleados();
 	});
@@ -15,6 +28,9 @@
 		.getElementById('agregar-empleado-modal')
 		.addEventListener('hidden.bs.modal', () => {
 			empleadoForm.reset();
+			mascaraDUI.updateValue();
+			mascaraNombre.updateValue();
+			mascaraTelefono.updateValue();
 		});
 
 	empleadoForm.addEventListener('submit', registrarEmpleado);
@@ -31,10 +47,6 @@
 			clave: clave.value,
 			empleadoForm: empleadoForm.value,
 		};
-
-		if (json.dui.trim().length === 0) {
-			return;
-		}
 
 		try {
 			const [resp, data] = await api({
@@ -76,6 +88,11 @@
 												<td>${empleado.nombre}</td>
 												<td>${empleado.telefono}</td>
 												<td>${empleado.usuario}</td>
+												<td>
+													<button type="button" class="btn btn-warning text-white" data-id="${empleado.id}">
+														<i class="bi bi-pencil-square"></i>
+													</button>
+												</td>
 											</tr>`;
 					fragmento.appendChild(tpl.content);
 				});
