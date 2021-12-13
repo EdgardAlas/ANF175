@@ -50,7 +50,7 @@ class App {
 		// Aca ira la inicializacion de la base de datos
 		try {
 			await db.sync({
-				force: true,
+				force: false,
 			});
 			await Rol.findOrCreate({
 				where: { id: 1 },
