@@ -1,18 +1,19 @@
 ((api, alerta, tabla, confirmacion) => {
-	const dui = document.getElementById('dui');
-	const nombre = document.getElementById('nombre');
-	const telefono = document.getElementById('telefono');
-	const correo = document.getElementById('correo');
-	const usuario = document.getElementById('usuario');
-	const clave = document.getElementById('clave');
-	const empleadoForm = document.getElementById('agregar-empleado-form');
-	const btnEmpleadoForm = document.getElementById('btn-agregar-empleado');
-	const tituloModal = document.getElementById('agregarEmpleadoModal');
-	const mostrarClave = document.getElementById('mostrar-clave');
-	const iconoEditar = document.getElementById('icono-editar');
-	const btnTexto = document.getElementById('btn-texto');
+	const dui = document.getElementById('dui'),
+		nombre = document.getElementById('nombre'),
+		telefono = document.getElementById('telefono'),
+		correo = document.getElementById('correo'),
+		usuario = document.getElementById('usuario'),
+		clave = document.getElementById('clave'),
+		empleadoForm = document.getElementById('agregar-empleado-form'),
+		btnEmpleadoForm = document.getElementById('btn-agregar-empleado'),
+		tituloModal = document.getElementById('agregarEmpleadoModal'),
+		mostrarClave = document.getElementById('mostrar-clave'),
+		iconoEditar = document.getElementById('icono-editar'),
+		btnTexto = document.getElementById('btn-texto');
 
 	let id = '';
+
 	const mascaraDUI = IMask(dui, {
 		mask: '00000000-0',
 	});
