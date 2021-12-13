@@ -88,3 +88,17 @@ const confirmacion = ({
 		}
 	});
 };
+
+const select = (elemento) => {
+	$(elemento).select2({
+		theme: 'bootstrap4',
+		language: {
+			noResults: function () {
+				return 'No hay resultados';
+			},
+			searching: function () {
+				return 'Buscando..';
+			},
+		},
+	});
+};
