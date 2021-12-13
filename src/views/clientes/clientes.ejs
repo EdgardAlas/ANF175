@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<%- include("../partials/header.ejs", { titulo: "Clientes" })%>
+	</head>
+	<body class="sb-nav-fixed">
+		<%- include("../partials/navbar.ejs")%>
+		<div id="layoutSidenav">
+			<%- include("../partials/sidebar.ejs", {rol, pagina})%>
+			<div id="layoutSidenav_content">
+				<main>
+					<div class="container-fluid px-4">
+						<h1 class="mt-4">Clientes</h1>
+						<div class="row"></div>
+					</div>
+				</main>
+				<%- include("../partials/footer.ejs") %> <%-
+				include("../partials/scripts.ejs") %>
+			</div>
+		</div>
+	</body>
+</html>

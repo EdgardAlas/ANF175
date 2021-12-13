@@ -16,6 +16,7 @@ const { TasaInteres } = require('../models/TasaInteres');
 const { Telefono } = require('../models/Telefono');
 const { TipoActivo } = require('../models/TipoActivo');
 const { TipoCuenta } = require('../models/TipoCuenta');
+const { ZonaDepartamental } = require('../models/ZonaDepartamental');
 const { Vehiculo } = require('../models/Vehiculo');
 
 // Ref: rol.id < usuario.rol;
@@ -216,4 +217,14 @@ Empleado.hasMany(Pago, {
 
 Pago.belongsTo(Empleado, {
 	foreignKey: 'empleado_fk',
+});
+
+// zona < depto
+
+ZonaDepartamental.hasMany(Departamento, {
+	foreignKey: 'zona_fk',
+});
+
+Departamento.belongsTo(ZonaDepartamental, {
+	foreignKey: 'zona_fk',
 });

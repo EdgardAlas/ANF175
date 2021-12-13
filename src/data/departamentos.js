@@ -1,0 +1,16 @@
+module.exports = [
+	{ id: 1, departamento: 'Ahuachapán', zona_fk: 1 },
+	{ id: 2, departamento: 'Santa Ana', zona_fk: 1 },
+	{ id: 3, departamento: 'Sonsonate', zona_fk: 1 },
+	{ id: 4, departamento: 'La Libertad', zona_fk: 2 },
+	{ id: 5, departamento: 'Chalatenango', zona_fk: 2 },
+	{ id: 6, departamento: 'San Salvador', zona_fk: 2 },
+	{ id: 7, departamento: 'Cuscatlán', zona_fk: 3 },
+	{ id: 8, departamento: 'La Paz', zona_fk: 3 },
+	{ id: 9, departamento: 'Cabañas', zona_fk: 3 },
+	{ id: 10, departamento: 'San Vicente', zona_fk: 3 },
+	{ id: 11, departamento: 'Usulután', zona_fk: 4 },
+	{ id: 12, departamento: 'Morazán', zona_fk: 4 },
+	{ id: 13, departamento: 'San Miguel', zona_fk: 4 },
+	{ id: 14, departamento: 'La Unión', zona_fk: 4 },
+];

@@ -3,7 +3,7 @@
 		<div class="sb-sidenav-menu">
 			<div class="nav">
 				<% if(rol==="Administrador"){ %>
-				<div class="sb-sidenav-menu-heading">Core</div>
+				<div class="sb-sidenav-menu-heading">Empleados</div>
 				<a class="nav-link <%= pagina === 'empleados' ? "active" : "" %>" href="/empleados">
 					<div class="sb-nav-link-icon">
 						<i class="fas fa-tachometer-alt"></i>
@@ -12,7 +12,13 @@
 				</a>
 				<% } %>
 
-				<div class="sb-sidenav-menu-heading">Interface</div>
+				<div class="sb-sidenav-menu-heading">Clientess</div>
+				<a class="nav-link <%= pagina === 'clientes' ? "active" : "" %>" href="/clientes">
+					<div class="sb-nav-link-icon">
+						<i class="fas fa-tachometer-alt"></i>
+					</div>
+					Clientes
+				</a>
 				<a
 					class="nav-link collapsed"
 					href="#"

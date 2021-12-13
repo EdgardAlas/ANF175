@@ -8,6 +8,12 @@ const { db } = require('./database/db');
 const { port } = require('./config/config');
 const { Rol } = require('./models/Rol');
 const { Empleado } = require('./models/Empleado');
+const { Departamento } = require('./models/Departamento');
+const { Municipio } = require('./models/Municipio');
+const { ZonaDepartamental } = require('./models/ZonaDepartamental');
+const zonas = require('./data/zonas');
+const departamentos = require('./data/departamentos');
+const municipios = require('./data/municipios');
 require('console-error');
 require('./database/relaciones');
 
@@ -44,7 +50,7 @@ class App {
 		// Aca ira la inicializacion de la base de datos
 		try {
 			await db.sync({
-				force: false,
+				force: true,
 			});
 			await Rol.findOrCreate({
 				where: { id: 1 },
@@ -73,6 +79,21 @@ class App {
 					correo_electronico: 'admin@admin.com',
 					rol_fk: 1,
 				},
+			});
+
+			await ZonaDepartamental.bulkCreate(zonas, {
+				fields: ['id', 'zona'],
+				updateOnDuplicate: ['zona'],
+			});
+
+			await Departamento.bulkCreate(departamentos, {
+				fields: ['id', 'departamento', 'zona_fk'],
+				updateOnDuplicate: ['departamento'],
+			});
+
+			await Municipio.bulkCreate(municipios, {
+				fields: ['id', 'municipio', 'departamento_fk'],
+				updateOnDuplicate: ['municipio'],
 			});
 		} catch (error) {
 			console.error(error);

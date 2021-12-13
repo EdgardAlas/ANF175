@@ -18,8 +18,18 @@ const logout = async (req, res) => {
 	res.redirect('/login');
 };
 
+const inicio = (req, res) => {
+	res.render('inicio', { rol: req.rol, pagina: 'inicio' });
+};
+
+const vistaClientes = (req, res) => {
+	res.render('clientes/clientes', { rol: req.rol, pagina: 'clientes' });
+};
+
 module.exports = {
 	vistaLogin,
 	logout,
 	vistaEmpleados,
+	inicio,
+	vistaClientes,
 };
