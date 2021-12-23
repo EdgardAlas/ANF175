@@ -1,0 +1,156 @@
+<div
+	class="modal fade"
+	id="agregar-vehiculo-modal"
+	tabindex="-1"
+	data-bs-focus="false"
+	aria-labelledby="agregarVehiculoModal"
+	aria-hidden="true"
+	data-bs-backdrop="static"
+	data-bs-keyboard="false"
+	tabindex="-1"
+>
+	<div class="modal-dialog modal-lg">
+		<form class="modal-content" id="agregar-vehiculo-form">
+			<div class="modal-header bg-dark text-white">
+				<h5 class="modal-title" id="agregarVehiculoModal">
+					Registro de vehículos
+				</h5>
+				<button
+					type="button"
+					class="btn-close"
+					data-bs-dismiss="modal"
+					aria-label="Close"
+				></button>
+			</div>
+			<div class="modal-body">
+				<div class="col-12 col-md-12 mb-3">
+					<label for="cliente" class="form-label">Cliente</label>
+					<select class="form-select" id="combocliente">
+						<option selected>Seleccione</option>
+					</select>
+				</div>
+				<div class="row">
+					<div class="col-12 col-md-6 mb-3">
+						<label for="dui" class="form-label"
+							>DUI del propietario</label
+						>
+						<input
+							type="text"
+							class="form-control"
+							id="dui"
+							name="dui"
+							autocomplete="off"
+							required
+							placeholder="12345678-9"
+						/>
+					</div>
+					<div class="col-12 col-md-6 mb-3">
+						<label for="nombre" class="form-label"
+							>Nombre del Propietario</label
+						>
+						<input
+							type="text"
+							class="form-control"
+							id="nombre"
+							name="nombre"
+							autocomplete="off"
+							required
+							placeholder="Nombre"
+						/>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12 col-md-6 mb-3">
+						<label for="marca" class="form-label">Marca</label>
+						<input
+							type="text"
+							class="form-control"
+							id="marca"
+							name="marca"
+							autocomplete="off"
+							required
+						/>
+					</div>
+					<div class="col-12 col-md-6 mb-3">
+						<label for="modelo" class="form-label">Modelo</label>
+						<input
+							type="text"
+							class="form-control"
+							id="modelo"
+							name="modelo"
+							autocomplete="off"
+							required
+						/>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12 col-md-6 mb-3">
+						<label for="anio" class="form-label">Año</label>
+						<input
+							type="number"
+							class="form-control"
+							id="anio"
+							name="anio"
+							autocomplete="off"
+							required
+						/>
+					</div>
+					<div class="col-12 col-md-6 mb-3">
+						<label for="valor" class="form-label">Valor actual</label>
+						<input
+							type="number"
+							class="form-control"
+							id="valor"
+							name="valor"
+							autocomplete="off"
+							required
+							placeholder="$"
+						/>
+					</div>
+					<div class="col-12 col-md-6 mb-3">
+						<label for="direccion" class="form-label">Dirección </label>
+						<input
+							type="text"
+							class="form-control"
+							id="direccion"
+							name="direccion"
+							autocomplete="off"
+							required
+							placeholder="Contraseña"
+							minlength="8"
+						/>
+					</div>
+					<div class="col-12 col-md-6 mb-3">
+						<label for="archivo_compra" class="form-label">Archivo</label>
+						<input
+							type="file"
+							class="form-control"
+							id="archivo_compra"
+							name="archivo_compra"
+							autocomplete="off"
+							minlength="25"
+						/>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button
+					type="button"
+					class="btn btn-secondary"
+					data-bs-dismiss="modal"
+				>
+					<i class="bi bi-x-circle"></i>
+					Cerrar
+				</button>
+				<button
+					type="submit"
+					class="btn btn-primary text-white"
+					id="btn-agregar-vehiculo"
+				>
+					<i class="bi bi-check-square" id="icono-editar"></i>
+					<span id="btn-texto"> Agregar </span>
+				</button>
+			</div>
+		</form>
+	</div>
+</div>

@@ -105,6 +105,7 @@ class App {
 		this.server.use('/', require('./routes/vistas.route'));
 		this.server.use('/api/auth', require('./routes/autenticacion.route'));
 		this.server.use('/api/empleado', require('./routes/empleados.route'));
+		this.server.use('/api/vehiculo', require('./routes/vehiculos.route'));
 		this.server.use('*', (req, res) => {
 			res.status(404).render('errores/no-encontrado');
 		});

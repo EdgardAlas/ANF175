@@ -26,10 +26,18 @@ const vistaClientes = (req, res) => {
 	res.render('clientes/clientes', { rol: req.rol, pagina: 'clientes' });
 };
 
+const vistaVehiculos = (req, res) => {
+	res.render('vehiculos/vehiculos', {
+		rol: 'Administrador',
+		pagina: 'vehiculos',
+	});
+};
+
 module.exports = {
 	vistaLogin,
 	logout,
 	vistaEmpleados,
 	inicio,
 	vistaClientes,
+	vistaVehiculos,
 };
