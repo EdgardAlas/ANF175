@@ -9,11 +9,17 @@ const colores = {
 	warning: '#fdac41',
 };
 
-const api = ({ url = '', json = {}, method = 'GET' }) =>
+const api = ({ url = '', json = {}, method = 'GET', archivo = false }) =>
 	new Promise(async (resolve, reject) => {
 		try {
 			let data = {};
-			if (method === 'GET' || method == 'DELETE') {
+			if (archivo) {
+				data = await fetch(`${baseURL}/${url}`, {
+					method,
+					credentials: 'include',
+					body: json,
+				});
+			} else if (method === 'GET' || method == 'DELETE') {
 				data = await fetch(`${baseURL}/${url}`, {
 					method,
 					headers: {

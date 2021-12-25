@@ -50,6 +50,9 @@
 												<td>${vehiculo.anio}</td>
 												<td>${vehiculo.valor}</td>
 												<td>${vehiculo.nombre}</td>
+												<td><a href='/api/vehiculo/obtener-archivo/${
+													vehiculo.archivo_compra
+												}' target='_blank'>Ver documento</a></td>
 												<td>
 												
 														
@@ -104,7 +107,7 @@
 	async function registrarVehiculo(e) {
 		e.preventDefault();
 		let cliente_fk = combocliente.value;
-		let archivos = req.files.archivo;
+
 		const json = {
 			dui: dui.value,
 			nombre: nombre.value,
@@ -113,10 +116,18 @@
 			anio: anio.value,
 			valor: valor.value,
 			direccion: direccion.value,
-
+			archivo_compra: archivo_compra.files[0],
 			cliente_fk,
-			vehiculoForm: vehiculoForm.value,
 		};
+		const formData = new FormData();
+
+		Object.keys(json).forEach(function (key) {
+			formData.append(key, json[key]);
+		});
+
+		for (var pair of formData.entries()) {
+			console.log(pair[0] + ', ' + pair[1]);
+		}
 
 		if (btnTexto.textContent === 'Editar') {
 			return editarvehiculo(json);
@@ -131,7 +142,8 @@
 					const [resp, data] = await api({
 						url: 'vehiculo',
 						method: 'POST',
-						json,
+						json: formData,
+						archivo: true,
 					});
 					if (data.status === 201) {
 						alerta('Se ha regitrado el vehiculo con exito', 'success');
