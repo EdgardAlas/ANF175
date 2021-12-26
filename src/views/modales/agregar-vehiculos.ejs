@@ -26,7 +26,7 @@
 				<div class="col-12 col-md-12 mb-3">
 					<label for="cliente" class="form-label">Cliente</label>
 					<select class="form-select" id="combocliente">
-						<option selected>Seleccione</option>
+						<option value="-1">Seleccione</option>
 					</select>
 				</div>
 				<div class="row">
@@ -41,7 +41,7 @@
 							name="dui"
 							autocomplete="off"
 							required
-							placeholder="12345678-9"
+							placeholder="05326269-8"
 						/>
 					</div>
 					<div class="col-12 col-md-6 mb-3">
@@ -55,7 +55,6 @@
 							name="nombre"
 							autocomplete="off"
 							required
-							placeholder="Nombre"
 						/>
 					</div>
 				</div>
@@ -93,6 +92,8 @@
 							name="anio"
 							autocomplete="off"
 							required
+							max="2022"
+							min="2000"
 						/>
 					</div>
 					<div class="col-12 col-md-6 mb-3">
@@ -104,6 +105,8 @@
 							name="valor"
 							autocomplete="off"
 							required
+							max="100000"
+							min="6000"
 							placeholder="$"
 						/>
 					</div>
@@ -116,8 +119,6 @@
 							name="direccion"
 							autocomplete="off"
 							required
-							placeholder="Contraseña"
-							minlength="8"
 						/>
 					</div>
 					<div class="col-12 col-md-6 mb-3">
@@ -127,6 +128,7 @@
 							class="form-control"
 							id="archivo_compra"
 							name="archivo_compra"
+							required
 							autocomplete="off"
 							accept=".pdf,.doc,.docx,image/*"
 						/>

@@ -22,10 +22,107 @@
 		mask: /^[a-zA-Z\s]*$/,
 	});
 
+	document
+		.getElementById('tbody-vehiculos')
+		.addEventListener('click', function ({ target }) {
+			const editar = target.classList.contains('editar-vehiculo');
+			if (!editar) {
+				return;
+			}
+			tituloModal.textContent = 'Editar vehiculo';
+			btnTexto.textContent = 'Editar';
+			dui.value = target.dataset.dui;
+			nombre.value = target.dataset.nombre;
+			marca.value = target.dataset.marca;
+			modelo.value = target.dataset.modelo;
+			anio.value = target.dataset.anio;
+			valor.value = target.dataset.valor;
+			direccion.value = target.dataset.direccion;
+			combocliente.value = target.dataset.combocliente;
+			id = target.dataset.id;
+			archivo_compra.required = false;
+			iconoEditar.classList.add('bi-pencil-square');
+			iconoEditar.classList.remove('bi-check-square');
+		});
+
 	document.addEventListener('DOMContentLoaded', () => {
 		obtenerVehiculos();
 		obtenerClientes();
 	});
+
+	document
+		.getElementById('agregar-vehiculo-modal')
+		.addEventListener('hidden.bs.modal', () => {
+			btnTexto.textContent = 'Agregar';
+
+			tituloModal.textContent = 'Agregar Vehiculo';
+			archivo_compra.required = true;
+			vehiculoForm.reset();
+			mascaraDUI.updateValue();
+			mascaraNombre.updateValue();
+
+			if (iconoEditar.classList.contains('bi-pencil-square')) {
+				iconoEditar.classList.remove('bi-pencil-square');
+				iconoEditar.classList.add('bi-check-square');
+			}
+		});
+
+	document
+		.getElementById('agregar-vehiculo-modal')
+		.addEventListener('shown.bs.modal', () => {
+			dui.focus();
+		});
+
+	dui.addEventListener('keyup', DUIpropietario);
+	combocliente.addEventListener('click', verificarCliente);
+
+	async function verificarCliente() {
+		// if (dui.value.trim().length === 0) {
+		// 	return;
+		// }
+
+		let url = `vehiculo/verificarcliente/${combocliente.value}`;
+		if (btnTexto.textContent === 'Editar') {
+			url += `?cliente_fk=${combocliente.value}`;
+		}
+		try {
+			const [resp, data] = await api({
+				url,
+				method: 'GET',
+			});
+			if (resp.existe) {
+				alerta('Este Cliente ya tiene un credito activo', 'warning');
+				combocliente.value = -1;
+				//combocliente.focus();
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
+	async function DUIpropietario() {
+		if (dui.value.trim().length === 0) {
+			return;
+		}
+
+		let url = `vehiculo/dui/${dui.value}`;
+		if (btnTexto.textContent === 'Editar') {
+			url += `?id=${id}`;
+		}
+		try {
+			const [resp, data] = await api({
+				url,
+				method: 'GET',
+			});
+			if (resp.existe) {
+				alerta('Este DUI ya esta en uso', 'warning');
+				dui.value = '';
+				dui.focus();
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	}
 
 	async function obtenerVehiculos() {
 		try {
@@ -44,17 +141,50 @@
 					var tpl = document.createElement('template');
 					tpl.innerHTML = `
 											<tr>
+												
 												<td>${vehiculo.cliente.nombre + ' ' + vehiculo.cliente.apellido}</td>
 												<td>${vehiculo.marca}</td>
 												<td>${vehiculo.modelo}</td>
 												<td>${vehiculo.anio}</td>
 												<td>${vehiculo.valor}</td>
+												<td>${vehiculo.dui}</td>
 												<td>${vehiculo.nombre}</td>
+												<td>${vehiculo.direccion}</td>
 												<td><a href='/api/vehiculo/obtener-archivo/${
 													vehiculo.archivo_compra
 												}' target='_blank'>Ver documento</a></td>
 												<td>
-												
+												<button 
+														type="button" 
+														class="btn btn-warning text-white editar-vehiculo" 
+														data-id="${vehiculo.id}"
+														data-bs-toggle="modal"
+														data-bs-target="#agregar-vehiculo-modal"
+														data-backdrop="static"
+														data-keyboard="false"
+														data-combocliente=${vehiculo.cliente.id}
+														data-nombre=${vehiculo.nombre}
+														data-dui=${vehiculo.dui}
+														data-id=${vehiculo.id}
+														data-marca=${vehiculo.marca}
+														data-modelo=${vehiculo.modelo}
+														data-anio=${vehiculo.anio}
+														data-valor=${vehiculo.valor}
+														data-direccion=${vehiculo.direccion}
+													>
+														<i 
+														data-combocliente=${vehiculo.cliente.id}
+															data-nombre=${vehiculo.nombre}
+															data-dui=${vehiculo.dui}
+															data-id=${vehiculo.id}
+															data-marca=${vehiculo.marca}
+															data-modelo=${vehiculo.modelo}
+															data-anio=${vehiculo.anio}
+															data-valor=${vehiculo.valor}
+															data-direccion=${vehiculo.direccion}
+															class="bi bi-pencil-square editar-vehiculo"
+															></i>
+													</button>
 														
 												</td>
 											</tr>`;
@@ -119,18 +249,25 @@
 			archivo_compra: archivo_compra.files[0],
 			cliente_fk,
 		};
-		const formData = new FormData();
 
-		Object.keys(json).forEach(function (key) {
-			formData.append(key, json[key]);
-		});
+		if (archivo_compra) {
+			const formData = new FormData();
 
-		for (var pair of formData.entries()) {
-			console.log(pair[0] + ', ' + pair[1]);
-		}
+			Object.keys(json).forEach(function (key) {
+				formData.append(key, json[key]);
+			});
 
-		if (btnTexto.textContent === 'Editar') {
-			return editarvehiculo(json);
+			for (var pair of formData.entries()) {
+				console.log(pair[0] + ', ' + pair[1]);
+			}
+
+			if (btnTexto.textContent === 'Editar') {
+				return editarvehiculo(formData);
+			}
+		} else {
+			if (btnTexto.textContent === 'Editar') {
+				return editarvehiculo(json);
+			}
 		}
 
 		confirmacion({
@@ -147,6 +284,33 @@
 					});
 					if (data.status === 201) {
 						alerta('Se ha regitrado el vehiculo con exito', 'success');
+						bootstrap.Modal.getInstance(
+							document.getElementById('agregar-vehiculo-modal')
+						).hide();
+						obtenerVehiculos();
+					}
+				} catch (error) {
+					console.log(error);
+				}
+			},
+		});
+	}
+
+	function editarvehiculo(formData = {}) {
+		confirmacion({
+			icon: 'warning',
+			texto: '¿Seguro de editar este registro?',
+			titulo: 'Advertencia',
+			cb: async function () {
+				try {
+					const [resp, data] = await api({
+						url: `vehiculo/${id}`,
+						method: 'PATCH',
+						json: formData,
+						archivo: true,
+					});
+					if (data.status === 201) {
+						alerta('Se ha editado el empleado con exito', 'success');
 						bootstrap.Modal.getInstance(
 							document.getElementById('agregar-vehiculo-modal')
 						).hide();
