@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const { eliminarSesion } = require('../helpers/crear-sesion');
 
 const rutaProtegida = (req, res, next) => {
 	const token = req.cookies['Authorization'];
@@ -34,6 +35,7 @@ const vistaProtegida = (req, res, next) => {
 		req.id = id;
 		req.rol = rol;
 	} catch (error) {
+		eliminarSesion(res);
 		return res.redirect('/login');
 	}
 
