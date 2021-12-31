@@ -11,21 +11,35 @@
 					Empleados
 				</a>
 				<% } %>
-				<div class="sb-sidenav-menu-heading">Vehículos</div>
-				<a class="nav-link <%= pagina === 'empleados' ? "active" : "" %>" href="/vehiculos">
-					<div class="sb-nav-link-icon">
-						<i class="fas fa-tachometer-alt"></i>
-					</div>
-					Vehículos
-				</a>
-
-				<div class="sb-sidenav-menu-heading">Clientess</div>
+				<div class="sb-sidenav-menu-heading">Clientes</div>
 				<a class="nav-link <%= pagina === 'clientes' ? "active" : "" %>" href="/clientes">
 					<div class="sb-nav-link-icon">
 						<i class="fas fa-tachometer-alt"></i>
 					</div>
 					Clientes
 				</a>
+
+				<div class="sb-sidenav-menu-heading">Créditos</div>
+				
+				<a class="nav-link <%= pagina === 'cartera' ? "active" : "" %>" href="/cartera">
+					<div class="sb-nav-link-icon">
+						<i class="bi bi-wallet-fill"></i>
+					</div>
+					Cartera de clientes
+				</a>
+				<a class="nav-link <%= pagina === 'empleados' ? "active" : "" %>" href="/vehiculos">
+					<div class="sb-nav-link-icon">
+						<i class="fas fa-tachometer-alt"></i>
+					</div>
+					Vehículos
+				</a>
+				<a class="nav-link <%= pagina === 'clientes' ? "active" : "" %>" href="/clientes">
+					<div class="sb-nav-link-icon">
+						<i class="fas fa-tachometer-alt"></i>
+					</div>
+					Clientes
+				</a>
+
 				<a
 					class="nav-link collapsed"
 					href="#"

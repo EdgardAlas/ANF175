@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<%- include("../partials/header.ejs", { titulo: "Cartera de clientes" })%>
+	</head>
+	<body class="sb-nav-fixed">
+		<%- include("../partials/navbar.ejs")%>
+		<div id="layoutSidenav">
+			<%- include("../partials/sidebar.ejs", {rol, pagina})%>
+			<div id="layoutSidenav_content">
+				<main>
+					<div class="container-fluid px-4">
+						<h1 class="mt-4">Cartera de clientes</h1>
+						<div class="row gap-3">
+							<div class="col-12">
+								<button
+									class="btn btn-primary text-white"
+									data-bs-toggle="modal"
+									data-bs-target="#agregar-vehiculo-modal"
+									data-backdrop="static"
+									data-keyboard="false"
+								>
+									<i class="bi bi-plus-square"></i>
+									Registrar
+								</button>
+							</div>
+							<div class="col-12 table-responsive">
+								<table id="tabla-cartera">
+									<thead>
+										<tr>
+											<th>Cliente</th>
+											<th>Tipo de crédito</th>
+											<th>Encargado de cobro</th>
+											<th>Estado del crédito</th>
+											<th>Acciones</th>
+										</tr>
+									</thead>
+									<tbody id="tbody-cartera"></tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</main>
+				<%- include("../partials/footer.ejs") %>
+			</div>
+		</div>
+		<%- include("../modales/agregar-vehiculos.ejs") %> <%-
+		include("../partials/scripts.ejs")%>
+		<script src="/js/cartera.js?t=<%= Date.now() %>"></script>
+	</body>
+</html>

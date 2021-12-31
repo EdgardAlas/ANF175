@@ -33,6 +33,13 @@ const vistaVehiculos = (req, res) => {
 	});
 };
 
+const vistaCartera = (req, res) => {
+	res.render('cartera/cartera', {
+		rol: 'Administrador',
+		pagina: 'Cartera de clientes',
+	});
+};
+
 module.exports = {
 	vistaLogin,
 	logout,
@@ -40,4 +47,5 @@ module.exports = {
 	inicio,
 	vistaClientes,
 	vistaVehiculos,
+	vistaCartera,
 };
