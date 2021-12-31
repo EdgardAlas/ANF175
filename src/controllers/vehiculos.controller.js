@@ -4,6 +4,7 @@ const uuid = require('uuid');
 const fileExtension = require('file-extension');
 const { db } = require('../database/db');
 const path = require('path');
+const fs = require('fs');
 // const { hashClave } = require('../helpers/hash-clave');
 const { Vehiculo } = require('../models/Vehiculo');
 const { Cliente } = require('../models/Cliente');
@@ -45,29 +46,23 @@ const obtenerVehiculos = async (req, res) => {
 
 const obtenerClientes = async (req, res) => {
 	try {
-		// const clientes = await Cliente.findAll({
-		// 	attributes: ['dui', 'id', 'nombre'],
+		// const clientes = await Vehiculo.findAll({
+		// 	attributes: ['cliente_fk'],
 		// 	include: [
 		// 		{
-		// 			model: Vehiculo,
+		// 			model: Cliente,
 
-		// 			required: false,
+		// 			attributes: ['id', 'dui', 'nombre', 'apellido'],
+		// 			right: true,
 		// 		},
 		// 	],
 		// 	where: {
 		// 		cliente_fk: null,
 		// 	},
-		// 	required: true,
+		// 	required: false,
 		// });
-		const clientes = await Vehiculo.findAll({
-			attributes: ['cliente_fk'],
-			include: [
-				{
-					model: Cliente,
-
-					attributes: ['id', 'nombre', 'apellido'],
-				},
-			],
+		const clientes = await Cliente.findAll({
+			attributes: ['id', 'nombre', 'apellido'],
 		});
 
 		return res.status(StatusCodes.OK).json({
@@ -105,6 +100,8 @@ const registrarVehiculo = async (req, res) => {
 
 		let vehiculo = null;
 		let filename = null;
+		console.log('aqui');
+		//console.log(req.files.archivo_compra);
 		if (req.files) {
 			let archivos = req.files.archivo_compra;
 			filename = uuid.v4() + '.' + fileExtension(archivos.name);
@@ -158,9 +155,15 @@ const editarVehiculo = async (req, res) => {
 			cliente_fk,
 		} = req.body;
 		const { id } = req.params;
+		const { archivo } = req.params;
 		//let vehiculo = null;
 		let filename = null;
+
 		if (req.files) {
+			console.log('archivo');
+			await fs.unlinkSync(
+				path.resolve(__dirname, '../../uploads/' + archivo)
+			);
 			let archivos = req.files.archivo_compra;
 			filename = uuid.v4() + '.' + fileExtension(archivos.name);
 			const uploadPath = path.resolve(
@@ -193,6 +196,7 @@ const editarVehiculo = async (req, res) => {
 				);
 			});
 		} else {
+			console.log('sin archivo');
 			await db.transaction(async (t) => {
 				await Vehiculo.update(
 					{

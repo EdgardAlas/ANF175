@@ -13,6 +13,7 @@
 		tituloModal = document.getElementById('agregarVehiculoModal'),
 		iconoEditar = document.getElementById('icono-editar'),
 		btnTexto = document.getElementById('btn-texto');
+	let idvehiculo;
 
 	const mascaraDUI = IMask(dui, {
 		mask: '00000000-0',
@@ -39,6 +40,9 @@
 			valor.value = target.dataset.valor;
 			direccion.value = target.dataset.direccion;
 			combocliente.value = target.dataset.combocliente;
+			idvehiculo = target.dataset.archivo;
+
+			combocliente.disabled = true;
 			id = target.dataset.id;
 			archivo_compra.required = false;
 			iconoEditar.classList.add('bi-pencil-square');
@@ -57,6 +61,7 @@
 
 			tituloModal.textContent = 'Agregar Vehiculo';
 			archivo_compra.required = true;
+			combocliente.disabled = false;
 			vehiculoForm.reset();
 			mascaraDUI.updateValue();
 			mascaraNombre.updateValue();
@@ -170,7 +175,8 @@
 														data-modelo=${vehiculo.modelo}
 														data-anio=${vehiculo.anio}
 														data-valor=${vehiculo.valor}
-														data-direccion=${vehiculo.direccion}
+														data-direccion=${vehiculo.direccion} 
+														data-archivo=${vehiculo.archivo_compra}
 													>
 														<i 
 														data-combocliente=${vehiculo.cliente.id}
@@ -182,6 +188,7 @@
 															data-anio=${vehiculo.anio}
 															data-valor=${vehiculo.valor}
 															data-direccion=${vehiculo.direccion}
+															data-archivo=${vehiculo.archivo_compra}
 															class="bi bi-pencil-square editar-vehiculo"
 															></i>
 													</button>
@@ -250,25 +257,25 @@
 			cliente_fk,
 		};
 
-		if (archivo_compra) {
-			const formData = new FormData();
+		//if (archivo_compra) {
+		const formData = new FormData();
 
-			Object.keys(json).forEach(function (key) {
-				formData.append(key, json[key]);
-			});
+		Object.keys(json).forEach(function (key) {
+			formData.append(key, json[key]);
+		});
 
-			for (var pair of formData.entries()) {
-				console.log(pair[0] + ', ' + pair[1]);
-			}
-
-			if (btnTexto.textContent === 'Editar') {
-				return editarvehiculo(formData);
-			}
-		} else {
-			if (btnTexto.textContent === 'Editar') {
-				return editarvehiculo(json);
-			}
+		for (var pair of formData.entries()) {
+			console.log(pair[0] + ', ' + pair[1]);
 		}
+
+		//if (btnTexto.textContent === 'Editar') {
+		//	return editarvehiculo(formData);
+		//	}
+		//} else {
+		if (btnTexto.textContent === 'Editar') {
+			return editarvehiculo(json);
+		}
+		//}
 
 		confirmacion({
 			icon: 'warning',
@@ -296,25 +303,47 @@
 		});
 	}
 
-	function editarvehiculo(formData = {}) {
+	function editarvehiculo(json = {}) {
 		confirmacion({
 			icon: 'warning',
 			texto: '¿Seguro de editar este registro?',
 			titulo: 'Advertencia',
 			cb: async function () {
 				try {
-					const [resp, data] = await api({
-						url: `vehiculo/${id}`,
-						method: 'PATCH',
-						json: formData,
-						archivo: true,
-					});
-					if (data.status === 201) {
-						alerta('Se ha editado el empleado con exito', 'success');
-						bootstrap.Modal.getInstance(
-							document.getElementById('agregar-vehiculo-modal')
-						).hide();
-						obtenerVehiculos();
+					if (json.archivo_compra == undefined) {
+						console.log('primero if');
+						const [resp, data] = await api({
+							url: `vehiculo/${id}`,
+							method: 'PATCH',
+							json,
+						});
+						if (data.status === 201) {
+							alerta('Se ha editado el empleado con exito', 'success');
+							bootstrap.Modal.getInstance(
+								document.getElementById('agregar-vehiculo-modal')
+							).hide();
+							obtenerVehiculos();
+						}
+					} else {
+						console.log(idvehiculo);
+						const formData = new FormData();
+
+						Object.keys(json).forEach(function (key) {
+							formData.append(key, json[key]);
+						});
+						const [resp, data] = await api({
+							url: `vehiculo/${id}/${idvehiculo}`,
+							method: 'PATCH',
+							json: formData,
+							archivo: true,
+						});
+						if (data.status === 201) {
+							alerta('Se ha editado el empleado con exito', 'success');
+							bootstrap.Modal.getInstance(
+								document.getElementById('agregar-vehiculo-modal')
+							).hide();
+							obtenerVehiculos();
+						}
 					}
 				} catch (error) {
 					console.log(error);
