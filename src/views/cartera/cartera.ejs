@@ -16,9 +16,10 @@
 								<button
 									class="btn btn-primary text-white"
 									data-bs-toggle="modal"
-									data-bs-target="#agregar-vehiculo-modal"
+									data-bs-target="#agregar-cartera-modal"
 									data-backdrop="static"
 									data-keyboard="false"
+									id="btnregistrar"
 								>
 									<i class="bi bi-plus-square"></i>
 									Registrar
@@ -44,7 +45,7 @@
 				<%- include("../partials/footer.ejs") %>
 			</div>
 		</div>
-		<%- include("../modales/agregar-vehiculos.ejs") %> <%-
+		<%- include("../modales/agregar-cartera.ejs") %> <%-
 		include("../partials/scripts.ejs")%>
 		<script src="/js/cartera.js?t=<%= Date.now() %>"></script>
 	</body>

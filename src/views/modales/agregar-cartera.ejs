@@ -1,0 +1,64 @@
+<div
+	class="modal fade"
+	id="agregar-cartera-modal"
+	tabindex="-1"
+	data-bs-focus="false"
+	aria-labelledby="agregarCarteraModal"
+	aria-hidden="true"
+	data-bs-backdrop="static"
+	data-bs-keyboard="false"
+	tabindex="-1"
+>
+	<div class="modal-dialog modal-md">
+		<form class="modal-content" id="agregar-cartera-form">
+			<div class="modal-header bg-dark text-white">
+				<h5 class="modal-title" id="agregarCarteraModal">
+					Cartera de cliente
+				</h5>
+				<button
+					type="button"
+					class="btn-close"
+					data-bs-dismiss="modal"
+					aria-label="Close"
+				></button>
+			</div>
+			<div class="modal-body">
+				<div class="col-12 col-md-12 mb-3">
+					<label for="cliente" class="form-label">Cliente</label>
+					<select class="form-select" id="combocliente">
+						<option value="-1">Seleccione</option>
+					</select>
+				</div>
+				<div class="col-12 col-md-12 mb-3">
+					<label for="cliente" class="form-label"
+						>Encargado de cobro</label
+					>
+					<select class="form-select" id="comboempleado">
+						<option value="-1">Seleccione</option>
+					</select>
+				</div>
+				<div class="row">
+					
+			<div class="modal-footer">
+				<button
+					type="button"
+					class="btn btn-secondary"
+					data-bs-dismiss="modal"
+					id="btn-cerrar"
+				>
+					<i class="bi bi-x-circle"></i>
+					Cerrar
+				</button>
+				<button
+					type="submit"
+					class="btn btn-primary text-white"
+					id="btn-agregar-cartera"
+				>
+					<i class="bi bi-check-square" id="icono-editar"></i>
+					<span id="btn-texto"> Agregar </span>
+				</button>
+			</div>
+		</form>
+	</div>
+</div>
+<script src="../../../public/js/nice-select2.js"></script>
