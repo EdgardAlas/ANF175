@@ -107,6 +107,7 @@ class App {
 		this.server.use('/api/empleado', require('./routes/empleados.route'));
 		this.server.use('/api/vehiculo', require('./routes/vehiculos.route'));
 		this.server.use('/api/cartera', require('./routes/cartera.route'));
+		this.server.use('/api/hipoteca', require('./routes/hipoteca.route'));
 		this.server.use('*', (req, res) => {
 			res.status(404).render('errores/no-encontrado');
 		});

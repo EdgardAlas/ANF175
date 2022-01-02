@@ -40,6 +40,13 @@ const vistaCartera = (req, res) => {
 	});
 };
 
+const vistaHipoteca = (req, res) => {
+	res.render('hipoteca/hipoteca', {
+		rol: 'Administrador',
+		pagina: 'Hipoteca de clientes',
+	});
+};
+
 module.exports = {
 	vistaLogin,
 	logout,
@@ -48,4 +55,5 @@ module.exports = {
 	vistaClientes,
 	vistaVehiculos,
 	vistaCartera,
+	vistaHipoteca,
 };

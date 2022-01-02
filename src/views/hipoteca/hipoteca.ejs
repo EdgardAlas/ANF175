@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<%- include("../partials/header.ejs", { titulo: "Vehículos" })%>
+	</head>
+	<body class="sb-nav-fixed">
+		<%- include("../partials/navbar.ejs")%>
+		<div id="layoutSidenav">
+			<%- include("../partials/sidebar.ejs", {rol, pagina})%>
+			<div id="layoutSidenav_content">
+				<main>
+					<div class="container-fluid px-4">
+						<h1 class="mt-4">Hipoteca</h1>
+						<div class="row gap-3">
+							<div class="col-12">
+								<button
+									class="btn btn-primary text-white"
+									data-bs-toggle="modal"
+									data-bs-target="#agregar-hipoteca-modal"
+									data-backdrop="static"
+									data-keyboard="false"
+								>
+									<i class="bi bi-plus-square"></i>
+									Registrar Hipoteca
+								</button>
+							</div>
+							<div class="col-12 table-responsive">
+								<table id="tabla-hipoteca">
+									<thead>
+										<tr>
+											<th>Cliente</th>
+											<th>Nombre</th>
+											<th>DUI</th>
+											<th>Valor</th>
+											<th>Documento</th>
+                                            <th>Ver mas</th>
+											<th>Acciones</th>
+										</tr>
+									</thead>
+									<tbody id="tbody-hipoteca"></tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</main>
+				<%- include("../partials/footer.ejs") %>
+			</div>
+		</div>
+		<%- include("../modales/agregar-hipoteca.ejs") %> <%-
+		include("../partials/scripts.ejs")%>
+		<script src="/js/hipoteca.js?t=<%= Date.now() %>"></script>
+	</body>
+</html>

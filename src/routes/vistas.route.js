@@ -8,6 +8,7 @@ const {
 	vistaClientes,
 	vistaVehiculos,
 	vistaCartera,
+	vistaHipoteca,
 } = require('../controllers/vistas.controller');
 const { vistaPublica, vistaProtegida } = require('../middlewares/valida-rutas');
 
@@ -19,5 +20,6 @@ routes.get('/empleados', vistaProtegida, vistaEmpleados);
 routes.get('/clientes', vistaProtegida, vistaClientes);
 routes.get('/vehiculos', vistaProtegida, vistaVehiculos);
 routes.get('/cartera', vistaProtegida, vistaCartera);
+routes.get('/hipoteca', vistaProtegida, vistaHipoteca);
 
 module.exports = routes;
