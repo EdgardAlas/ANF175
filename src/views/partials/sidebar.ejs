@@ -27,24 +27,14 @@
 					</div>
 					Cartera de clientes
 				</a>
-				<a class="nav-link <%= pagina === 'empleados' ? "active" : "" %>" href="/vehiculos">
-					<div class="sb-nav-link-icon">
-						<i class="fas fa-tachometer-alt"></i>
-					</div>
-					Vehículos
-				</a>
+				
 				<a class="nav-link <%= pagina === 'clientes' ? "active" : "" %>" href="/clientes">
 					<div class="sb-nav-link-icon">
 						<i class="fas fa-tachometer-alt"></i>
 					</div>
-					Clientes
+					Pagos
 				</a>
-				<a class="nav-link <%= pagina === 'hipoteca' ? "active" : "" %>" href="/hipoteca">
-					<div class="sb-nav-link-icon">
-						<i class="fas fa-tachometer-alt"></i>
-					</div>
-					Hipoteca
-				</a>
+				
 
 				<a
 					class="nav-link collapsed"
@@ -57,7 +47,7 @@
 					<div class="sb-nav-link-icon">
 						<i class="fas fa-columns"></i>
 					</div>
-					Layouts
+					Créditos
 					<div class="sb-sidenav-collapse-arrow">
 						<i class="fas fa-angle-down"></i>
 					</div>
@@ -69,12 +59,20 @@
 					data-bs-parent="#sidenavAccordion"
 				>
 					<nav class="sb-sidenav-menu-nested nav">
-						<a class="nav-link" href="layout-static.html"
-							>Static Navigation</a
-						>
-						<a class="nav-link" href="layout-sidenav-light.html"
-							>Light Sidenav</a
-						>
+						<a class="nav-link <%= pagina === 'hipoteca' ? "active" : "" %>" href="/hipoteca">
+							<div class="sb-nav-link-icon">
+								<i class="fas fa-tachometer-alt"></i>
+							</div>
+							Hipoteca
+						</a>
+						
+						<a class="nav-link <%= pagina === 'empleados' ? "active" : "" %>" href="/vehiculos">
+							<div class="sb-nav-link-icon">
+								<i class="fas fa-tachometer-alt"></i>
+							</div>
+							Garantia prendaria
+						</a>
+						
 					</nav>
 				</div>
 				<a
@@ -157,19 +155,7 @@
 						</div>
 					</nav>
 				</div>
-				<div class="sb-sidenav-menu-heading">Addons</div>
-				<a class="nav-link" href="charts.html">
-					<div class="sb-nav-link-icon">
-						<i class="fas fa-chart-area"></i>
-					</div>
-					Charts
-				</a>
-				<a class="nav-link" href="tables.html">
-					<div class="sb-nav-link-icon">
-						<i class="fas fa-table"></i>
-					</div>
-					Tables
-				</a>
+				
 			</div>
 		</div>
 		<div class="sb-sidenav-footer">

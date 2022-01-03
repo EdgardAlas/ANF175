@@ -95,9 +95,10 @@ const confirmacion = ({
 	});
 };
 
-const select = (elemento) => {
+const select = (elemento, modal) => {
 	$(elemento).select2({
 		theme: 'bootstrap4',
+		dropdownParent: $(modal),
 		language: {
 			noResults: function () {
 				return 'No hay resultados';

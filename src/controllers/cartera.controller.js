@@ -50,6 +50,12 @@ const obtenerCliente = async (req, res) => {
 				{
 					model: Cartera,
 				},
+				{
+					model: Hipoteca,
+				},
+				{
+					model: Vehiculo,
+				},
 			],
 		});
 
@@ -104,9 +110,36 @@ const registrarCartera = async (req, res) => {
 	}
 };
 
+const editarCartera = async (req, res) => {
+	try {
+		const { empleado_fk } = req.body;
+		const { id } = req.params;
+
+		await db.transaction(async (t) => {
+			await Cartera.update(
+				{
+					empleado_fk,
+				},
+				{
+					transaction: t,
+					where: {
+						id,
+					},
+				}
+			);
+		});
+		return res.status(StatusCodes.CREATED).json({
+			msg: 'se ha editado con exito la cartera de clientes',
+		});
+	} catch (error) {
+		console.log(error);
+	}
+};
+
 module.exports = {
 	obtenerCartera,
 	obtenerCliente,
 	obtenerEmpleado,
 	registrarCartera,
+	editarCartera,
 };
