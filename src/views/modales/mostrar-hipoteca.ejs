@@ -1,0 +1,115 @@
+<div
+	class="modal fade"
+	id="mostrar-hipoteca-modal"
+	tabindex="-1"
+	data-bs-focus="false"
+	aria-labelledby="agregarHipotecaModal"
+	aria-hidden="true"
+	data-bs-backdrop="static"
+	data-bs-keyboard="false"
+	tabindex="-1"
+>
+	<div class="modal-dialog modal-lg">
+		<form class="modal-content" id="agregar-hipoteca-form">
+			<div class="modal-header bg-dark text-white">
+				<h5 class="modal-title" id="agregarHipotecaModal">
+					Registro de hipotecas
+				</h5>
+				<button
+					type="button"
+					class="btn-close"
+					data-bs-dismiss="modal"
+					aria-label="Close"
+				></button>
+			</div>
+			<div class="modal-body">
+				
+				<div class="row">
+					<div class="col-12 col-md-6 mb-3">
+						<label for="longitud" class="form-label">Longitud</label>
+						<input
+							type="text"
+							class="form-control"
+							id="longitu"
+							name="longitu"
+							autocomplete="off"
+							required
+                            readonly
+						/>
+					</div>
+					<div class="col-12 col-md-6 mb-3">
+						<label for="latitud" class="form-label">Latitud</label>
+						<input
+							type="text"
+							class="form-control"
+							id="latitu"
+							name="latitud"
+							autocomplete="off"
+							required
+                            readonly
+						/>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12 col-md-6 mb-3">
+						<label for="altitud" class="form-label">Altitud</label>
+						<input
+							type="text"
+							class="form-control"
+							id="altitu"
+							name="altitud"
+							autocomplete="off"
+                            readonly
+						/>
+					</div>
+                    <div class="col-12 col-md-6 mb-3">
+						<label for="tamanio" class="form-label">Tamaño</label>
+						<input
+							type="text"
+							class="form-control"
+							id="tamani"
+							name="tamanio"
+							autocomplete="off"
+                            readonly
+						/>
+					</div>
+                    <div class="col-12 col-md-6 mb-3">
+                        <div class="col-12 col-md-12 mb-3">
+                            <label for="zona" class="form-label">Zona</label>
+                            <input
+							type="text"
+							class="form-control"
+							id="zon"
+							name="zona"
+							autocomplete="off"
+                            readonly
+						/>
+                        </div>
+					</div>
+                    <div class="col-12 col-md-6 mb-3">
+						<label for="direccion" class="form-label">Direccion</label>
+						<input
+							type="text"
+							class="form-control"
+							id="direccio"
+							name="direccion"
+							autocomplete="off"
+                            readonly
+						/>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button
+					type="button"
+					class="btn btn-secondary"
+					data-bs-dismiss="modal"
+				>
+					<i class="bi bi-x-circle"></i>
+					Cerrar
+				</button>
+				
+			</div>
+		</form>
+	</div>
+</div>

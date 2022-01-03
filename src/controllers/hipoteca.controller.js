@@ -3,9 +3,10 @@ const { StatusCodes } = require('http-status-codes');
 const uuid = require('uuid');
 const path = require('path');
 const { db } = require('../database/db');
-const { hashClave } = require('../helpers/hash-clave');
+const fs = require('fs');
+//const { hashClave } = require('../helpers/hash-clave');
 const { Cliente } = require('../models/Cliente');
-const { Empleado } = require('../models/Empleado');
+//const { Empleado } = require('../models/Empleado');
 const { Hipoteca } = require('../models/Hipoteca');
 const { Vehiculo } = require('../models/Vehiculo');
 //const { Rol } = require('../models/Rol');
@@ -69,23 +70,51 @@ const registrarHipoteca = async (req, res) => {
 	}
 };
 
-const editarEmpleado = async (req, res) => {
+const editarHipoteca = async (req, res) => {
 	try {
-		const { dui, nombre, telefono, correo, usuario, clave } = req.body;
+		const {
+			nombre,
+			dui,
+			longitud,
+			latitud,
+			altitud,
+			tamanio,
+			zona,
+			direccion,
+			valor,
+		} = req.body;
 		const { id } = req.params;
+		const { archivo } = req.params;
+		//let vehiculo = null;
+		let filename = null;
 
-		const hash = await hashClave(clave);
-
-		await db.transaction(async (t) => {
-			if (clave !== undefined || clave.length > 0) {
-				await Empleado.update(
+		if (req.files) {
+			console.log('archivo');
+			await fs.unlinkSync(
+				path.resolve(__dirname, '../../uploads/' + archivo)
+			);
+			let archivos = req.files.archivo_escritura;
+			filename = uuid.v4() + '.' + fileExtension(archivos.name);
+			const uploadPath = path.resolve(
+				__dirname,
+				'../../uploads/' + filename
+			);
+			archivos.mv(uploadPath, async function (err) {
+				if (err) return res.status(500).send(err);
+			});
+			await db.transaction(async (t) => {
+				await Hipoteca.update(
 					{
-						dui,
 						nombre,
-						telefono,
-						correo_electronico: correo,
-						usuario,
-						clave: hash,
+						dui,
+						longitud,
+						latitud,
+						altitud,
+						tamanio,
+						zona,
+						direccion,
+						archivo_escritura: filename,
+						valor,
 					},
 					{
 						transaction: t,
@@ -94,14 +123,21 @@ const editarEmpleado = async (req, res) => {
 						},
 					}
 				);
-			} else {
-				await Empleado.update(
+			});
+		} else {
+			console.log('sin archivo');
+			await db.transaction(async (t) => {
+				await Hipoteca.update(
 					{
-						dui,
 						nombre,
-						telefono,
-						correo_electronico: correo,
-						usuario,
+						dui,
+						longitud,
+						latitud,
+						altitud,
+						tamanio,
+						zona,
+						direccion,
+						valor,
 					},
 					{
 						transaction: t,
@@ -110,15 +146,17 @@ const editarEmpleado = async (req, res) => {
 						},
 					}
 				);
-			}
-		});
+			});
+		}
+
 		return res.status(StatusCodes.CREATED).json({
-			msg: 'se ha editado con exito el empleado',
+			msg: 'se ha editado con exito el vehículo',
 		});
 	} catch (error) {
 		console.log(error);
 	}
 };
+
 const obtenerCliente = async (req, res) => {
 	try {
 		const cliente = await Cliente.findAll({
@@ -131,6 +169,16 @@ const obtenerCliente = async (req, res) => {
 		});
 	} catch (error) {
 		console.log(error);
+	}
+};
+
+const obtenerArchivo = async (req, res) => {
+	try {
+		const { nombre } = req.params;
+		res.sendFile(path.resolve(__dirname, '../../uploads/' + nombre));
+	} catch (error) {
+		console.log(error);
+		res.json({ error });
 	}
 };
 
@@ -152,7 +200,8 @@ const obtenerHipoteca = async (req, res) => {
 
 module.exports = {
 	registrarHipoteca,
-	editarEmpleado,
+	editarHipoteca,
 	obtenerHipoteca,
 	obtenerCliente,
+	obtenerArchivo,
 };
