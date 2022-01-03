@@ -1,4 +1,4 @@
-((api, alerta, tabla, confirmacion) => {
+((api, alerta, tabla, confirmacion, select) => {
 	const dui = document.getElementById('dui'),
 		combocliente = document.getElementById('combocliente'),
 		nombre = document.getElementById('nombre'),
@@ -13,6 +13,8 @@
 		tituloModal = document.getElementById('agregarVehiculoModal'),
 		iconoEditar = document.getElementById('icono-editar'),
 		btnTexto = document.getElementById('btn-texto');
+	btnCerrar = document.getElementById('btn-cerrar');
+	select('#combocliente', '#agregar-vehiculo-modal');
 	let idvehiculo;
 
 	const mascaraDUI = IMask(dui, {
@@ -21,6 +23,12 @@
 
 	const mascaraNombre = IMask(nombre, {
 		mask: /^[a-zA-Z\s]*$/,
+	});
+
+	btnCerrar.addEventListener('click', () => {
+		if (btnTexto.textContent === 'Editar') {
+			combocliente.remove(combocliente.length - 1);
+		}
 	});
 
 	document
@@ -39,12 +47,18 @@
 			anio.value = target.dataset.anio;
 			valor.value = target.dataset.valor;
 			direccion.value = target.dataset.direccion;
+			option = document.createElement('option');
+			option.value = target.dataset.combocliente;
+			option.text = target.dataset.cliente;
+			combocliente.appendChild(option);
+
 			combocliente.value = target.dataset.combocliente;
 			idvehiculo = target.dataset.archivo;
 
 			combocliente.disabled = true;
 			id = target.dataset.id;
 			archivo_compra.required = false;
+			select('#combocliente', '#agregar-vehiculo-modal');
 			iconoEditar.classList.add('bi-pencil-square');
 			iconoEditar.classList.remove('bi-check-square');
 		});
@@ -168,6 +182,7 @@
 														data-backdrop="static"
 														data-keyboard="false"
 														data-combocliente=${vehiculo.cliente.id}
+														data-cliente='${vehiculo.cliente.nombre + ' ' + vehiculo.cliente.apellido}'
 														data-nombre=${vehiculo.nombre}
 														data-dui=${vehiculo.dui}
 														data-id=${vehiculo.id}
@@ -180,14 +195,15 @@
 													>
 														<i 
 														data-combocliente=${vehiculo.cliente.id}
-															data-nombre=${vehiculo.nombre}
+														data-cliente='${vehiculo.cliente.nombre + ' ' + vehiculo.cliente.apellido}'
+															data-nombre='${vehiculo.nombre}'
 															data-dui=${vehiculo.dui}
 															data-id=${vehiculo.id}
 															data-marca=${vehiculo.marca}
 															data-modelo=${vehiculo.modelo}
 															data-anio=${vehiculo.anio}
 															data-valor=${vehiculo.valor}
-															data-direccion=${vehiculo.direccion}
+															data-direccion='${vehiculo.direccion}'
 															data-archivo=${vehiculo.archivo_compra}
 															class="bi bi-pencil-square editar-vehiculo"
 															></i>
@@ -223,10 +239,15 @@
 				const select = document.getElementById('combocliente');
 				const clientes = resp.clientes;
 				clientes.forEach((cliente) => {
-					option = document.createElement('option');
-					option.value = cliente.id;
-					option.text = cliente.nombre + ' ' + cliente.apellido;
-					select.appendChild(option);
+					if (
+						cliente['vehiculos'].length == 0 &&
+						cliente['hipotecas'] == 0
+					) {
+						option = document.createElement('option');
+						option.value = cliente.id;
+						option.text = cliente.nombre + ' ' + cliente.apellido;
+						select.appendChild(option);
+					}
 				});
 				//document.getElementById('cliente').innerHTML = '';
 				//document.getElementById('cliente').append(fragmento);
@@ -290,6 +311,7 @@
 						archivo: true,
 					});
 					if (data.status === 201) {
+						combocliente.remove(combocliente.selectedIndex);
 						alerta('Se ha regitrado el vehiculo con exito', 'success');
 						bootstrap.Modal.getInstance(
 							document.getElementById('agregar-vehiculo-modal')
@@ -318,7 +340,8 @@
 							json,
 						});
 						if (data.status === 201) {
-							alerta('Se ha editado el empleado con exito', 'success');
+							combocliente.remove(combocliente.length - 1);
+							alerta('Se ha editado el vehículo con exito', 'success');
 							bootstrap.Modal.getInstance(
 								document.getElementById('agregar-vehiculo-modal')
 							).hide();
@@ -351,4 +374,4 @@
 			},
 		});
 	}
-})(api, alerta, tabla, confirmacion);
+})(api, alerta, tabla, confirmacion, select);

@@ -8,6 +8,7 @@ const fs = require('fs');
 // const { hashClave } = require('../helpers/hash-clave');
 const { Vehiculo } = require('../models/Vehiculo');
 const { Cliente } = require('../models/Cliente');
+const { Hipoteca } = require('../models/Hipoteca');
 
 const obtenerVehiculos = async (req, res) => {
 	try {
@@ -54,6 +55,14 @@ const obtenerClientes = async (req, res) => {
 
 		// 			attributes: ['id', 'dui', 'nombre', 'apellido'],
 		// 			right: true,
+		// 			include: [
+		// 				{
+		// 					model: Hipoteca,
+
+		// 					//attributes: ['id', 'dui', 'nombre', 'apellido'],
+		// 					//right: true,
+		// 				},
+		// 			],
 		// 		},
 		// 	],
 		// 	where: {
@@ -63,6 +72,18 @@ const obtenerClientes = async (req, res) => {
 		// });
 		const clientes = await Cliente.findAll({
 			attributes: ['id', 'nombre', 'apellido'],
+			include: [
+				{
+					model: Vehiculo,
+
+					//required: false,
+				},
+				{ model: Hipoteca },
+			],
+			// where: {
+			// 	vehiculos: null,
+			// },
+			//required: false,
 		});
 
 		return res.status(StatusCodes.OK).json({
