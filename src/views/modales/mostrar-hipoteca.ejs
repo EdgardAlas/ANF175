@@ -9,7 +9,7 @@
 	data-bs-keyboard="false"
 	tabindex="-1"
 >
-	<div class="modal-dialog modal-lg">
+	<div class="modal-dialog modal-md">
 		<form class="modal-content" id="agregar-hipoteca-form">
 			<div class="modal-header bg-dark text-white">
 				<h5 class="modal-title" id="agregarHipotecaModal">
@@ -23,7 +23,6 @@
 				></button>
 			</div>
 			<div class="modal-body">
-				
 				<div class="row">
 					<div class="col-12 col-md-6 mb-3">
 						<label for="longitud" class="form-label">Longitud</label>
@@ -34,7 +33,7 @@
 							name="longitu"
 							autocomplete="off"
 							required
-                            readonly
+							readonly
 						/>
 					</div>
 					<div class="col-12 col-md-6 mb-3">
@@ -46,7 +45,7 @@
 							name="latitud"
 							autocomplete="off"
 							required
-                            readonly
+							readonly
 						/>
 					</div>
 				</div>
@@ -59,10 +58,10 @@
 							id="altitu"
 							name="altitud"
 							autocomplete="off"
-                            readonly
+							readonly
 						/>
 					</div>
-                    <div class="col-12 col-md-6 mb-3">
+					<div class="col-12 col-md-6 mb-3">
 						<label for="tamanio" class="form-label">Tamaño</label>
 						<input
 							type="text"
@@ -70,32 +69,31 @@
 							id="tamani"
 							name="tamanio"
 							autocomplete="off"
-                            readonly
+							readonly
 						/>
 					</div>
-                    <div class="col-12 col-md-6 mb-3">
-                        <div class="col-12 col-md-12 mb-3">
-                            <label for="zona" class="form-label">Zona</label>
-                            <input
-							type="text"
-							class="form-control"
-							id="zon"
-							name="zona"
-							autocomplete="off"
-                            readonly
-						/>
-                        </div>
+					<div class="col-12 col-md-6 mb-3">
+						<div class="col-12 col-md-12 mb-3">
+							<label for="zona" class="form-label">Zona</label>
+							<input
+								type="text"
+								class="form-control"
+								id="zon"
+								name="zona"
+								autocomplete="off"
+								readonly
+							/>
+						</div>
 					</div>
-                    <div class="col-12 col-md-6 mb-3">
+					<div class="col-12 col-md-6 mb-3">
 						<label for="direccion" class="form-label">Direccion</label>
-						<input
-							type="text"
+						<textarea
 							class="form-control"
 							id="direccio"
 							name="direccion"
 							autocomplete="off"
-                            readonly
-						/>
+							readonly
+						></textarea>
 					</div>
 				</div>
 			</div>
@@ -108,7 +106,6 @@
 					<i class="bi bi-x-circle"></i>
 					Cerrar
 				</button>
-				
 			</div>
 		</form>
 	</div>

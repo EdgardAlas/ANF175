@@ -33,17 +33,17 @@
 		mask: /^[a-zA-Z\s]*$/,
 	});
 
-	const mascaraLongitud = IMask(longitud, {
+	const mascaraLongitud = IMask(longitud2, {
 		mask: '-00.000000',
 	});
 
-	const mascaraLatitud = IMask(latitud, {
+	const mascaraLatitud = IMask(latitud2, {
 		mask: '00.000000',
 	});
-	const mascaraAltitud = IMask(altitud, {
+	const mascaraAltitud = IMask(altitud2, {
 		mask: '00.0000000',
 	});
-	const mascaraTamanio = IMask(tamanio, {
+	const mascaraTamanio = IMask(tamanio2, {
 		mask: '0000',
 	});
 	document.addEventListener('DOMContentLoaded', () => {
@@ -230,7 +230,7 @@
 														data-backdrop="static"
 														data-keyboard="false"
 														data-id=${hipoteca.id}
-														data-nombre=${hipoteca.nombre}
+														data-nombre='${hipoteca.nombre}'
 														data-dui=${hipoteca.dui}
 														data-longitud=${hipoteca.longitud}
 												data-latitud=${hipoteca.latitud}
@@ -249,7 +249,7 @@
 													>
 														<i 
 														data-id=${hipoteca.id}
-														data-nombre=${hipoteca.nombre}
+														data-nombre='${hipoteca.nombre}'
 														data-dui=${hipoteca.dui}
 														data-longitud=${hipoteca.longitud}
 												data-latitud=${hipoteca.latitud}
@@ -287,11 +287,12 @@
 		const json = {
 			dui: dui.value,
 			nombre: nombre.value,
-			longitud: longitud.value,
-			latitud: latitud.value,
-			tamanio: tamanio.value,
+			longitud: longitud2.value,
+			latitud: latitud2.value,
+			altitud: altitud2.value,
+			tamanio: tamanio2.value,
 			zona: zona,
-			direccion: direccion.value,
+			direccion: direccion2.value,
 			valor: valor.value,
 			archivo_escritura: archivo_escritura.files[0],
 			cliente_fk,
