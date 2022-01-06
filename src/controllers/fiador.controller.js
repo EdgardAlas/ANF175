@@ -49,6 +49,7 @@ const obtenerClientes = async (req, res) => {
 					model: Vehiculo,
 				},
 				{ model: Hipoteca },
+				{ model: Fiador },
 			],
 		});
 
