@@ -86,10 +86,10 @@
 			latitud.value = target.dataset.latitud;
 			altitud.value = target.dataset.altitud;
 			tamanio.value = target.dataset.tamanio;
-			if (target.dataset.zona) {
-				zona.value = 'rural';
+			if (target.dataset.zona == 2) {
+				zona.value = 'Urbano';
 			} else {
-				zona.value = 'urbano';
+				zona.value = 'Rural';
 			}
 			direccion.value = target.dataset.direccion;
 
@@ -117,11 +117,12 @@
 			latitud2.value = target.dataset.latitud;
 			altitud2.value = target.dataset.altitud;
 			tamanio2.value = target.dataset.tamanio;
-			if (target.dataset.zona) {
-				combozona.value = 1;
-			} else {
+			if (target.dataset.zona == 2) {
 				combozona.value = 2;
+			} else {
+				combozona.value = 1;
 			}
+
 			direccion2.value = target.dataset.direccion;
 			option = document.createElement('option');
 			option.value = target.dataset.cliente;
@@ -345,6 +346,7 @@
 	}
 
 	function editarHipoteca(json = {}) {
+		console.log(json);
 		confirmacion({
 			icon: 'warning',
 			texto: '¿Seguro de editar este registro?',
