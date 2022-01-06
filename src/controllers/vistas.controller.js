@@ -33,6 +33,13 @@ const vistaVehiculos = (req, res) => {
 	});
 };
 
+const vistaFiador = (req, res) => {
+	res.render('fiador/fiador', {
+		rol: 'Administrador',
+		pagina: 'fiador',
+	});
+};
+
 const vistaCartera = (req, res) => {
 	res.render('cartera/cartera', {
 		rol: 'Administrador',
@@ -56,4 +63,5 @@ module.exports = {
 	vistaVehiculos,
 	vistaCartera,
 	vistaHipoteca,
+	vistaFiador,
 };

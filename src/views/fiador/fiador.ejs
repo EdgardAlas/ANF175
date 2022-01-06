@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<%- include("../partials/header.ejs", { titulo: "Vehículos" })%>
+	</head>
+	<body class="sb-nav-fixed">
+		<%- include("../partials/navbar.ejs")%>
+		<div id="layoutSidenav">
+			<%- include("../partials/sidebar.ejs", {rol, pagina})%>
+			<div id="layoutSidenav_content">
+				<main>
+					<div class="container-fluid px-4">
+						<h1 class="mt-4">Fiador</h1>
+						<div class="row gap-3">
+							<div class="col-12">
+								<button
+									class="btn btn-primary text-white"
+									data-bs-toggle="modal"
+									data-bs-target="#agregar-vehiculo-modal"
+									data-backdrop="static"
+									data-keyboard="false"
+								>
+									<i class="bi bi-plus-square"></i>
+									Registrar Fiador
+								</button>
+							</div>
+							<div class="col-12 table-responsive">
+								<table id="tabla-vehiculos">
+									<thead>
+										<tr>
+											<th>Cliente</th>
+											<th>Marca</th>
+											<th>Modelo</th>
+											<th>Año</th>
+											<th>Valor</th>
+											<th>Dui</th>
+											<th>Propietario</th>
+											<th>Dirección</th>
+											<th>Documento</th>
+											<th>Acciones</th>
+										</tr>
+									</thead>
+									<tbody id="tbody-vehiculos"></tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</main>
+				<%- include("../partials/footer.ejs") %>
+			</div>
+		</div>
+		<%- include("../modales/agregar-vehiculos.ejs") %> <%-
+		include("../partials/scripts.ejs")%>
+		<script src="/js/vehiculos.js?t=<%= Date.now() %>"></script>
+	</body>
+</html>
