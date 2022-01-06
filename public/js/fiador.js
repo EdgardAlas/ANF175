@@ -61,11 +61,36 @@
 													fiador.archivo_const_laboral
 												}' target='_blank'>Ver documento</a></td>
 												<td>
-												<button 
-												type="button" 
-														class="btn btn-warning text-white editar-vehiculo" 
+												<button type="button" 
+														class="btn btn-warning text-white editar" 
+														data-id="${fiador.id}"
+														data-bs-toggle="modal"
+														data-bs-target="#agregar-modal"
+														data-backdrop="static"
+														data-keyboard="false"
+														data-combocliente=${fiador.cliente.id}
+														data-cliente='${fiador.cliente.nombre + ' ' + fiador.cliente.apellido}'
+														data-nombre='${fiador.nombre}'
+														data-dui=${fiador.dui}
+														data-direccion='${fiador.direccion}'
+														data-telefono=${fiador.telefono}
+														data-tipo=${fiador.tipo_empleo}
+														data-lugar='${fiador.lugar_trabajo}'
+														data-ingreso=${fiador.ingresos} 
+														data-archivo=${fiador.archivo_const_laboral}
 													>
-													<i class="bi bi-pencil-square editar-vehiculo"
+														<i 
+														data-combocliente=${fiador.cliente.id}
+														data-cliente='${fiador.cliente.nombre + ' ' + fiador.cliente.apellido}'
+														data-nombre='${fiador.nombre}'
+														data-dui=${fiador.dui}
+														data-direccion='${fiador.direccion}'
+														data-telefono=${fiador.telefono}
+														data-tipo=${fiador.tipo_empleo}
+														data-lugar='${fiador.lugar_trabajo}'
+														data-ingreso=${fiador.ingresos} 
+														data-archivo=${fiador.archivo_const_laboral}
+															class="bi bi-pencil-square editar"
 															></i>
 													</button>
 														
@@ -76,8 +101,6 @@
 				document.getElementById('tbody-fiador').innerHTML = '';
 				document.getElementById('tbody-fiador').append(fragmento);
 				tabla('tabla-fiador');
-
-				//registrando();
 			}
 		} catch (error) {
 			console.log(error);
@@ -211,4 +234,37 @@
 	});
 
 	fiadorForm.addEventListener('submit', registrarFiador);
+
+	document
+		.getElementById('tbody-fiador')
+		.addEventListener('click', function ({ target }) {
+			const editar = target.classList.contains('editar');
+			if (!editar) {
+				return;
+			}
+			console.log('' + target.dataset.tipo);
+			tituloModal.textContent = 'Editar fiador';
+			btnTexto.textContent = 'Editar';
+			dui.value = target.dataset.dui;
+			nombre.value = target.dataset.nombre;
+			telefono.value = target.dataset.telefono;
+			direccion.value = target.dataset.direccion;
+			tipoEmpleo.value = target.dataset.tipo === 'true' ? '1' : '0';
+			lugarTrabajo.value = target.dataset.lugar;
+			ingreso.value = target.dataset.ingreso;
+			option = document.createElement('option');
+			option.value = target.dataset.combocliente;
+			option.text = target.dataset.cliente;
+			combocliente.appendChild(option);
+
+			combocliente.value = target.dataset.combocliente;
+			idvehiculo = target.dataset.archivo;
+
+			combocliente.disabled = true;
+			id = target.dataset.id;
+			archivo.required = false;
+			select('#combocliente', '#agregar-modal');
+			iconoEditar.classList.add('bi-pencil-square');
+			iconoEditar.classList.remove('bi-check-square');
+		});
 })(api, alerta, tabla, confirmacion, select);

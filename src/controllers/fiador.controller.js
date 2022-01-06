@@ -125,6 +125,66 @@ const registrarFiador = async (req, res) => {
 	}
 };
 
+const DUIpropietario = async (req, res) => {
+	const { id } = req.query;
+	const { dui } = req.params;
+
+	try {
+		let existe = false;
+		if (id !== undefined || id) {
+			existe = await Vehiculo.findOne({
+				where: {
+					dui,
+					[Op.not]: {
+						id,
+					},
+				},
+			});
+		} else {
+			existe = await Vehiculo.findOne({
+				where: {
+					dui,
+				},
+			});
+		}
+		return res.status(StatusCodes.OK).json({
+			existe: !!existe,
+		});
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+const verificarCliente = async (req, res) => {
+	const { id } = req.query;
+	const { cliente_fk } = req.params;
+
+	try {
+		let existe = false;
+		if (id !== undefined || id) {
+			existe = await Vehiculo.findOne({
+				where: {
+					cliente_fk,
+					[Op.not]: {
+						id,
+					},
+				},
+			});
+		} else {
+			existe = await Vehiculo.findOne({
+				where: {
+					cliente_fk,
+				},
+			});
+		}
+		return res.status(StatusCodes.OK).json({
+			existe: !!existe,
+		});
+	} catch (error) {
+		console.log(error);
+	}
+};
+
 const editarVehiculo = async (req, res) => {
 	try {
 		const {
@@ -207,66 +267,6 @@ const editarVehiculo = async (req, res) => {
 
 		return res.status(StatusCodes.CREATED).json({
 			msg: 'se ha editado con exito el vehículo',
-		});
-	} catch (error) {
-		console.log(error);
-	}
-};
-
-const DUIpropietario = async (req, res) => {
-	const { id } = req.query;
-	const { dui } = req.params;
-
-	try {
-		let existe = false;
-		if (id !== undefined || id) {
-			existe = await Vehiculo.findOne({
-				where: {
-					dui,
-					[Op.not]: {
-						id,
-					},
-				},
-			});
-		} else {
-			existe = await Vehiculo.findOne({
-				where: {
-					dui,
-				},
-			});
-		}
-		return res.status(StatusCodes.OK).json({
-			existe: !!existe,
-		});
-	} catch (error) {
-		console.log(error);
-	}
-};
-
-const verificarCliente = async (req, res) => {
-	const { id } = req.query;
-	const { cliente_fk } = req.params;
-
-	try {
-		let existe = false;
-		if (id !== undefined || id) {
-			existe = await Vehiculo.findOne({
-				where: {
-					cliente_fk,
-					[Op.not]: {
-						id,
-					},
-				},
-			});
-		} else {
-			existe = await Vehiculo.findOne({
-				where: {
-					cliente_fk,
-				},
-			});
-		}
-		return res.status(StatusCodes.OK).json({
-			existe: !!existe,
 		});
 	} catch (error) {
 		console.log(error);
