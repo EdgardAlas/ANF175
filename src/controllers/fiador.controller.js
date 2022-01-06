@@ -52,7 +52,6 @@ const obtenerClientes = async (req, res) => {
 				{ model: Fiador },
 			],
 		});
-
 		return res.status(StatusCodes.OK).json({
 			clientes,
 		});
@@ -71,26 +70,25 @@ const obtenerArchivo = async (req, res) => {
 	}
 };
 
-const registrarVehiculo = async (req, res) => {
+const registrarFiador = async (req, res) => {
 	try {
 		const {
-			dui,
 			nombre,
-			marca,
-			modelo,
-			anio,
-			clave,
+			dui,
 			direccion,
-			valor,
+			telefono,
+			tipo_empleo,
+			lugar_trabajo,
+			ingresos,
 			cliente_fk,
 		} = req.body;
 		console.log(req.body);
 
-		let vehiculo = null;
+		let fiador = null;
 		let filename = null;
 		console.log('aqui');
 		if (req.files) {
-			let archivos = req.files.archivo_compra;
+			let archivos = req.files.archivo;
 			filename = uuid.v4() + '.' + fileExtension(archivos.name);
 			const uploadPath = path.resolve(
 				__dirname,
@@ -102,17 +100,16 @@ const registrarVehiculo = async (req, res) => {
 		}
 
 		await db.transaction(async (t) => {
-			vehiculo = await Vehiculo.create(
+			fiador = await Fiador.create(
 				{
-					dui,
 					nombre,
-					marca,
-					modelo,
-					anio,
-					clave,
+					dui,
 					direccion,
-					valor,
-					archivo_compra: filename,
+					telefono,
+					tipo_empleo,
+					lugar_trabajo,
+					ingresos,
+					archivo_const_laboral: filename,
 					cliente_fk,
 				},
 				{ transaction: t }
@@ -120,8 +117,8 @@ const registrarVehiculo = async (req, res) => {
 		});
 
 		return res.status(StatusCodes.CREATED).json({
-			msg: 'se ha registrado con exito el vehiculo',
-			vehiculo,
+			msg: 'se ha registrado con exito el fiador',
+			fiador,
 		});
 	} catch (error) {
 		console.log(error);
@@ -279,8 +276,8 @@ const verificarCliente = async (req, res) => {
 module.exports = {
 	obtenerFiadores,
 	obtenerClientes,
-	registrarVehiculo,
 	obtenerArchivo,
+	registrarFiador,
 	editarVehiculo,
 	DUIpropietario,
 	verificarCliente,
