@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<%- include("../partials/header.ejs", { titulo: "Vehículos" })%>
+		<%- include("../partials/header.ejs", { titulo: "Fiador" })%>
 	</head>
 	<body class="sb-nav-fixed">
 		<%- include("../partials/navbar.ejs")%>
@@ -25,22 +25,22 @@
 								</button>
 							</div>
 							<div class="col-12 table-responsive">
-								<table id="tabla-vehiculos">
+								<table id="tabla-fiador">
 									<thead>
 										<tr>
 											<th>Cliente</th>
-											<th>Marca</th>
-											<th>Modelo</th>
-											<th>Año</th>
-											<th>Valor</th>
-											<th>Dui</th>
-											<th>Propietario</th>
-											<th>Dirección</th>
+											<th>Fiador</th>
+											<th>DUI</th>
+											<th>Direccion</th>
+											<th>Telefono</th>
+											<th>Tipo de Empleo</th>
+											<th>Lugar de trabajo</th>
+											<th>Ingresos</th>
 											<th>Documento</th>
 											<th>Acciones</th>
 										</tr>
 									</thead>
-									<tbody id="tbody-vehiculos"></tbody>
+									<tbody id="tbody-fiador"></tbody>
 								</table>
 							</div>
 						</div>
@@ -51,6 +51,6 @@
 		</div>
 		<%- include("../modales/agregar-vehiculos.ejs") %> <%-
 		include("../partials/scripts.ejs")%>
-		<script src="/js/vehiculos.js?t=<%= Date.now() %>"></script>
+		<script src="/js/fiador.js?t=<%= Date.now() %>"></script>
 	</body>
 </html>
