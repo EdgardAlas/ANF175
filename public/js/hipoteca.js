@@ -22,6 +22,7 @@
 		tituloModal = document.getElementById('agregarHipotecaModal'),
 		iconoEditar = document.getElementById('icono-editar'),
 		btnTexto = document.getElementById('btn-texto');
+	btnCerrar = document.getElementById('cerrar');
 	let idhipoteca;
 	select('#combocliente', '#agregar-hipoteca-modal');
 
@@ -50,6 +51,11 @@
 		obtenerHipoteca();
 		obtenerClientes();
 	});
+	btnCerrar.addEventListener('click', () => {
+		if (btnTexto.textContent === 'Editar') {
+			combocliente.remove(combocliente.length - 1);
+		}
+	});
 
 	hipotecaForm.addEventListener('submit', registrarHipoteca);
 
@@ -60,7 +66,8 @@
 			//clave.type = 'password';
 			tituloModal.textContent = 'Agregar empleado';
 			//clave.required = true;
-			//empleadoForm.reset();
+			hipotecaForm.reset();
+			combocliente.disabled = false;
 			//mascaraDUI.updateValue();
 			//mascaraNombre.updateValue();
 			//mascaraTelefono.updateValue();
@@ -381,6 +388,7 @@
 							archivo: true,
 						});
 						if (data.status === 201) {
+							combocliente.remove(combocliente.length - 1);
 							alerta('Se ha editado la hipoteca con exito', 'success');
 							bootstrap.Modal.getInstance(
 								document.getElementById('agregar-hipoteca-modal')
