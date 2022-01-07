@@ -15,7 +15,8 @@
 		btnTexto = document.getElementById('btn-texto');
 	btnCerrar = document.getElementById('btn-cerrar');
 	select('#combocliente', '#agregar-modal');
-	let idvehiculo;
+	let idarchivo;
+	let idfiador;
 
 	const mascaraDUI = IMask(dui, {
 		mask: '00000000-0',
@@ -63,11 +64,11 @@
 												<td>
 												<button type="button" 
 														class="btn btn-warning text-white editar" 
-														data-id="${fiador.id}"
 														data-bs-toggle="modal"
 														data-bs-target="#agregar-modal"
 														data-backdrop="static"
 														data-keyboard="false"
+														data-id="${fiador.id}"
 														data-combocliente=${fiador.cliente.id}
 														data-cliente='${fiador.cliente.nombre + ' ' + fiador.cliente.apellido}'
 														data-nombre='${fiador.nombre}'
@@ -80,6 +81,7 @@
 														data-archivo=${fiador.archivo_const_laboral}
 													>
 														<i 
+														data-id="${fiador.id}"
 														data-combocliente=${fiador.cliente.id}
 														data-cliente='${fiador.cliente.nombre + ' ' + fiador.cliente.apellido}'
 														data-nombre='${fiador.nombre}'
@@ -203,6 +205,82 @@
 		});
 	}
 
+	async function DUIpropietario() {
+		if (dui.value.trim().length === 0) {
+			return;
+		}
+
+		let url = `fiador/${dui.value}/${null}`;
+		if (btnTexto.textContent === 'Editar') {
+			url = `fiador/${dui.value}/${idfiador}`;
+		}
+		try {
+			const [resp, data] = await api({
+				url,
+				method: 'GET',
+			});
+			if (resp.existe) {
+				alerta('Este DUI ya esta en uso', 'warning');
+				dui.value = '';
+				dui.focus();
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
+	function editarvehiculo(json = {}) {
+		confirmacion({
+			icon: 'warning',
+			texto: '¿Seguro de editar este registro?',
+			titulo: 'Advertencia',
+			cb: async function () {
+				try {
+					if (json.archivo == undefined) {
+						const [resp, data] = await api({
+							url: `fiador/${idfiador}`,
+							method: 'PATCH',
+							json,
+						});
+						if (data.status === 201) {
+							combocliente.remove(combocliente.length - 1);
+							alerta('Se ha editado el fiador con exito', 'success');
+							bootstrap.Modal.getInstance(
+								document.getElementById('agregar-modal')
+							).hide();
+							obtenerFiador();
+						}
+					} else {
+						const formData = new FormData();
+
+						Object.keys(json).forEach(function (key) {
+							formData.append(key, json[key]);
+						});
+						const [resp, data] = await api({
+							url: `fiador/${idfiador}/${idarchivo}`,
+							method: 'PATCH',
+							json: formData,
+							archivo: true,
+						});
+						if (data.status === 201) {
+							alerta('Se ha editado el fiador con exito', 'success');
+							bootstrap.Modal.getInstance(
+								document.getElementById('agregar-modal')
+							).hide();
+							obtenerFiador();
+						}
+					}
+				} catch (error) {
+					console.log(error);
+				}
+			},
+		});
+	}
+
+	dui.addEventListener('keyup', DUIpropietario);
+
+	fiadorForm.addEventListener('submit', registrarFiador);
+
 	document
 		.getElementById('agregar-modal')
 		.addEventListener('hidden.bs.modal', () => {
@@ -225,15 +303,13 @@
 	document
 		.getElementById('agregar-modal')
 		.addEventListener('shown.bs.modal', () => {
-			dui.focus();
+			nombre.focus();
 		});
 
 	document.addEventListener('DOMContentLoaded', () => {
 		obtenerFiador();
 		obtenerClientes();
 	});
-
-	fiadorForm.addEventListener('submit', registrarFiador);
 
 	document
 		.getElementById('tbody-fiador')
@@ -258,10 +334,10 @@
 			combocliente.appendChild(option);
 
 			combocliente.value = target.dataset.combocliente;
-			idvehiculo = target.dataset.archivo;
+			idarchivo = target.dataset.archivo;
 
 			combocliente.disabled = true;
-			id = target.dataset.id;
+			idfiador = target.dataset.id;
 			archivo.required = false;
 			select('#combocliente', '#agregar-modal');
 			iconoEditar.classList.add('bi-pencil-square');
