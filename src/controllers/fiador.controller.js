@@ -231,36 +231,6 @@ const editarFiador = async (req, res) => {
 	}
 };
 
-const verificarCliente = async (req, res) => {
-	const { id } = req.query;
-	const { cliente_fk } = req.params;
-
-	try {
-		let existe = false;
-		if (id !== undefined || id) {
-			existe = await Vehiculo.findOne({
-				where: {
-					cliente_fk,
-					[Op.not]: {
-						id,
-					},
-				},
-			});
-		} else {
-			existe = await Vehiculo.findOne({
-				where: {
-					cliente_fk,
-				},
-			});
-		}
-		return res.status(StatusCodes.OK).json({
-			existe: !!existe,
-		});
-	} catch (error) {
-		console.log(error);
-	}
-};
-
 module.exports = {
 	obtenerFiadores,
 	obtenerClientes,
@@ -268,5 +238,4 @@ module.exports = {
 	registrarFiador,
 	editarFiador,
 	DUIpropietario,
-	verificarCliente,
 };

@@ -9,7 +9,6 @@
 		ingreso = document.getElementById('ingreso'),
 		archivo = document.getElementById('archivo'),
 		fiadorForm = document.getElementById('agregar-form'),
-		btnvehiculoForm = document.getElementById('btn-agregar-vehiculo'),
 		tituloModal = document.getElementById('agregarModal'),
 		iconoEditar = document.getElementById('icono-editar'),
 		btnTexto = document.getElementById('btn-texto');
@@ -44,10 +43,9 @@
 			if (data.status === 200) {
 				const fragmento = document.createDocumentFragment();
 				const fiadors = resp.fiador;
-				console.log(fiadors),
-					fiadors.forEach((fiador) => {
-						var tpl = document.createElement('template');
-						tpl.innerHTML = `
+				fiadors.forEach((fiador) => {
+					var tpl = document.createElement('template');
+					tpl.innerHTML = `
 											<tr>
 												
 												<td>${fiador.cliente.nombre + ' ' + fiador.cliente.apellido}</td>
@@ -98,8 +96,8 @@
 														
 												</td>
 											</tr>`;
-						fragmento.appendChild(tpl.content);
-					});
+					fragmento.appendChild(tpl.content);
+				});
 				document.getElementById('tbody-fiador').innerHTML = '';
 				document.getElementById('tbody-fiador').append(fragmento);
 				tabla('tabla-fiador');
@@ -119,7 +117,6 @@
 			if (data.status === 200) {
 				const select = document.getElementById('combocliente');
 				const clientes = resp.clientes;
-				console.log(clientes);
 				clientes.forEach((cliente) => {
 					if (
 						cliente['vehiculos'].length == 0 &&
@@ -190,7 +187,6 @@
 						archivo: true,
 					});
 					if (data.status === 201) {
-						console.log(resp.fiador);
 						combocliente.remove(combocliente.selectedIndex);
 						alerta('Se ha regitrado el fiador con exito', 'success');
 						bootstrap.Modal.getInstance(
