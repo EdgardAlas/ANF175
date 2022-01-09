@@ -28,28 +28,28 @@ const vistaClientes = (req, res) => {
 
 const vistaVehiculos = (req, res) => {
 	res.render('vehiculos/vehiculos', {
-		rol: 'Administrador',
+		rol: req.rol,
 		pagina: 'vehiculos',
 	});
 };
 
 const vistaFiador = (req, res) => {
 	res.render('fiador/fiador', {
-		rol: 'Administrador',
+		rol: req.rol,
 		pagina: 'fiador',
 	});
 };
 
 const vistaCartera = (req, res) => {
 	res.render('cartera/cartera', {
-		rol: 'Administrador',
+		rol: req.rol,
 		pagina: 'Cartera de clientes',
 	});
 };
 
 const vistaHipoteca = (req, res) => {
 	res.render('hipoteca/hipoteca', {
-		rol: 'Administrador',
+		rol: req.rol,
 		pagina: 'Hipoteca de clientes',
 	});
 };
