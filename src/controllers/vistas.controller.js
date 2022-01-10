@@ -54,6 +54,13 @@ const vistaHipoteca = (req, res) => {
 	});
 };
 
+const vistaInfoContable = (req, res) => {
+	res.render('infocontable/infocontable', {
+		rol: 'Administrador',
+		pagina: 'Informacion contable',
+	});
+};
+
 module.exports = {
 	vistaLogin,
 	logout,
@@ -64,4 +71,5 @@ module.exports = {
 	vistaCartera,
 	vistaHipoteca,
 	vistaFiador,
+	vistaInfoContable,
 };

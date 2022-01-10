@@ -14,7 +14,7 @@ const { ZonaDepartamental } = require('./models/ZonaDepartamental');
 const zonas = require('./data/zonas');
 const departamentos = require('./data/departamentos');
 const municipios = require('./data/municipios');
-require('console-error');
+const { TipoCuenta } = require('./models/TipoCuenta');
 require('./database/relaciones');
 
 class App {
@@ -95,6 +95,47 @@ class App {
 				fields: ['id', 'municipio', 'departamento_fk'],
 				updateOnDuplicate: ['municipio'],
 			});
+
+			await TipoCuenta.bulkCreate(
+				[
+					{
+						id: 1,
+						tipo_cuenta: 'Activo Corriente',
+					},
+					{
+						id: 2,
+						tipo_cuenta: 'Activo No Corriente',
+					},
+					{
+						id: 3,
+						tipo_cuenta: 'Pasivo Corriente',
+					},
+					{
+						id: 4,
+						tipo_cuenta: 'Pasivo No Corriente',
+					},
+					{
+						id: 5,
+						tipo_cuenta: 'Patrimonio',
+					},
+					{
+						id: 6,
+						tipo_cuenta: 'Ventas netas',
+					},
+					{
+						id: 7,
+						tipo_cuenta: 'Total de gastos',
+					},
+					{
+						id: 8,
+						tipo_cuenta: 'Utilidad',
+					},
+				],
+				{
+					fields: ['id', 'tipo_cuenta'],
+					updateOnDuplicate: ['tipo_cuenta'],
+				}
+			);
 		} catch (error) {
 			console.error(error);
 		}
@@ -109,6 +150,10 @@ class App {
 		this.server.use('/api/cartera', require('./routes/cartera.route'));
 		this.server.use('/api/hipoteca', require('./routes/hipoteca.route'));
 		this.server.use('/api/fiador', require('./routes/fiador.route'));
+		this.server.use(
+			'/api/informacion-contable',
+			require('./routes/infocontable.route')
+		);
 		this.server.use('*', (req, res) => {
 			res.status(404).render('errores/no-encontrado');
 		});

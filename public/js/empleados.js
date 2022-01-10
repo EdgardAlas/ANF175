@@ -13,6 +13,7 @@
 		btnTexto = document.getElementById('btn-texto');
 
 	let id = '';
+	let tbl = null;
 
 	const mascaraDUI = IMask(dui, {
 		mask: '00000000-0',
@@ -209,9 +210,13 @@
 											</tr>`;
 					fragmento.appendChild(tpl.content);
 				});
+				if (tbl) {
+					tbl.destroy();
+				}
 				document.getElementById('tbody-empleados').innerHTML = '';
 				document.getElementById('tbody-empleados').append(fragmento);
-				tabla('tabla-empleados');
+
+				tbl = tabla('tabla-empleados');
 
 				registrando();
 			}

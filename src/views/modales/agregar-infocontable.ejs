@@ -1,0 +1,88 @@
+<div
+	class="modal fade"
+	id="agregar-infocontable-modal"
+	tabindex="-1"
+	data-bs-focus="false"
+	aria-labelledby="agregarInfoContableModal"
+	aria-hidden="true"
+	data-bs-backdrop="static"
+	data-bs-keyboard="false"
+	tabindex="-1"
+>
+	<div class="modal-dialog modal-lg">
+		<form class="modal-content" id="agregar-form">
+			<div class="modal-header bg-dark text-white">
+				<h5 class="modal-title" id="agregarModal">
+					Agregar información contable
+				</h5>
+				<button
+					type="button"
+					class="btn-close"
+					data-bs-dismiss="modal"
+					aria-label="Close"
+				></button>
+			</div>
+			<div class="modal-body">
+				<div class="row mb-3">
+					<div class="col-12 col-md-7">
+						<label for="cliente" class="form-label">Cliente</label>
+						<select class="form-select" id="combo-cliente">
+							<option value="-1">Seleccione</option>
+						</select>
+					</div>
+					<div class="col">
+						<label for="anio" class="form-label">Año</label>
+						<input
+							type="number"
+							class="form-control"
+							step="1"
+							id="anio"
+							name="anio"
+							value="<%= new Date().getFullYear()-1;%>"
+						/>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-7">
+						<label for="cliente" class="form-label">Tipo de cuenta</label>
+						<select class="select2" id="combo-tipo-cuenta"></select>
+					</div>
+					<div class="col d-flex flex-column-reverse">
+						<button
+							class="btn btn-secondary"
+							type="button"
+							id="agregar-informacion"
+						>
+							Agregar cuenta
+						</button>
+					</div>
+				</div>
+				<hr />
+				<div
+					class="row"
+					id="informacion-agregada"
+					style="max-height: 220px; overflow-y: auto"
+				></div>
+			</div>
+			<div class="modal-footer">
+				<button
+					type="button"
+					class="btn btn-secondary"
+					data-bs-dismiss="modal"
+					id="btn-cerrar"
+				>
+					<i class="bi bi-x-circle"></i>
+					Cerrar
+				</button>
+				<button
+					type="submit"
+					class="btn btn-primary text-white"
+					id="btn-agregar-info-contable"
+				>
+					<i class="bi bi-check-square" id="icono-editar"></i>
+					<span id="btn-texto">Agregar</span>
+				</button>
+			</div>
+		</form>
+	</div>
+</div>
