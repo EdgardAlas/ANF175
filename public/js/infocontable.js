@@ -24,6 +24,55 @@
 		iniciarComboClienteTabla();
 	});
 
+	bodyTabla.addEventListener('click', ({ target }) => {
+		if (target.classList.contains('mostrar-balance')) {
+			const activoCorriente = target.dataset['1'],
+				activoNoCorriente = target.dataset['2'],
+				pasivoCorriente = target.dataset['3'],
+				pasivoNoCorriente = target.dataset['4'],
+				patrimonio = target.dataset['5'];
+
+			document.getElementById('a-c').textContent = `$${Number(
+				activoCorriente
+			).toLocaleString()}`;
+			document.getElementById('a-nc').textContent = `$${Number(
+				activoNoCorriente
+			).toLocaleString()}`;
+			document.getElementById('p-c').textContent = `$${Number(
+				pasivoCorriente
+			).toLocaleString()}`;
+			document.getElementById('p-nc').textContent = `$${Number(
+				pasivoNoCorriente
+			).toLocaleString()}`;
+			document.getElementById('p').textContent = `$${Number(
+				patrimonio
+			).toLocaleString()}`;
+
+			document.getElementById('t-a').textContent = `$${Number(
+				Number(activoCorriente) + Number(activoNoCorriente)
+			).toLocaleString()}`;
+			document.getElementById('t-pp').textContent = `$${Number(
+				Number(pasivoCorriente) +
+					Number(pasivoNoCorriente) +
+					Number(patrimonio)
+			).toLocaleString()}`;
+		} else if (target.classList.contains('mostrar-estador')) {
+			const ventasNetas = target.dataset['6'],
+				totalGastos = target.dataset['7'],
+				utilidad = target.dataset['8'];
+
+			document.getElementById('v-n').textContent = `$${Number(
+				ventasNetas
+			).toLocaleString()}`;
+			document.getElementById('t-g').textContent = `$${Number(
+				totalGastos
+			).toLocaleString()}`;
+			document.getElementById('u').textContent = `$${Number(
+				utilidad
+			).toLocaleString()}`;
+		}
+	});
+
 	document
 		.getElementById('agregar-infocontable-modal')
 		.addEventListener('hidden.bs.modal', () => {
@@ -266,28 +315,55 @@
 												${infox[info][0].anio}
 											</td>
 											<td>
-												<button class='btn btn-info text-white' ${infox[info].reduce(
+												<button class='btn btn-info text-white mostrar-balance' ${infox[info].reduce(
 													(prev, curr, arr) => {
 														if (curr.tipo_cuenta_fk <= 5) {
-															return (prev += `data-${curr.tipo_cuenta_fk}='${curr.tipo_cuentum.tipo_cuenta}|${curr.saldo}' `);
+															return (prev += `data-${curr.tipo_cuenta_fk}='${curr.saldo}' `);
 														} else {
 															return prev;
 														}
 													},
 													''
-												)}><i class="bi bi-eye"></i></button>
+												)}
+												data-bs-toggle="modal"
+												data-bs-target="#modal-balance"
+												data-backdrop="static"
+												data-keyboard="false"><i class="bi bi-eye mostrar-balance" ${infox[info].reduce(
+													(prev, curr, arr) => {
+														if (curr.tipo_cuenta_fk <= 5) {
+															return (prev += `data-${curr.tipo_cuenta_fk}='${curr.saldo}' `);
+														} else {
+															return prev;
+														}
+													},
+													''
+												)}></i></button>
 											</td>
 											<td>
-												<button class='btn btn-info text-white' ${infox[info].reduce(
+												<button class='btn btn-info text-white mostrar-estador' ${infox[info].reduce(
 													(prev, curr, arr) => {
 														if (curr.tipo_cuenta_fk > 5) {
-															return (prev += `data-${curr.tipo_cuenta_fk}='${curr.tipo_cuentum.tipo_cuenta}|${curr.saldo}' `);
+															return (prev += `data-${curr.tipo_cuenta_fk}='${curr.saldo}' `);
 														} else {
 															return prev;
 														}
 													},
 													''
-												)}><i class="bi bi-eye"></i></button>
+												)}
+												data-bs-toggle="modal"
+												data-bs-target="#modal-estador"
+												data-backdrop="static"
+												data-keyboard="false"><i class="bi bi-eye mostrar-estador" ${infox[info].reduce(
+													(prev, curr, arr) => {
+														if (curr.tipo_cuenta_fk > 5) {
+															return (prev += `data-${curr.tipo_cuenta_fk}='${curr.saldo}' `);
+														} else {
+															return prev;
+														}
+													},
+													''
+												)}>
+					</i></button>
 											</td>
 										</tr>
 										`;

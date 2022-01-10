@@ -1,0 +1,162 @@
+<div
+	class="modal fade"
+	id="modal-estador"
+	tabindex="-1"
+	data-bs-focus="false"
+	aria-labelledby="modalEstador"
+	aria-hidden="true"
+	data-bs-backdrop="static"
+	data-bs-keyboard="false"
+	tabindex="-1"
+>
+	<div class="modal-dialog modal-md">
+		<form class="modal-content" id="agregar-hipoteca-form">
+			<div class="modal-header bg-dark text-white">
+				<h5 class="modal-title" id="agregarHipotecaModal">
+					Información relevante del estado de resultado
+				</h5>
+				<button
+					type="button"
+					class="btn-close"
+					data-bs-dismiss="modal"
+					aria-label="Close"
+				></button>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-12">
+						<div class="row">
+							<div class="col-6">Ventas netas</div>
+							<div class="col d-flex flex-row-reverse">
+								<span class="fw-bold" id="v-n">$0.00</span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-6">Total de gastos</div>
+							<div class="col d-flex flex-row-reverse">
+								<span class="fw-bold" id="t-g">$0.00</span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-6">Utilidad</div>
+							<div class="col d-flex flex-row-reverse">
+								<span class="fw-bold" id="u">$0.00</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button
+					id="cerrar"
+					type="button"
+					class="btn btn-secondary"
+					data-bs-dismiss="modal"
+				>
+					<i class="bi bi-x-circle"></i>
+					Cerrar
+				</button>
+			</div>
+		</form>
+	</div>
+</div>
+<div
+	class="modal fade"
+	id="modal-balance"
+	tabindex="-1"
+	data-bs-focus="false"
+	aria-labelledby="modalBalance"
+	aria-hidden="true"
+	data-bs-backdrop="static"
+	data-bs-keyboard="false"
+	tabindex="-1"
+>
+	<div class="modal-dialog modal-lg">
+		<form class="modal-content" id="agregar-hipoteca-form">
+			<div class="modal-header bg-dark text-white">
+				<h5 class="modal-title" id="agregarHipotecaModal">
+					Balance General
+				</h5>
+				<button
+					type="button"
+					class="btn-close"
+					data-bs-dismiss="modal"
+					aria-label="Close"
+				></button>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-12 col-md-6">
+						<p class="fw-bold mb-1">Activo</p>
+						<div class="row">
+							<div class="col-6">Activo corriente</div>
+							<div class="col d-flex flex-row-reverse">
+								<span class="fw-bold" id="a-c">$0.00</span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-6">Activo no corriente</div>
+							<div class="col d-flex flex-row-reverse">
+								<span class="fw-bold" id="a-nc">$0.00</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-12 col-md-6">
+						<p class="fw-bold mb-1">Pasivo</p>
+						<div class="row">
+							<div class="col-6">Pasivo corriente</div>
+							<div class="col d-flex flex-row-reverse">
+								<span class="fw-bold" id="p-c">$0.00</span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-6">Pasivo no corriente</div>
+							<div class="col d-flex flex-row-reverse">
+								<span class="fw-bold" id="p-nc">$0.00</span>
+							</div>
+						</div>
+
+						<p class="fw-bold mt-4 mb-1">Patrimonio</p>
+						<div class="row">
+							<div class="col-6">Patrimonio</div>
+							<div class="col d-flex flex-row-reverse">
+								<span class="fw-bold" id="p">$0.00</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row mt-4">
+					<div class="col-12 col-md-6">
+						<div class="row">
+							<div class="col-6 fw-bold fst-italic">Total activo</div>
+							<div class="col d-flex flex-row-reverse">
+								<span class="fw-bold" id="t-a">$0.00</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-12 col-md-6">
+						<div class="row">
+							<div class="col-6 fw-bold fst-italic">
+								Total pasivo + patrimonio
+							</div>
+							<div class="col d-flex flex-row-reverse">
+								<span class="fw-bold" id="t-pp">$0.00</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button
+					id="cerrar"
+					type="button"
+					class="btn btn-secondary"
+					data-bs-dismiss="modal"
+				>
+					<i class="bi bi-x-circle"></i>
+					Cerrar
+				</button>
+			</div>
+		</form>
+	</div>
+</div>
