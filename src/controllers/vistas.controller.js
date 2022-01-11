@@ -54,6 +54,13 @@ const vistaHipoteca = (req, res) => {
 	});
 };
 
+const vistaActivo = (req, res) => {
+	res.render('activo/activo', {
+		rol: req.rol,
+		pagina: 'Activo',
+	});
+};
+
 module.exports = {
 	vistaLogin,
 	logout,
@@ -64,4 +71,5 @@ module.exports = {
 	vistaCartera,
 	vistaHipoteca,
 	vistaFiador,
+	vistaActivo,
 };

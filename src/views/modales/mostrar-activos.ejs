@@ -1,0 +1,117 @@
+<div
+	class="modal fade"
+	id="mostrar-activo-modal"
+	tabindex="-1"
+	data-bs-focus="false"
+	aria-labelledby="agregarActivoModal"
+	aria-hidden="true"
+	data-bs-backdrop="static"
+	data-bs-keyboard="false"
+	tabindex="-1"
+>
+	<div class="modal-dialog modal-lg">
+		<form class="modal-content" id="agregar-activo-form">
+			<div class="modal-header bg-dark text-white">
+				<h5 class="modal-title" id="agregarActivoModal">
+					Detalles de activos
+				</h5>
+				<button
+					type="button"
+					class="btn-close"
+					data-bs-dismiss="modal"
+					aria-label="Close"
+				></button>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-12 col-md-6 mb-3">
+						<label for="mostrarmarca" class="form-label">Marca</label>
+						<input
+							type="text"
+							class="form-control bg-white"
+							id="mostrarmarca"
+							name="mostrarmarca"
+							autocomplete="off"
+							required
+							readonly
+						/>
+					</div>
+					<div class="col-12 col-md-6 mb-3">
+						<label for="mostrarmodelo" class="form-label">Modelo</label>
+						<input
+							type="text"
+							class="form-control bg-white"
+							id="mostrarmodelo"
+							name="mostrarmodelo"
+							autocomplete="off"
+							required
+							readonly
+						/>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12 col-md-6 mb-3">
+						<label for="mostrarserie" class="form-label">Serie</label>
+						<input
+							type="text"
+							class="form-control bg-white"
+							id="mostrarserie"
+							name="mostrarserie"
+							autocomplete="off"
+							readonly
+						/>
+					</div>
+					<div class="col-12 col-md-6 mb-3">
+						<label for="mtipoactivo" class="form-label"
+							>Tipo de Activo</label
+						>
+						<input
+							type="text"
+							class="form-control bg-white"
+							id="mtipoactivo"
+							name="mtipoactivo"
+							autocomplete="off"
+							readonly
+						/>
+					</div>
+					<div class="col-12 col-md-6 mb-3">
+						<label for="mAdquisicion" class="form-label"
+							>Adquisición</label
+						>
+						<input
+							type="text"
+							class="form-control bg-white"
+							id="mAdquisicion"
+							name="mAdquisicion"
+							autocomplete="off"
+							readonly
+						/>
+					</div>
+					<div class="col-12 col-md-6 mb-3">
+						<label for="mEmpleado" class="form-label"
+							>Empleado encargado</label
+						>
+						<input
+							type="text"
+							class="form-control bg-white"
+							id="mEmpleado"
+							name="mEmpleado"
+							autocomplete="off"
+							readonly
+						/>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button
+					type="button"
+					class="btn btn-secondary"
+					data-bs-dismiss="modal"
+				>
+					<i class="bi bi-x-circle"></i>
+					Cerrar
+				</button>
+			</div>
+		</form>
+	</div>
+</div>

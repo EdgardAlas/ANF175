@@ -1,0 +1,86 @@
+<div
+	class="modal fade"
+	id="agregar-baja-modal"
+	tabindex="-1"
+	data-bs-focus="false"
+	aria-labelledby="agregarBajaModal"
+	aria-hidden="true"
+	data-bs-backdrop="static"
+	data-bs-keyboard="false"
+	tabindex="-1"
+>
+	<div class="modal-dialog modal-md">
+		<form class="modal-content" id="agregar-baja-form">
+			<div class="modal-header bg-dark text-white">
+				<h5 class="modal-title" id="agregarBajaModal">Dar de baja</h5>
+				<button
+					type="button"
+					class="btn-close"
+					data-bs-dismiss="modal"
+					aria-label="Close"
+				></button>
+			</div>
+			<div class="modal-body">
+				<div class="col-12 col-md-12 mb-3">
+					<label for="activo" class="form-label">Activo</label>
+					<input
+						type="text"
+						class="form-control"
+						id="activo"
+						name="activo"
+						autocomplete="off"
+						required
+						
+					/>
+				</div>
+				<div class="row">
+					
+					<div class="col-12 col-md-6 mb-3">
+						<label for="motivo" class="form-label">Motivo</label>
+						<textarea class="form-control"
+						id="motivo"
+							name="motivo"
+						autocomplete="off"
+						required>
+
+						</textarea>
+						
+					</div>
+					<div class="col-12 col-md-6 mb-3">
+						<label for="observacion" class="form-label"
+							>Observación</label
+						>
+						<textarea class="form-control"
+						id="observacion"
+						name="observacion"
+						autocomplete="off"
+						required>
+
+						</textarea>
+						
+					</div>
+				</div>
+				
+				
+			<div class="modal-footer">
+				<button
+					type="button"
+					class="btn btn-secondary"
+					data-bs-dismiss="modal"
+					id="btn-cerrar"
+				>
+					<i class="bi bi-x-circle"></i>
+					Cerrar
+				</button>
+				<button
+					type="submit"
+					class="btn btn-primary text-white"
+					id="btn-agregar-baja"
+				>
+					<i class="bi bi-check-square" id="icono-editar"></i>
+					<span id="btn-texto"> Agregar </span>
+				</button>
+			</div>
+		</form>
+	</div>
+</div>

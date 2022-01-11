@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<%- include("../partials/header.ejs", { titulo: "Activos" })%>
+	</head>
+	<body class="sb-nav-fixed">
+		<%- include("../partials/navbar.ejs")%>
+		<div id="layoutSidenav">
+			<%- include("../partials/sidebar.ejs", {rol, pagina})%>
+			<div id="layoutSidenav_content">
+				<main>
+					<div class="container-fluid px-4">
+						<h1 class="mt-4">Activos</h1>
+						<div class="row gap-3">
+							<div class="col-12">
+								<button
+									class="btn btn-primary text-white"
+									data-bs-toggle="modal"
+									data-bs-target="#agregar-activo-modal"
+									data-backdrop="static"
+									data-keyboard="false"
+								>
+									<i class="bi bi-plus-square"></i>
+									Agregar
+								</button>
+							</div>
+							<div class="col-12 table-responsive">
+								<table id="tabla-activos">
+									<thead>
+										<tr>
+											<th>Nombre del activo</th>
+											<th>Fecha de adquisición</th>
+											<th>Valor de adquisición</th>
+											<th>Estado</th>
+											<th>Detalles</th>
+											<th>Acciones</th>
+										</tr>
+									</thead>
+									<tbody id="tbody-activos"></tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</main>
+				<%- include("../partials/footer.ejs") %>
+			</div>
+		</div>
+		<%- include("../modales/mostrar-activos.ejs") %> <%-
+		include("../modales/agregar-baja.ejs") %> <%-
+		include("../partials/scripts.ejs")%>
+		<script src="/js/activo.js?t=<%= Date.now() %>"></script>
+	</body>
+</html>
