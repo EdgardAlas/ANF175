@@ -1,10 +1,25 @@
-((api, alerta, tabla, confirmacion) => {
+((api, alerta, tabla, confirmacion, select) => {
 	const mostrarmarca = document.getElementById('mostrarmarca'),
 		mostrarmodelo = document.getElementById('mostrarmodelo'),
 		mostrarserie = document.getElementById('mostrarserie'),
 		mtipoactivo = document.getElementById('mtipoactivo'),
-		mAdquisicion = document.getElementById('mAdquisicion');
-	mEmpleado = document.getElementById('mEmpleado');
+		mAdquisicion = document.getElementById('mAdquisicion'),
+		mEmpleado = document.getElementById('mEmpleado'),
+		activoForm = document.getElementById('agregar-activo-form'),
+		btnTexto = document.getElementById('btn-texto'),
+		tituloModal = document.getElementById('agregarActivoModal'),
+		nombreactivo = document.getElementById('nombreactivo'),
+		valoractivo = document.getElementById('valoractivo'),
+		fecha = document.getElementById('fecha'),
+		rmarca = document.getElementById('rmarca'),
+		rmodelo = document.getElementById('rmodelo'),
+		rserie = document.getElementById('rserie'),
+		combotipoactivo = document.getElementById('combotipoactivo'),
+		comboadquisicion = document.getElementById('comboadquisicion'),
+		comboempleado = document.getElementById('comboempleado'),
+		btnactivoForm = document.getElementById('btn-agregar-activo');
+	select('#comboempleado', '#agregar-activo-modal');
+	select('#combotipoactivo', '#agregar-activo-modal');
 
 	document
 		.getElementById('tabla-activos')
@@ -30,9 +45,127 @@
 			//iconoEditar.classList.remove('bi-check-square');
 		});
 
+	activoForm.addEventListener('submit', registrarActivo);
+
+	document
+		.getElementById('agregar-activo-modal')
+		.addEventListener('hidden.bs.modal', () => {
+			btnTexto.textContent = 'Agregar';
+
+			tituloModal.textContent = 'Agregar Activo';
+
+			activoForm.reset();
+
+			if (iconoEditar.classList.contains('bi-pencil-square')) {
+				iconoEditar.classList.remove('bi-pencil-square');
+				iconoEditar.classList.add('bi-check-square');
+			}
+		});
+
 	document.addEventListener('DOMContentLoaded', () => {
 		obtenerActivo();
+		obtenerEmpleados();
+		obtenertipoactivo();
 	});
+
+	async function registrarActivo(e) {
+		console.log('pasa2');
+		e.preventDefault();
+
+		const json = {
+			tipo_adquisicion: comboadquisicion.value,
+			nombre_activo: nombreactivo.value,
+			marca: rmarca.value,
+			modelo: rmodelo.value,
+			serie: rserie.value,
+			fecha_adquisicion: fecha.value,
+			valor_adquisicion: valoractivo.value,
+			tipo_activo_fk: combotipoactivo.value,
+			empleado_fk: comboempleado.value,
+		};
+		console.log(json);
+
+		if (btnTexto.textContent === 'Editar') {
+			return editarEmpleado(json);
+		}
+
+		confirmacion({
+			icon: 'warning',
+			texto: '¿Seguro de agregar este activo fijo?',
+			titulo: 'Advertencia',
+			cb: async function () {
+				try {
+					const [resp, data] = await api({
+						url: 'activo',
+						method: 'POST',
+						json,
+					});
+					if (data.status === 201) {
+						alerta('Se ha regitrado el activo fijo con exito', 'success');
+						bootstrap.Modal.getInstance(
+							document.getElementById('agregar-activo-modal')
+						).hide();
+						obtenerActivo();
+					}
+				} catch (error) {
+					console.log(error);
+				}
+			},
+		});
+	}
+
+	async function obtenerEmpleados() {
+		let url = `activo/empleado`;
+		try {
+			//registrando();
+			const [resp, data] = await api({
+				url,
+				method: 'GET',
+				json: {},
+			});
+
+			if (data.status === 200) {
+				const select = document.getElementById('comboempleado');
+				const empleados = resp.empleado;
+				console.log('empleado=' + empleados);
+				empleados.forEach((cliente) => {
+					option = document.createElement('option');
+					option.value = cliente.id;
+					option.text = cliente.dui + ' ' + cliente.nombre;
+					select.appendChild(option);
+				});
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
+	async function obtenertipoactivo() {
+		let url = `activo/tipoactivo`;
+		try {
+			//registrando();
+			const [resp, data] = await api({
+				url,
+				method: 'GET',
+				json: {},
+			});
+
+			if (data.status === 200) {
+				const select = document.getElementById('combotipoactivo');
+				const tipoactivos = resp.tipoactivo;
+
+				tipoactivos.forEach((tactivos) => {
+					option = document.createElement('option');
+					option.value = tactivos.id;
+					option.text =
+						tactivos.codigo_correlativo + ' ' + tactivos.nombre;
+					select.appendChild(option);
+				});
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	}
 
 	async function obtenerActivo() {
 		console.log('pasa');
@@ -152,4 +285,4 @@
 			console.log(error);
 		}
 	}
-})(api, alerta, tabla, confirmacion);
+})(api, alerta, tabla, confirmacion, select);

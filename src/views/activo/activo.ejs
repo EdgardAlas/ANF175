@@ -45,9 +45,10 @@
 				<%- include("../partials/footer.ejs") %>
 			</div>
 		</div>
-		<%- include("../modales/mostrar-activos.ejs") %> <%-
-		include("../modales/agregar-baja.ejs") %> <%-
-		include("../partials/scripts.ejs")%>
+		<%-include("../modales/agregar-activos.ejs") %> <%-
+		include("../modales/mostrar-activos.ejs") %> <%-
+		include("../modales/agregar-baja.ejs") %>
+		<%-include("../partials/scripts.ejs")%>
 		<script src="/js/activo.js?t=<%= Date.now() %>"></script>
 	</body>
 </html>

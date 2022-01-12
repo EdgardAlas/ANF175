@@ -12,8 +12,8 @@
 		btnvehiculoForm = document.getElementById('btn-agregar-vehiculo'),
 		tituloModal = document.getElementById('agregarVehiculoModal'),
 		iconoEditar = document.getElementById('icono-editar'),
-		btnTexto = document.getElementById('btn-texto');
-	btnCerrar = document.getElementById('btn-cerrar');
+		btnTexto = document.getElementById('btn-texto'),
+		btnCerrar = document.getElementById('btn-cerrar');
 	select('#combocliente', '#agregar-vehiculo-modal');
 	let idvehiculo;
 

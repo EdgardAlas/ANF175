@@ -1,0 +1,149 @@
+<div
+	class="modal fade"
+	id="agregar-activo-modal"
+	tabindex="-1"
+	data-bs-focus="false"
+	aria-labelledby="agregarActivoModal"
+	aria-hidden="true"
+	data-bs-backdrop="static"
+	data-bs-keyboard="false"
+	tabindex="-1"
+>
+	<div class="modal-dialog modal-lg">
+		<form class="modal-content" id="agregar-activo-form">
+			<div class="modal-header bg-dark text-white">
+				<h5 class="modal-title" id="agregarActivoModal">
+					Registro de activos fijos
+				</h5>
+				<button
+					type="button"
+					class="btn-close"
+					data-bs-dismiss="modal"
+					aria-label="Close"
+				></button>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-12 col-md-6 mb-3">
+						<label for="nombreactivo" class="form-label"
+							>Nombre del activo</label
+						>
+						<input
+							type="text"
+							class="form-control"
+							id="nombreactivo"
+							name="nombreactivo"
+							autocomplete="off"
+							required
+							placeholder=""
+						/>
+					</div>
+					<div class="col-12 col-md-6 mb-3">
+						<label for="valoractivo" class="form-label"
+							>Valor del activo</label
+						>
+						<input
+							type="number"
+							class="form-control"
+							id="valoractivo"
+							name="valoractivo"
+							autocomplete="off"
+							required
+						/>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12 col-md-6 mb-3">
+						<label for="fecha" class="form-label"
+							>Fecha de adquisición</label
+						>
+						<input
+							type="date"
+							class="form-control"
+							id="fecha"
+							name="fecha"
+							autocomplete="off"
+							required
+						/>
+					</div>
+					<div class="col-12 col-md-6 mb-3">
+						<label for="rmarca" class="form-label">Marca</label>
+						<input
+							type="text"
+							class="form-control"
+							id="rmarca"
+							name="rmarca"
+							autocomplete="off"
+							required
+						/>
+					</div>
+					<div class="col-12 col-md-6 mb-3">
+						<label for="rmodelo" class="form-label">Modelo</label>
+						<input
+							type="text"
+							class="form-control"
+							id="rmodelo"
+							name="rmodelo"
+							autocomplete="off"
+							required
+						/>
+					</div>
+					<div class="col-12 col-md-6 mb-3">
+						<label for="rserie" class="form-label">Serie</label>
+						<input
+							type="text"
+							class="form-control"
+							id="rserie"
+							name="rserie"
+							autocomplete="off"
+							required
+						/>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12 col-md-6 mb-3">
+						<label for="anio" class="form-label">Tipo de activo</label>
+						<select class="form-select" id="combotipoactivo" required>
+							<option value="">Seleccione</option>
+						</select>
+					</div>
+					<div class="col-12 col-md-6 mb-3">
+						<label for="anio" class="form-label">Adquisición</label>
+						<select class="form-select" id="comboadquisicion" required>
+							<option value="">Seleccione</option>
+							<option value="1">Nuevo</option>
+							<option value="2">Restaurado</option>
+						</select>
+					</div>
+					<div class="col-12 col-md-6 mb-3">
+						<label for="valor" class="form-label"
+							>Empleado encargado</label
+						>
+						<select class="form-select" id="comboempleado" required>
+							<option value="">Seleccione</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button
+					type="button"
+					class="btn btn-secondary"
+					data-bs-dismiss="modal"
+					id="btn-cerrar"
+				>
+					<i class="bi bi-x-circle"></i>
+					Cerrar
+				</button>
+				<button
+					type="submit"
+					class="btn btn-primary text-white"
+					id="btn-agregar-activo"
+				>
+					<i class="bi bi-check-square" id="icono-editar"></i>
+					<span id="btn-texto"> Agregar </span>
+				</button>
+			</div>
+		</form>
+	</div>
+</div>
