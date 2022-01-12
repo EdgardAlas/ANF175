@@ -9,31 +9,38 @@ const { Vehiculo } = require('../models/Vehiculo');
 const { Fiador } = require('../models/Fiador');
 const { Cliente } = require('../models/Cliente');
 const { Hipoteca } = require('../models/Hipoteca');
+const { Prestamo } = require('../models/Prestamo');
+const { Cartera } = require('../models/Cartera');
 
-const obtenerFiadores = async (req, res) => {
+const obtenerPagos = async (req, res) => {
 	try {
-		const fiador = await Fiador.findAll({
+		const pagos = await Prestamo.findAll({
 			attributes: [
 				'id',
-				'nombre',
-				'dui',
-				'direccion',
-				'telefono',
-				'tipo_empleo',
-				'lugar_trabajo',
-				'ingresos',
-				'archivo_const_laboral',
+				'monto',
+				'duracion',
+				'dia_pago',
+				'fecha_aprobacion',
+				'valor_cuota',
+				'valor_total',
 			],
 			include: [
 				{
-					model: Cliente,
-					attributes: ['id', 'nombre', 'apellido'],
+					model: Cartera,
+					attributes: ['id', 'incobrable', 'empleado_fk'],
+					include: [
+						{
+							model: Cliente,
+							attributes: ['id', 'nombre', 'apellido'],
+							required: true,
+						},
+					],
 				},
 			],
 		});
 
 		return res.status(StatusCodes.OK).json({
-			fiador,
+			pagos,
 		});
 	} catch (error) {
 		console.log(error);
@@ -232,7 +239,7 @@ const editarFiador = async (req, res) => {
 };
 
 module.exports = {
-	obtenerFiadores,
+	obtenerPagos,
 	obtenerClientes,
 	obtenerArchivo,
 	registrarFiador,

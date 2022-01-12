@@ -12,7 +12,7 @@
 	<div class="modal-dialog modal-lg">
 		<form class="modal-content" id="agregar-form">
 			<div class="modal-header bg-dark text-white">
-				<h5 class="modal-title" id="agregarModal">Registro</h5>
+				<h5 class="modal-title" id="agregarModal">Pago</h5>
 				<button
 					type="button"
 					class="btn-close"
@@ -21,113 +21,73 @@
 				></button>
 			</div>
 			<div class="modal-body">
-				<div class="col-12 col-md-12 mb-3">
-					<label for="cliente" class="form-label">Cliente</label>
-					<select class="form-select" id="combocliente">
-						<option value="-1">Seleccione</option>
-					</select>
-				</div>
-				<div class="row">
-					<div class="col-12 col-md-6 mb-3">
-						<label for="nombre" class="form-label"
-							>Nombre del Fiador</label
-						>
-						<input
-							type="text"
-							class="form-control"
-							id="nombre"
-							name="nombre"
-							autocomplete="off"
-							required
-						/>
-					</div>
-					<div class="col-12 col-md-6 mb-3">
-						<label for="dui" class="form-label">DUI del Fiador</label>
-						<input
-							type="text"
-							class="form-control"
-							id="dui"
-							name="dui"
-							autocomplete="off"
-							required
-							placeholder="05326269-8"
-						/>
+				<div class="row mb-1">
+					<div class="d-flex justify-content-center">
+						<span id="cliente">Cliente: Pepe el grillo</span>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-12 col-md-6 mb-3">
-						<label for="direccion" class="form-label">Dirección</label>
-						<input
-							type="text"
-							class="form-control"
-							id="direccion"
-							name="direccion"
-							autocomplete="off"
-							required
-						/>
+				<div class="row mb-1">
+					<div class="d-flex justify-content-center">
+						<span id="total">Monto: $500</span>
 					</div>
-					<div class="col-12 col-md-6 mb-3">
-						<label for="telefono" class="form-label">Teléfono</label>
-						<input
-							type="tel"
-							class="form-control"
-							id="telefono"
-							name="telefono"
-							autocomplete="off"
-							required
-							placeholder="0000-0000"
-						/>
+				</div>
+				<div class="row mb-3">
+					<div class="d-flex justify-content-center">
+						<span>Total pagado: $0</span>
+					</div>
+				</div>
+				<div class="row mb-3">
+					<div class="col-12 table-responsive">
+						<table id="tabla-pagoreal">
+							<thead>
+								<tr>
+									<th>Monto</th>
+									<th>Fecha</th>
+								</tr>
+							</thead>
+							<tbody id="tbody-pagoreal">
+								<tr>
+									<td>1</td>
+									<td>hoy</td>
+								</tr>
+								<tr>
+									<td>1</td>
+									<td>hoy</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="row mb-3">
+					<div class="d-flex justify-content-center">
+						<span>Agregar nuevo pago</span>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-12 col-md-6 mb-3">
-						<label for="tipoEmpleo" class="form-label"
-							>Tipo de empledo</label
-						>
-						<select class="form-select" id="tipoEmpleo">
-							<option value="-1">Seleccione</option>
-							<option value="0">Formal</option>
-							<option value="1">Informal</option>
-						</select>
-					</div>
-					<div class="col-12 col-md-6 mb-3">
-						<label for="lugarTrabajo" class="form-label"
-							>Lugar de trabajo</label
-						>
-						<input
-							type="text"
-							class="form-control"
-							id="lugarTrabajo"
-							name="lugarTrabajo"
-							autocomplete="off"
-							required
-						/>
-					</div>
-					<div class="col-12 col-md-6 mb-3">
-						<label for="ingreso" class="form-label">Ingresos</label>
+						<label for="monto" class="form-label">Monto</label>
 						<input
 							type="number"
 							class="form-control"
-							id="ingreso"
-							name="ingreso"
+							id="monto"
+							name="monto"
 							autocomplete="off"
 							required
 							max="60000"
 							min="600"
 							placeholder="$"
-							pattern="[0-9]"
+							step="any"
 						/>
 					</div>
 					<div class="col-12 col-md-6 mb-3">
-						<label for="archivo" class="form-label">Archivo</label>
+						<label for="fecha" class="form-label">Fecha</label>
 						<input
-							type="file"
+							type="datetime-local"
 							class="form-control"
-							id="archivo"
-							name="archivo"
-							required
+							id="fecha"
+							name="fecha"
 							autocomplete="off"
-							accept=".pdf,.doc,.docx,image/*"
+							required
 						/>
 					</div>
 				</div>

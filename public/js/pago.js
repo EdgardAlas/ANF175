@@ -1,8 +1,8 @@
 ((api, alerta, tabla, confirmacion, select) => {
-	const combocliente = document.getElementById('combocliente'),
-		dui = document.getElementById('dui'),
-		nombre = document.getElementById('nombre'),
-		direccion = document.getElementById('direccion'),
+	const fecha = document.getElementById('fecha'),
+		monto = document.getElementById('monto'),
+		total = document.getElementById('total'),
+		cliente = document.getElementById('cliente'),
 		telefono = document.getElementById('telefono'),
 		tipoEmpleo = document.getElementById('tipoEmpleo'),
 		lugarTrabajo = document.getElementById('lugarTrabajo'),
@@ -14,51 +14,50 @@
 		btnTexto = document.getElementById('btn-texto');
 	btnCerrar = document.getElementById('btn-cerrar');
 	select('#combocliente', '#agregar-modal');
-	let idarchivo;
-	let idfiador;
+	let idcliente;
+	let idpago;
+	let fechaMin;
+	let cuota;
 
-	const mascaraDUI = IMask(dui, {
-		mask: '00000000-0',
-	});
-
-	const mascaraNombre = IMask(nombre, {
-		mask: /^[a-zA-Z\s]*$/,
-	});
-
-	const mascaraTelefono = IMask(telefono, {
-		mask: '#000-0000',
-		definitions: {
-			'#': /[6-7]/,
-		},
-	});
+	const formatDate = (current_datetime) => {
+		let formatted_date =
+			current_datetime.getDate() +
+			'-' +
+			(current_datetime.getMonth() + 1) +
+			'-' +
+			current_datetime.getFullYear() +
+			' ' +
+			current_datetime.getHours() +
+			':' +
+			current_datetime.getMinutes() +
+			':' +
+			current_datetime.getSeconds();
+		return formatted_date;
+	};
 
 	async function obtenerFiador() {
 		try {
 			const [resp, data] = await api({
-				url: 'fiador',
+				url: 'pago',
 				method: 'GET',
 				json: {},
 			});
 
 			if (data.status === 200) {
 				const fragmento = document.createDocumentFragment();
-				const fiadors = resp.fiador;
-				fiadors.forEach((fiador) => {
+				const pagos = resp.pagos;
+				console.log(pagos);
+				pagos.forEach((pago) => {
 					var tpl = document.createElement('template');
 					tpl.innerHTML = `
 											<tr>
-												
-												<td>${fiador.cliente.nombre + ' ' + fiador.cliente.apellido}</td>
-												<td>${fiador.nombre}</td>
-												<td>${fiador.dui}</td>
-												<td>${fiador.direccion}</td>
-												<td>${fiador.telefono}</td>
-												<td>${fiador.tipo_empleo ? 'Informal' : 'Formal'}</td>
-												<td>${fiador.lugar_trabajo}</td>
-												<td>${fiador.ingresos}</td>
-												<td><a href='/api/fiador/obtener-archivo/${
-													fiador.archivo_const_laboral
-												}' target='_blank'>Ver documento</a></td>
+												<td>${pago.cartera.cliente.nombre + ' ' + pago.cartera.cliente.apellido}</td>
+												<td>${pago.monto}</td>
+												<td>${pago.duracion}</td>
+												<td>${pago.dia_pago}</td>
+												<td>${formatDate(new Date(pago.fecha_aprobacion))}</td>
+												<td>${pago.valor_cuota}</td>
+												<td>${pago.valor_total}</td>
 												<td>
 												<button type="button" 
 														class="btn btn-warning text-white editar" 
@@ -66,31 +65,29 @@
 														data-bs-target="#agregar-modal"
 														data-backdrop="static"
 														data-keyboard="false"
-														data-id="${fiador.id}"
-														data-combocliente=${fiador.cliente.id}
-														data-cliente='${fiador.cliente.nombre + ' ' + fiador.cliente.apellido}'
-														data-nombre='${fiador.nombre}'
-														data-dui=${fiador.dui}
-														data-direccion='${fiador.direccion}'
-														data-telefono=${fiador.telefono}
-														data-tipo=${fiador.tipo_empleo}
-														data-lugar='${fiador.lugar_trabajo}'
-														data-ingreso=${fiador.ingresos} 
-														data-archivo=${fiador.archivo_const_laboral}
+														data-id=${pago.id}
+														data-idcliente=${pago.cartera.cliente.id}
+														data-fecha=${pago.fecha_aprobacion}
+														data-cuota=${pago.valor_cuota}
+														data-total=${pago.valor_total}
+														data-cliente='${
+															pago.cartera.cliente.apellido +
+															' ' +
+															pago.cartera.cliente.apellido
+														}'
 													>
 														<i 
-														data-id="${fiador.id}"
-														data-combocliente=${fiador.cliente.id}
-														data-cliente='${fiador.cliente.nombre + ' ' + fiador.cliente.apellido}'
-														data-nombre='${fiador.nombre}'
-														data-dui=${fiador.dui}
-														data-direccion='${fiador.direccion}'
-														data-telefono=${fiador.telefono}
-														data-tipo=${fiador.tipo_empleo}
-														data-lugar='${fiador.lugar_trabajo}'
-														data-ingreso=${fiador.ingresos} 
-														data-archivo=${fiador.archivo_const_laboral}
-															class="bi bi-pencil-square editar"
+														data-id=${pago.id}
+														data-idcliente=${pago.cartera.cliente.id}
+														data-fecha=${pago.fecha_aprobacion}
+														data-cuota=${pago.valor_cuota}
+														data-total=${pago.valor_total}
+														data-cliente='${
+															pago.cartera.cliente.apellido +
+															' ' +
+															pago.cartera.cliente.apellido
+														}'
+															class="bi bi-cart-plus editar"
 															></i>
 													</button>
 														
@@ -98,9 +95,9 @@
 											</tr>`;
 					fragmento.appendChild(tpl.content);
 				});
-				document.getElementById('tbody-fiador').innerHTML = '';
-				document.getElementById('tbody-fiador').append(fragmento);
-				tabla('tabla-fiador');
+				document.getElementById('tbody-pago').innerHTML = '';
+				document.getElementById('tbody-pago').append(fragmento);
+				tabla('tabla-pago');
 			}
 		} catch (error) {
 			console.log(error);
@@ -201,30 +198,6 @@
 		});
 	}
 
-	async function DUIpropietario() {
-		if (dui.value.trim().length === 0) {
-			return;
-		}
-
-		let url = `fiador/${dui.value}/${null}`;
-		if (btnTexto.textContent === 'Editar') {
-			url = `fiador/${dui.value}/${idfiador}`;
-		}
-		try {
-			const [resp, data] = await api({
-				url,
-				method: 'GET',
-			});
-			if (resp.existe) {
-				alerta('Este DUI ya esta en uso', 'warning');
-				dui.value = '';
-				dui.focus();
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	}
-
 	function editarvehiculo(json = {}) {
 		confirmacion({
 			icon: 'warning',
@@ -273,8 +246,6 @@
 		});
 	}
 
-	dui.addEventListener('keyup', DUIpropietario);
-
 	fiadorForm.addEventListener('submit', registrarFiador);
 
 	document
@@ -282,13 +253,8 @@
 		.addEventListener('hidden.bs.modal', () => {
 			btnTexto.textContent = 'Agregar';
 			tituloModal.textContent = 'Agregar Pago';
-			archivo.required = true;
-			combocliente.disabled = false;
 			fiadorForm.reset();
 			select('#combocliente', '#agregar-modal');
-			mascaraDUI.updateValue();
-			mascaraNombre.updateValue();
-			mascaraTelefono.updateValue();
 
 			if (iconoEditar.classList.contains('bi-pencil-square')) {
 				iconoEditar.classList.remove('bi-pencil-square');
@@ -308,33 +274,22 @@
 	});
 
 	document
-		.getElementById('tbody-fiador')
+		.getElementById('tbody-pago')
 		.addEventListener('click', function ({ target }) {
 			const editar = target.classList.contains('editar');
 			if (!editar) {
 				return;
 			}
-			console.log('' + target.dataset.tipo);
-			tituloModal.textContent = 'Editar fiador';
-			btnTexto.textContent = 'Editar';
-			dui.value = target.dataset.dui;
-			nombre.value = target.dataset.nombre;
-			telefono.value = target.dataset.telefono;
-			direccion.value = target.dataset.direccion;
-			tipoEmpleo.value = target.dataset.tipo === 'true' ? '1' : '0';
-			lugarTrabajo.value = target.dataset.lugar;
-			ingreso.value = target.dataset.ingreso;
-			option = document.createElement('option');
-			option.value = target.dataset.combocliente;
-			option.text = target.dataset.cliente;
-			combocliente.appendChild(option);
+			tituloModal.textContent = 'Nuevo pago';
+			btnTexto.textContent = 'Agregar';
 
-			combocliente.value = target.dataset.combocliente;
-			idarchivo = target.dataset.archivo;
+			fechaMin = target.dataset.fecha;
+			cuota = target.dataset.cuota;
+			total.textContent = 'Monto: $' + target.dataset.total;
+			cliente.textContent = 'Cliente: ' + target.dataset.cliente;
 
-			combocliente.disabled = true;
-			idfiador = target.dataset.id;
-			archivo.required = false;
+			idcliente = target.dataset.idcliente;
+			idpago = target.dataset.id;
 			select('#combocliente', '#agregar-modal');
 			iconoEditar.classList.add('bi-pencil-square');
 			iconoEditar.classList.remove('bi-check-square');

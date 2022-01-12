@@ -1,16 +1,16 @@
 const { Router } = require('express');
 const {
-	obtenerFiadores,
+	obtenerPagos,
 	obtenerArchivo,
 	obtenerClientes,
 	registrarFiador,
 	DUIpropietario,
 	editarFiador,
-} = require('../controllers/fiador.controller');
+} = require('../controllers/pago.controller');
 
 const routes = Router();
 
-routes.get('/', obtenerFiadores);
+routes.get('/', obtenerPagos);
 routes.get('/obtener-archivo/:nombre', obtenerArchivo);
 routes.get('/cliente', obtenerClientes);
 routes.post('/', registrarFiador);
