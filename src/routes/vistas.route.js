@@ -11,6 +11,7 @@ const {
 	vistaHipoteca,
 	vistaFiador,
 	vistaActivo,
+	vistaPago,
 } = require('../controllers/vistas.controller');
 const { vistaPublica, vistaProtegida } = require('../middlewares/valida-rutas');
 
@@ -25,5 +26,6 @@ routes.get('/cartera', vistaProtegida, vistaCartera);
 routes.get('/hipoteca', vistaProtegida, vistaHipoteca);
 routes.get('/fiador', vistaProtegida, vistaFiador);
 routes.get('/activo', vistaProtegida, vistaActivo);
+routes.get('/pago', vistaProtegida, vistaPago);
 
 module.exports = routes;

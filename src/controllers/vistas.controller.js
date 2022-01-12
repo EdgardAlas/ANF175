@@ -40,6 +40,13 @@ const vistaFiador = (req, res) => {
 	});
 };
 
+const vistaPago = (req, res) => {
+	res.render('pago/pago', {
+		rol: req.rol,
+		pagina: 'pago',
+	});
+};
+
 const vistaCartera = (req, res) => {
 	res.render('cartera/cartera', {
 		rol: req.rol,
@@ -72,4 +79,5 @@ module.exports = {
 	vistaHipoteca,
 	vistaFiador,
 	vistaActivo,
+	vistaPago,
 };

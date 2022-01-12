@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<%- include("../partials/header.ejs", { titulo: "Pagos" })%>
+	</head>
+	<body class="sb-nav-fixed">
+		<%- include("../partials/navbar.ejs")%>
+		<div id="layoutSidenav">
+			<%- include("../partials/sidebar.ejs", {rol, pagina})%>
+			<div id="layoutSidenav_content">
+				<main>
+					<div class="container-fluid px-4">
+						<h1 class="mt-4">Pagos</h1>
+						<div class="row gap-3">
+							<div class="col-12">
+								<button
+									class="btn btn-primary text-white"
+									data-bs-toggle="modal"
+									data-bs-target="#agregar-modal"
+									data-backdrop="static"
+									data-keyboard="false"
+								>
+									<i class="bi bi-plus-square"></i>
+									Registrar Fiador
+								</button>
+							</div>
+							<div class="col-12 table-responsive">
+								<table id="tabla-fiador">
+									<thead>
+										<tr>
+											<th>Cliente</th>
+											<th>Fiador</th>
+											<th>DUI</th>
+											<th>Direccion</th>
+											<th>Telefono</th>
+											<th>Tipo de Empleo</th>
+											<th>Lugar de trabajo</th>
+											<th>Ingresos</th>
+											<th>Documento</th>
+											<th>Acciones</th>
+										</tr>
+									</thead>
+									<tbody id="tbody-fiador"></tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</main>
+				<%- include("../partials/footer.ejs") %>
+			</div>
+		</div>
+		<%- include("../modales/agregar-pago.ejs") %> <%-
+		include("../partials/scripts.ejs")%>
+		<script src="/js/pago.js?t=<%= Date.now() %>"></script>
+	</body>
+</html>
