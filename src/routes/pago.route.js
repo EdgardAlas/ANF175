@@ -1,9 +1,8 @@
 const { Router } = require('express');
 const {
 	obtenerPagos,
-	obtenerArchivo,
-	obtenerClientes,
-	registrarFiador,
+	obtenerPagosReal,
+	registrarPago,
 	DUIpropietario,
 	editarFiador,
 } = require('../controllers/pago.controller');
@@ -11,9 +10,8 @@ const {
 const routes = Router();
 
 routes.get('/', obtenerPagos);
-routes.get('/obtener-archivo/:nombre', obtenerArchivo);
-routes.get('/cliente', obtenerClientes);
-routes.post('/', registrarFiador);
+routes.get('/real/:id', obtenerPagosReal);
+routes.post('/', registrarPago);
 routes.get('/:dui/:id', DUIpropietario);
 routes.patch('/:id/:archivoF?', editarFiador);
 

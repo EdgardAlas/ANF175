@@ -9,7 +9,7 @@
 	data-bs-keyboard="false"
 	tabindex="-1"
 >
-	<div class="modal-dialog modal-lg">
+	<div class="modal-dialog modal-lg modal-dialog-scrollable">
 		<form class="modal-content" id="agregar-form">
 			<div class="modal-header bg-dark text-white">
 				<h5 class="modal-title" id="agregarModal">Pago</h5>
@@ -26,44 +26,24 @@
 						<span id="cliente">Cliente: Pepe el grillo</span>
 					</div>
 				</div>
-				<div class="row mb-1">
-					<div class="d-flex justify-content-center">
-						<span id="total">Monto: $500</span>
+				<div class="row mb-3">
+					<div class="col">
+						<div class="d-flex justify-content-center">
+							<span id="total">Monto: $500</span>
+						</div>
+					</div>
+					<div class="col">
+						<div class="d-flex justify-content-center">
+							<span id="pagado">Total pagado: $0</span>
+						</div>
+					</div>
+					<div class="col">
+						<div class="d-flex justify-content-center">
+							<span id="restante">Total restante: $0</span>
+						</div>
 					</div>
 				</div>
 				<div class="row mb-3">
-					<div class="d-flex justify-content-center">
-						<span>Total pagado: $0</span>
-					</div>
-				</div>
-				<div class="row mb-3">
-					<div class="col-12 table-responsive">
-						<table id="tabla-pagoreal">
-							<thead>
-								<tr>
-									<th>Monto</th>
-									<th>Fecha</th>
-								</tr>
-							</thead>
-							<tbody id="tbody-pagoreal">
-								<tr>
-									<td>1</td>
-									<td>hoy</td>
-								</tr>
-								<tr>
-									<td>1</td>
-									<td>hoy</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-				<div class="row mb-3">
-					<div class="d-flex justify-content-center">
-						<span>Agregar nuevo pago</span>
-					</div>
-				</div>
-				<div class="row">
 					<div class="col-12 col-md-6 mb-3">
 						<label for="monto" class="form-label">Monto</label>
 						<input
@@ -91,6 +71,19 @@
 						/>
 					</div>
 				</div>
+				<div class="row mb-3">
+					<div class="col-12 table-responsive">
+						<table id="tabla-pagoreal">
+							<thead>
+								<tr>
+									<th>Monto ($)</th>
+									<th>Fecha</th>
+								</tr>
+							</thead>
+							<tbody id="tbody-pagoreal"></tbody>
+						</table>
+					</div>
+				</div>
 			</div>
 			<div class="modal-footer">
 				<button
@@ -105,7 +98,7 @@
 				<button
 					type="submit"
 					class="btn btn-primary text-white"
-					id="btn-agregar-vehiculo"
+					id="btn-agregar"
 				>
 					<i class="bi bi-check-square" id="icono-editar"></i>
 					<span id="btn-texto">Agregar</span>

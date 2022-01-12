@@ -3,9 +3,9 @@
 		monto = document.getElementById('monto'),
 		total = document.getElementById('total'),
 		cliente = document.getElementById('cliente'),
-		telefono = document.getElementById('telefono'),
-		tipoEmpleo = document.getElementById('tipoEmpleo'),
-		lugarTrabajo = document.getElementById('lugarTrabajo'),
+		pagado = document.getElementById('pagado'),
+		restante = document.getElementById('restante'),
+		agregar = document.getElementById('btn-agregar'),
 		ingreso = document.getElementById('ingreso'),
 		archivo = document.getElementById('archivo'),
 		fiadorForm = document.getElementById('agregar-form'),
@@ -14,10 +14,13 @@
 		btnTexto = document.getElementById('btn-texto');
 	btnCerrar = document.getElementById('btn-cerrar');
 	select('#combocliente', '#agregar-modal');
-	let idcliente;
+	let idempleado;
 	let idpago;
 	let fechaMin;
 	let cuota;
+	let totales;
+	let aux;
+	let tbl = null;
 
 	const formatDate = (current_datetime) => {
 		let formatted_date =
@@ -32,6 +35,31 @@
 			current_datetime.getMinutes() +
 			':' +
 			current_datetime.getSeconds();
+		return formatted_date;
+	};
+
+	function minTwoDigits(n) {
+		return (n < 10 ? '0' : '') + n;
+	}
+
+	const formatDateInput = (date) => {
+		let formatted_date = '';
+		var fecha = date; //Fecha actual
+		var mes = fecha.getMonth() + 1; //obteniendo mes
+		var dia = fecha.getDate(); //obteniendo dia
+		var ano = fecha.getFullYear(); //obteniendo año
+		var hora = fecha.getHours(); //obteniendo hora
+		var minutos = fecha.getMinutes(); //obteniendo minuto
+		formatted_date =
+			ano +
+			'-' +
+			minTwoDigits(mes) +
+			'-' +
+			minTwoDigits(dia) +
+			'T' +
+			minTwoDigits(hora) +
+			':' +
+			minTwoDigits(minutos);
 		return formatted_date;
 	};
 
@@ -66,7 +94,7 @@
 														data-backdrop="static"
 														data-keyboard="false"
 														data-id=${pago.id}
-														data-idcliente=${pago.cartera.cliente.id}
+														data-idempleado=${pago.cartera.empleado_fk}
 														data-fecha=${pago.fecha_aprobacion}
 														data-cuota=${pago.valor_cuota}
 														data-total=${pago.valor_total}
@@ -78,7 +106,7 @@
 													>
 														<i 
 														data-id=${pago.id}
-														data-idcliente=${pago.cartera.cliente.id}
+														data-idempleado=${pago.cartera.empleado_fk}
 														data-fecha=${pago.fecha_aprobacion}
 														data-cuota=${pago.valor_cuota}
 														data-total=${pago.valor_total}
@@ -104,28 +132,45 @@
 		}
 	}
 
-	async function obtenerClientes() {
+	async function obtener(valor) {
 		try {
 			const [resp, data] = await api({
-				url: `fiador/cliente`,
+				url: `pago/real/${valor}`,
 				method: 'GET',
 				json: {},
 			});
+
 			if (data.status === 200) {
-				const select = document.getElementById('combocliente');
-				const clientes = resp.clientes;
-				clientes.forEach((cliente) => {
-					if (
-						cliente['vehiculos'].length == 0 &&
-						cliente['hipotecas'].length == 0 &&
-						cliente['fiadors'].length == 0
-					) {
-						option = document.createElement('option');
-						option.value = cliente.id;
-						option.text = cliente.nombre + ' ' + cliente.apellido;
-						select.appendChild(option);
-					}
+				const fragmento = document.createDocumentFragment();
+				const pagos = resp.pagos;
+				console.log(pagos);
+				aux = 0;
+				pagos.forEach((pago) => {
+					aux += pago.monto_cuota;
+					var tpl = document.createElement('template');
+					tpl.innerHTML = `
+											<tr>
+												<td>${pago.monto_cuota}</td>
+												<td>${formatDate(new Date(pago.fecha))}</td>
+											</tr>`;
+					fragmento.appendChild(tpl.content);
 				});
+				pagado.textContent = 'Total pagado: $' + aux;
+				restante.textContent = 'Total restante: $' + (totales - aux);
+				monto.max = totales - aux;
+				monto.value = '';
+				fecha.value = formatDateInput(new Date());
+				if (aux == totales) {
+					agregar.disabled = true;
+				} else {
+					agregar.disabled = false;
+				}
+				if (tbl) {
+					tbl.clear().destroy();
+				}
+				document.getElementById('tbody-pagoreal').innerHTML = '';
+				document.getElementById('tbody-pagoreal').append(fragmento);
+				tbl = tabla('tabla-pagoreal');
 			}
 		} catch (error) {
 			console.log(error);
@@ -134,28 +179,17 @@
 
 	async function registrarFiador(e) {
 		e.preventDefault();
-		let cliente_fk = combocliente.value;
 
-		if (cliente_fk === '-1') {
-			combocliente.focus();
-			return '';
-		}
-
-		if (tipoEmpleo.value === '-1') {
-			tipoEmpleo.focus();
+		if (monto.value < 1) {
+			monto.focus();
 			return '';
 		}
 
 		const json = {
-			nombre: nombre.value,
-			dui: dui.value,
-			direccion: direccion.value,
-			telefono: telefono.value,
-			tipo_empleo: tipoEmpleo.value,
-			lugar_trabajo: lugarTrabajo.value,
-			ingresos: ingreso.value,
-			archivo: archivo.files[0],
-			cliente_fk,
+			monto_cuota: monto.value,
+			fecha: fecha.value,
+			prestamo_fk: idpago,
+			empleado_fk: idempleado,
 		};
 		const formData = new FormData();
 
@@ -167,77 +201,21 @@
 			console.log(pair[0] + ', ' + pair[1]);
 		}
 
-		if (btnTexto.textContent === 'Editar') {
-			return editarvehiculo(json);
-		}
-
 		confirmacion({
 			icon: 'warning',
-			texto: '¿Seguro de agregar este fiador?',
+			texto: '¿Seguro de agregar este pago?',
 			titulo: 'Advertencia',
 			cb: async function () {
 				try {
 					const [resp, data] = await api({
-						url: 'fiador',
+						url: 'pago',
 						method: 'POST',
 						json: formData,
 						archivo: true,
 					});
 					if (data.status === 201) {
-						combocliente.remove(combocliente.selectedIndex);
-						alerta('Se ha regitrado el fiador con exito', 'success');
-						bootstrap.Modal.getInstance(
-							document.getElementById('agregar-modal')
-						).hide();
-						obtenerFiador();
-					}
-				} catch (error) {
-					console.log(error);
-				}
-			},
-		});
-	}
-
-	function editarvehiculo(json = {}) {
-		confirmacion({
-			icon: 'warning',
-			texto: '¿Seguro de editar este registro?',
-			titulo: 'Advertencia',
-			cb: async function () {
-				try {
-					if (json.archivo == undefined) {
-						const [resp, data] = await api({
-							url: `fiador/${idfiador}`,
-							method: 'PATCH',
-							json,
-						});
-						if (data.status === 201) {
-							combocliente.remove(combocliente.length - 1);
-							alerta('Se ha editado el fiador con exito', 'success');
-							bootstrap.Modal.getInstance(
-								document.getElementById('agregar-modal')
-							).hide();
-							obtenerFiador();
-						}
-					} else {
-						const formData = new FormData();
-
-						Object.keys(json).forEach(function (key) {
-							formData.append(key, json[key]);
-						});
-						const [resp, data] = await api({
-							url: `fiador/${idfiador}/${idarchivo}`,
-							method: 'PATCH',
-							json: formData,
-							archivo: true,
-						});
-						if (data.status === 201) {
-							alerta('Se ha editado el fiador con exito', 'success');
-							bootstrap.Modal.getInstance(
-								document.getElementById('agregar-modal')
-							).hide();
-							obtenerFiador();
-						}
+						alerta('Se ha regitrado el pago con exito', 'success');
+						obtener(idpago);
 					}
 				} catch (error) {
 					console.log(error);
@@ -265,12 +243,11 @@
 	document
 		.getElementById('agregar-modal')
 		.addEventListener('shown.bs.modal', () => {
-			nombre.focus();
+			monto.focus();
 		});
 
 	document.addEventListener('DOMContentLoaded', () => {
 		obtenerFiador();
-		obtenerClientes();
 	});
 
 	document
@@ -285,11 +262,19 @@
 
 			fechaMin = target.dataset.fecha;
 			cuota = target.dataset.cuota;
+			totales = target.dataset.total;
+			idempleado = target.dataset.idempleado;
+			idpago = target.dataset.id;
+
+			monto.min = cuota;
+			fecha.min = formatDateInput(new Date(fechaMin));
+			fecha.value = formatDateInput(new Date());
+
 			total.textContent = 'Monto: $' + target.dataset.total;
 			cliente.textContent = 'Cliente: ' + target.dataset.cliente;
 
-			idcliente = target.dataset.idcliente;
-			idpago = target.dataset.id;
+			obtener(idpago);
+			monto.max = totales - aux;
 			select('#combocliente', '#agregar-modal');
 			iconoEditar.classList.add('bi-pencil-square');
 			iconoEditar.classList.remove('bi-check-square');

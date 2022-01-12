@@ -5,12 +5,11 @@ const fileExtension = require('file-extension');
 const { db } = require('../database/db');
 const path = require('path');
 const fs = require('fs');
-const { Vehiculo } = require('../models/Vehiculo');
 const { Fiador } = require('../models/Fiador');
 const { Cliente } = require('../models/Cliente');
-const { Hipoteca } = require('../models/Hipoteca');
 const { Prestamo } = require('../models/Prestamo');
 const { Cartera } = require('../models/Cartera');
+const { Pago } = require('../models/Pago');
 
 const obtenerPagos = async (req, res) => {
 	try {
@@ -47,82 +46,42 @@ const obtenerPagos = async (req, res) => {
 	}
 };
 
-const obtenerClientes = async (req, res) => {
+const obtenerPagosReal = async (req, res) => {
 	try {
-		const clientes = await Cliente.findAll({
-			attributes: ['id', 'nombre', 'apellido'],
-			include: [
-				{
-					model: Vehiculo,
-				},
-				{ model: Hipoteca },
-				{ model: Fiador },
-			],
+		const { id } = req.params;
+		const pagos = await Pago.findAll({
+			attributes: ['id', 'monto_cuota', 'fecha'],
+			where: {
+				prestamo_fk: id,
+			},
 		});
+
 		return res.status(StatusCodes.OK).json({
-			clientes,
+			pagos,
 		});
 	} catch (error) {
 		console.log(error);
 	}
 };
 
-const obtenerArchivo = async (req, res) => {
+const registrarPago = async (req, res) => {
 	try {
-		const { nombre } = req.params;
-		res.sendFile(path.resolve(__dirname, '../../uploads/' + nombre));
-	} catch (error) {
-		console.log(error);
-	}
-};
-
-const registrarFiador = async (req, res) => {
-	try {
-		const {
-			nombre,
-			dui,
-			direccion,
-			telefono,
-			tipo_empleo,
-			lugar_trabajo,
-			ingresos,
-			cliente_fk,
-		} = req.body;
-
-		let fiador = null;
-		let filename = null;
-		if (req.files) {
-			let archivos = req.files.archivo;
-			filename = uuid.v4() + '.' + fileExtension(archivos.name);
-			const uploadPath = path.resolve(
-				__dirname,
-				'../../uploads/' + filename
-			);
-			archivos.mv(uploadPath, async function (err) {
-				if (err) return res.status(500).send(err);
-			});
-		}
-
+		const { monto_cuota, fecha, prestamo_fk, empleado_fk } = req.body;
+		let pago = null;
 		await db.transaction(async (t) => {
-			fiador = await Fiador.create(
+			pago = await Pago.create(
 				{
-					nombre,
-					dui,
-					direccion,
-					telefono,
-					tipo_empleo,
-					lugar_trabajo,
-					ingresos,
-					archivo_const_laboral: filename,
-					cliente_fk,
+					monto_cuota,
+					fecha,
+					prestamo_fk,
+					empleado_fk,
 				},
 				{ transaction: t }
 			);
 		});
-
 		return res.status(StatusCodes.CREATED).json({
 			msg: 'se ha registrado con exito el fiador',
-			fiador,
+			pago,
 		});
 	} catch (error) {
 		console.log(error);
@@ -240,9 +199,8 @@ const editarFiador = async (req, res) => {
 
 module.exports = {
 	obtenerPagos,
-	obtenerClientes,
-	obtenerArchivo,
-	registrarFiador,
+	obtenerPagosReal,
+	registrarPago,
 	editarFiador,
 	DUIpropietario,
 };
