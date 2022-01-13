@@ -86,9 +86,43 @@ const registrarActivo = async (req, res) => {
 	}
 };
 
+const editarActivo = async (req, res) => {
+	try {
+		const {
+			//marca,
+			//modelo,
+			//serie,
+			//fecha_adquisicion,
+			//tipo_activo_fk,
+			empleado_fk,
+		} = req.body;
+		const { id } = req.params;
+
+		await db.transaction(async (t) => {
+			await Activo.update(
+				{
+					empleado_fk,
+				},
+				{
+					transaction: t,
+					where: {
+						id,
+					},
+				}
+			);
+		});
+		return res.status(StatusCodes.CREATED).json({
+			msg: 'se ha editado con exito el activo',
+		});
+	} catch (error) {
+		console.log(error);
+	}
+};
+
 module.exports = {
 	obtenerActivo,
 	obtenerEmpleado,
 	obtenerTipoactivo,
 	registrarActivo,
+	editarActivo,
 };

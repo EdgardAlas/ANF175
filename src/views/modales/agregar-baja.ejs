@@ -9,7 +9,7 @@
 	data-bs-keyboard="false"
 	tabindex="-1"
 >
-	<div class="modal-dialog modal-md">
+	<div class="modal-dialog modal-lg">
 		<form class="modal-content" id="agregar-baja-form">
 			<div class="modal-header bg-dark text-white">
 				<h5 class="modal-title" id="agregarBajaModal">Dar de baja</h5>
@@ -21,18 +21,88 @@
 				></button>
 			</div>
 			<div class="modal-body">
-				<div class="col-12 col-md-12 mb-3">
-					<label for="activo" class="form-label">Activo</label>
-					<input
-						type="text"
-						class="form-control"
-						id="activo"
-						name="activo"
+				
+				<div class="row">
+					<div class="col-12 col-md-6 mb-3">
+						<label for="activo" class="form-label">Activo</label>
+						<input
+							type="text"
+							class="form-control"
+							id="activo"
+							name="activo"
+							autocomplete="off"
+							required
+							
+						/>
+					</div>
+					<div class="col-12 col-md-6 mb-3">
+						<label for="vidautil" class="form-label"
+							>Vida util</label
+						>
+						<input type="text" class="form-control bg-white"
+						id="vidautil"
+						name="vidautil"
 						autocomplete="off"
-						required
+						disabled>
+
+						</input>
 						
-					/>
+					</div>
+					
+					<!-- <div class="col-12 col-md-6 mb-3">
+						<label for="mensual" class="form-label">Depreciación mensual</label>
+						<input class="form-control"
+						type="text"
+						id="mensual"
+						name="mensual"
+						autocomplete="off"
+						required>
+
+						</input>
+						
+					</div> -->
+					<div class="col-12 col-md-6 mb-3">
+						<label for="dfechadq" class="form-label"
+							>Fecha de adquisición</label
+						>
+						<input type="text" class="form-control bg-white"
+						id="dfechadq"
+						name="dfechadq"
+						autocomplete="off"
+						disabled>
+
+						</input>
+						
+					</div>
+					<div class="col-12 col-md-6 mb-3">
+						<label for="dfechadq" class="form-label"
+							>Fecha estimada de vida útil</label
+						>
+						<input type="text" class="form-control bg-white"
+						id="dfechasal"
+						name="dfechasal"
+						autocomplete="off"
+						disabled>
+
+						</input>
+						
+					</div>
+					
+					
 				</div>
+				<table id="tabla-depreciacion">
+					<thead>
+						<tr>
+							<th>Año</th>
+							<th>Valor de depreciacion</th>
+							<th>Valor del activo</th>
+							
+						</tr>
+					</thead>
+					<tbody id="tbody-depreciacion"></tbody>
+				</table>
+				<hr/>
+				<h3>Dar de Baja</h3>
 				<div class="row">
 					
 					<div class="col-12 col-md-6 mb-3">

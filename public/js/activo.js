@@ -17,7 +17,13 @@
 		combotipoactivo = document.getElementById('combotipoactivo'),
 		comboadquisicion = document.getElementById('comboadquisicion'),
 		comboempleado = document.getElementById('comboempleado'),
+		dactivo = document.getElementById('activo'),
+		dmensual = document.getElementById('mensual'),
+		dvidautil = document.getElementById('vidautil'),
+		dfechadq = document.getElementById('dfechadq'),
+		dfechasal = document.getElementById('dfechasal'),
 		btnactivoForm = document.getElementById('btn-agregar-activo');
+	let array = [];
 	select('#comboempleado', '#agregar-activo-modal');
 	select('#combotipoactivo', '#agregar-activo-modal');
 
@@ -25,7 +31,7 @@
 		.getElementById('tabla-activos')
 		.addEventListener('click', function ({ target }) {
 			const editar = target.classList.contains('mostrar-activo');
-			console.log('mostrar');
+
 			if (!editar) {
 				return;
 			}
@@ -45,6 +51,88 @@
 			//iconoEditar.classList.remove('bi-check-square');
 		});
 
+	document
+		.getElementById('tabla-activos')
+		.addEventListener('click', function ({ target }) {
+			const editar = target.classList.contains('registrar-baja');
+
+			if (!editar) {
+				return;
+			}
+			console.log(target);
+			//tituloModal.textContent = 'mostrarHipoteca';
+
+			dactivo.value =
+				target.dataset.dnombreactivo + ' ' + target.dataset.drmarca;
+			dfechadq.value = target.dataset.rfechaadq;
+
+			if (
+				target.dataset.rtipoactivo == 1 ||
+				target.dataset.rtipoactivo == 3
+			) {
+				dvidautil.value = '10 años 120 meses';
+				dfechasal.value =
+					target.dataset.messalida +
+					'/' +
+					(parseInt(target.dataset.fechasalida) + parseInt(10));
+			} else if (target.dataset.rtipoactivo == 2) {
+				dvidautil.value = '5 años 60 meses';
+				dfechasal.value =
+					target.dataset.messalida +
+					'/' +
+					(parseInt(target.dataset.fechasalida) + parseInt(5));
+				calcular(target.dataset.fechasalida, target.dataset.rvaloradq, 5);
+			} else if (target.dataset.rtipoactivo == 4) {
+				dvidautil.value = '40 años 480 meses';
+				dfechasal.value =
+					target.dataset.messalida +
+					'/' +
+					(parseInt(target.dataset.fechasalida) + parseInt(40));
+			}
+
+			const fragmento = document.createDocumentFragment();
+
+			array.forEach((activo) => {
+				const tpl = document.createElement('template');
+				tpl.innerHTML = `
+											<tr>
+												<td>${activo.anio}</td>
+												<td>${activo.valor}</td>
+												<td>${activo.valorfinal}</td>
+												</tr>`;
+				fragmento.appendChild(tpl.content);
+			});
+			document.getElementById('tbody-depreciacion').innerHTML = '';
+			document.getElementById('tbody-depreciacion').append(fragmento);
+			tabla('tabla-depreciacion');
+
+			id = target.dataset.id;
+
+			//iconoEditar.classList.add('bi-pencil-square');
+			//iconoEditar.classList.remove('bi-check-square');
+		});
+
+	function calcular(anio = 0, monto = 0, vidautil) {
+		array = [];
+		const anioactual = new Date().getFullYear();
+		if (anioactual != anio) {
+			const tiempo = parseInt(anioactual) - parseInt(anio);
+			let depreciacion;
+			let dacumulada = monto;
+			for (let i = 0; i < tiempo; i++) {
+				console.log(tiempo);
+				depreciacion = parseInt(monto) / parseInt(vidautil);
+				dacumulada = parseInt(dacumulada) - parseInt(depreciacion);
+				array.push({
+					anio: parseInt(i) + parseInt(1),
+					valor: depreciacion,
+					valorfinal: dacumulada,
+				});
+			}
+			dacumulada = 0;
+		}
+		console.log(array);
+	}
 	activoForm.addEventListener('submit', registrarActivo);
 
 	document
@@ -62,6 +150,47 @@
 			}
 		});
 
+	document
+		.getElementById('tbody-activos')
+		.addEventListener('click', function ({ target }) {
+			const editar = target.classList.contains('editar-activo');
+
+			if (!editar) {
+				return;
+			}
+			console.log(target);
+			tituloModal.textContent = 'Editar Activo';
+			btnTexto.textContent = 'Editar';
+
+			comboadquisicion.value = target.dataset.rtipoadq ? 1 : 2;
+			nombreactivo.value = target.dataset.nombreactivo;
+			rmarca.value = target.dataset.rmarca;
+			rmodelo.value = target.dataset.rmodelo;
+			rserie.value = target.dataset.rserie;
+
+			fecha.value = target.dataset.rfechaadq;
+			valoractivo.value = target.dataset.rvaloradq;
+			combotipoactivo.value = target.dataset.rtipoactivo;
+			comboempleado.value = target.dataset.rempleado;
+			select('#comboempleado', '#agregar-activo-modal');
+			select('#combotipoactivo', '#agregar-activo-modal');
+			//idvehiculo = target.dataset.archivo;
+			nombreactivo.disabled = true;
+			rmarca.disabled = true;
+			rmodelo.disabled = true;
+			valoractivo.disabled = true;
+			rserie.disabled = true;
+			fecha.disabled = true;
+			combotipoactivo.disabled = true;
+			comboadquisicion.disabled = true;
+
+			//combocliente.disabled = true;
+			id = target.dataset.id;
+
+			iconoEditar.classList.add('bi-pencil-square');
+			iconoEditar.classList.remove('bi-check-square');
+		});
+
 	document.addEventListener('DOMContentLoaded', () => {
 		obtenerActivo();
 		obtenerEmpleados();
@@ -69,7 +198,6 @@
 	});
 
 	async function registrarActivo(e) {
-		console.log('pasa2');
 		e.preventDefault();
 
 		const json = {
@@ -83,10 +211,9 @@
 			tipo_activo_fk: combotipoactivo.value,
 			empleado_fk: comboempleado.value,
 		};
-		console.log(json);
 
 		if (btnTexto.textContent === 'Editar') {
-			return editarEmpleado(json);
+			return editarActivo(json);
 		}
 
 		confirmacion({
@@ -114,6 +241,34 @@
 		});
 	}
 
+	function editarActivo(json = {}) {
+		confirmacion({
+			icon: 'warning',
+			texto: '¿Seguro de editar este activo?',
+			titulo: 'Advertencia',
+			cb: async function () {
+				try {
+					console.log(id);
+					const [resp, data] = await api({
+						url: `activo/${id}`,
+						method: 'PATCH',
+						json,
+					});
+
+					if (data.status === 201) {
+						alerta('Se ha editado el activo con exito', 'success');
+						bootstrap.Modal.getInstance(
+							document.getElementById('agregar-activo-modal')
+						).hide();
+						obtenerActivo();
+					}
+				} catch (error) {
+					console.log(error);
+				}
+			},
+		});
+	}
+
 	async function obtenerEmpleados() {
 		let url = `activo/empleado`;
 		try {
@@ -127,7 +282,7 @@
 			if (data.status === 200) {
 				const select = document.getElementById('comboempleado');
 				const empleados = resp.empleado;
-				console.log('empleado=' + empleados);
+
 				empleados.forEach((cliente) => {
 					option = document.createElement('option');
 					option.value = cliente.id;
@@ -168,7 +323,6 @@
 	}
 
 	async function obtenerActivo() {
-		console.log('pasa');
 		try {
 			const [resp, data] = await api({
 				url: 'activo',
@@ -179,7 +333,7 @@
 			if (data.status === 200) {
 				const fragmento = document.createDocumentFragment();
 				const activos = resp.activo;
-				console.log(resp.activo);
+
 				activos.forEach((activo) => {
 					const tpl = document.createElement('template');
 					const estado = activo.estado_adquisicion
@@ -214,9 +368,9 @@
 													
 													data-id=${activo.id}
 													data-marca=${activo.marca}
-												data-modelo=${activo.modelo}
-												data-serie=${activo.serie}
-												data-tipo='${activo.tipo_activo.nombre}'
+												   data-modelo=${activo.modelo}
+												   data-serie=${activo.serie}
+												   data-tipo='${activo.tipo_activo.nombre}'
 												data-adquisicion=${adquisicion}
 												data-empleado='${activo.empleado.nombre}'
 													class="mostrar-activo bi bi-eye-fill"></i>
@@ -230,20 +384,26 @@
 														data-bs-target="#agregar-activo-modal"
 														data-backdrop="static"
 														data-keyboard="false"
-														data-dui=${activo.dui}
-														data-id=${activo.id}
-														data-nombre=${activo.nombre}
-														data-telefono=${activo.telefono}
-														data-usuario=${activo.usuario}
-														data-correo=${activo.correo_electronico}
+														data-nombreactivo=${activo.nombre_activo}
+														data-rmarca=${activo.marca}
+														data-rmodelo=${activo.modelo}
+														data-rserie=${activo.serie}
+														data-rtipoadq=${activo.tipo_adquisicion}
+														data-rfechaadq='${dayjs(activo.fecha_adquisicion).format('YYYY-MM-DD')}'
+														data-rvaloradq=${activo.valor_adquisicion}
+														data-rtipoactivo=${activo.tipo_activo_fk}
+														data-rempleado=${activo.empleado_fk}
 													>
 														<i 
-															data-dui=${activo.dui}
-															data-id=${activo.id}
-															data-nombre=${activo.nombre}
-															data-telefono=${activo.telefono}
-															data-usuario=${activo.usuario}
-															data-correo=${activo.correo_electronico}
+														data-nombreactivo=${activo.nombre_activo}
+														data-rmarca=${activo.marca}
+														data-rmodelo=${activo.modelo}
+														data-rserie=${activo.serie}
+														data-rtipoadq=${activo.tipo_adquisicion}
+														data-rfechaadq='${dayjs(activo.fecha_adquisicion).format('YYYY-MM-DD')}'
+														data-rvaloradq=${activo.valor_adquisicion}
+														data-rtipoactivo=${activo.tipo_activo_fk}
+														data-rempleado=${activo.empleado_fk}
 															class="bi bi-pencil-square editar-activo"
 															></i>
 													</button>
@@ -256,20 +416,25 @@
 													data-bs-target="#agregar-baja-modal"
 													data-backdrop="static"
 													data-keyboard="false"
-													data-dui=${activo.dui}
-													data-id=${activo.id}
-													data-nombre=${activo.nombre}
-													data-telefono=${activo.telefono}
-													data-usuario=${activo.usuario}
-													data-correo=${activo.correo_electronico}
+													data-rvaloradq=${activo.valor_adquisicion}
+													data-rfechaadq='${dayjs(activo.fecha_adquisicion).format('DD/MM/YYYY')}'
+													data-fechasalida=${dayjs(activo.fecha_adquisicion).format('YYYY')}
+													data-messalida=${dayjs(activo.fecha_adquisicion).format('DD/MM')}
+													data-dnombreactivo=${activo.nombre_activo}
+														data-drmarca=${activo.marca}
+														data-rtipoactivo=${activo.tipo_activo_fk}
+													
 												>
 													<i 
-														data-dui=${activo.dui}
+													data-rvaloradq=${activo.valor_adquisicion}
+													data-rfechaadq='${dayjs(activo.fecha_adquisicion).format('DD/MM/YYYY')}'
+														data-fechasalida=${dayjs(activo.fecha_adquisicion).format('YYYY')}
+														data-messalida=${dayjs(activo.fecha_adquisicion).format('DD/MM')}
 														data-id=${activo.id}
-														data-nombre=${activo.nombre}
-														data-telefono=${activo.telefono}
-														data-usuario=${activo.usuario}
-														data-correo=${activo.correo_electronico}
+														data-dnombreactivo=${activo.nombre_activo}
+														data-drmarca=${activo.marca}
+														data-rtipoactivo=${activo.tipo_activo_fk}
+														
 														class="bi bi-file-excel registrar-baja"
 														></i>
 												</button>
@@ -283,6 +448,24 @@
 			}
 		} catch (error) {
 			console.log(error);
+		}
+	}
+
+	function calculardepreciacion(int, valor) {
+		switch (int) {
+			case 1:
+				dvidautil.value;
+				return valor / 10;
+				break;
+			case 2:
+				return valor / 5;
+				break;
+			case 3:
+				return valor / 10;
+				break;
+			case 4:
+				return valor / 40;
+				break;
 		}
 	}
 })(api, alerta, tabla, confirmacion, select);
