@@ -12,7 +12,7 @@
 	<div class="modal-dialog modal-lg">
 		<form class="modal-content" id="agregar-baja-form">
 			<div class="modal-header bg-dark text-white">
-				<h5 class="modal-title" id="agregarBajaModal">Dar de baja</h5>
+				<h5 class="modal-title" id="agregarBajaModal">Depreciación de activo</h5>
 				<button
 					type="button"
 					class="btn-close"
@@ -31,7 +31,7 @@
 							id="activo"
 							name="activo"
 							autocomplete="off"
-							required
+							
 							
 						/>
 					</div>
@@ -102,7 +102,7 @@
 					<tbody id="tbody-depreciacion"></tbody>
 				</table>
 				<hr/>
-				<h3>Dar de Baja</h3>
+				<h5>Dar de Baja</h5>
 				<div class="row">
 					
 					<div class="col-12 col-md-6 mb-3">
@@ -111,9 +111,7 @@
 						id="motivo"
 							name="motivo"
 						autocomplete="off"
-						required>
-
-						</textarea>
+						required></textarea>
 						
 					</div>
 					<div class="col-12 col-md-6 mb-3">
@@ -124,11 +122,18 @@
 						id="observacion"
 						name="observacion"
 						autocomplete="off"
-						required>
-
-						</textarea>
+						required="required"></textarea>
+						<button
+					type="submit"
+					class="btn btn-danger text-white mt-2"
+					id="btn-agregar-baja"
+				>
+					<i class="bi bi-check-square" id="icono-editar"></i>
+					<span id="btn-darbaja"> Dar de baja </span>
+				</button>
 						
 					</div>
+					
 				</div>
 				
 				
@@ -142,14 +147,7 @@
 					<i class="bi bi-x-circle"></i>
 					Cerrar
 				</button>
-				<button
-					type="submit"
-					class="btn btn-primary text-white"
-					id="btn-agregar-baja"
-				>
-					<i class="bi bi-check-square" id="icono-editar"></i>
-					<span id="btn-texto"> Agregar </span>
-				</button>
+				
 			</div>
 		</form>
 	</div>

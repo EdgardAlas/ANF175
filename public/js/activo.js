@@ -6,6 +6,7 @@
 		mAdquisicion = document.getElementById('mAdquisicion'),
 		mEmpleado = document.getElementById('mEmpleado'),
 		activoForm = document.getElementById('agregar-activo-form'),
+		bajaForm = document.getElementById('agregar-baja-form'),
 		btnTexto = document.getElementById('btn-texto'),
 		tituloModal = document.getElementById('agregarActivoModal'),
 		nombreactivo = document.getElementById('nombreactivo'),
@@ -22,8 +23,11 @@
 		dvidautil = document.getElementById('vidautil'),
 		dfechadq = document.getElementById('dfechadq'),
 		dfechasal = document.getElementById('dfechasal'),
+		motivo = document.getElementById('motivo'),
+		observacion = document.getElementById('observacion'),
 		btnactivoForm = document.getElementById('btn-agregar-activo');
 	let array = [];
+	let idactivo;
 	select('#comboempleado', '#agregar-activo-modal');
 	select('#combotipoactivo', '#agregar-activo-modal');
 
@@ -60,8 +64,12 @@
 				return;
 			}
 			console.log(target);
+			if (target.dataset.destado == 3) {
+				motivo.disabled = true;
+				observacion.disabled = true;
+			}
 			//tituloModal.textContent = 'mostrarHipoteca';
-
+			idactivo = target.dataset.rtipoactivo;
 			dactivo.value =
 				target.dataset.dnombreactivo + ' ' + target.dataset.drmarca;
 			dfechadq.value = target.dataset.rfechaadq;
@@ -89,6 +97,12 @@
 					'/' +
 					(parseInt(target.dataset.fechasalida) + parseInt(40));
 			}
+
+			// document
+			// 	.getElementById('btn-darbaja')
+			// 	.addEventListener('click', (e) => {
+			// 		e.preventDefault();
+			// 	});
 
 			const fragmento = document.createDocumentFragment();
 
@@ -134,6 +148,7 @@
 		console.log(array);
 	}
 	activoForm.addEventListener('submit', registrarActivo);
+	bajaForm.addEventListener('submit', registrarBaja);
 
 	document
 		.getElementById('agregar-activo-modal')
@@ -196,6 +211,47 @@
 		obtenerEmpleados();
 		obtenertipoactivo();
 	});
+
+	async function registrarBaja(e) {
+		e.preventDefault();
+
+		const json = {
+			motivo: motivo.value,
+			observacion: observacion.value,
+			activo_fk: idactivo,
+			estado_adquisicion: 3,
+		};
+
+		if (btnTexto.textContent === 'Editar') {
+			return editarActivo(json);
+		}
+
+		confirmacion({
+			icon: 'warning',
+			texto: '¿Seguro de dar de baja este activo?',
+			titulo: 'Advertencia',
+			cb: async function () {
+				try {
+					const [resp, data] = await api({
+						url: 'activo/baja',
+						method: 'POST',
+						json,
+					});
+					if (data.status === 201) {
+						alerta('Se ha dado de baja el activo fijo ', 'success');
+						editarEstadoActivo(json);
+						motivo.disabled;
+						bootstrap.Modal.getInstance(
+							document.getElementById('agregar-baja-modal')
+						).hide();
+						//obtenerActivo();
+					}
+				} catch (error) {
+					console.log(error);
+				}
+			},
+		});
+	}
 
 	async function registrarActivo(e) {
 		e.preventDefault();
@@ -269,6 +325,27 @@
 		});
 	}
 
+	async function editarEstadoActivo(json = {}) {
+		try {
+			console.log('id=' + id);
+			const [resp, data] = await api({
+				url: `activo/estado/${id}`,
+				method: 'PATCH',
+				json,
+			});
+
+			if (data.status === 201) {
+				// alerta('Se ha editado el activo con exito', 'success');
+				// bootstrap.Modal.getInstance(
+				// 	document.getElementById('agregar-activo-modal')
+				// ).hide();
+				obtenerActivo();
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
 	async function obtenerEmpleados() {
 		let url = `activo/empleado`;
 		try {
@@ -336,9 +413,12 @@
 
 				activos.forEach((activo) => {
 					const tpl = document.createElement('template');
-					const estado = activo.estado_adquisicion
-						? 'Disponible'
-						: 'No disponible';
+					const estado =
+						activo.estado_adquisicion == 1
+							? 'Disponible'
+							: activo.estado_adquisicion == 2
+							? 'No disponible'
+							: 'Dado de Baja';
 					const adquisicion = activo.tipo_adquisicion
 						? 'Nuevo'
 						: 'Restaurado';
@@ -423,6 +503,8 @@
 													data-dnombreactivo=${activo.nombre_activo}
 														data-drmarca=${activo.marca}
 														data-rtipoactivo=${activo.tipo_activo_fk}
+														data-destado=${activo.estado_adquisicion}
+														
 													
 												>
 													<i 
@@ -434,6 +516,7 @@
 														data-dnombreactivo=${activo.nombre_activo}
 														data-drmarca=${activo.marca}
 														data-rtipoactivo=${activo.tipo_activo_fk}
+														data-destado=${activo.estado_adquisicion}
 														
 														class="bi bi-file-excel registrar-baja"
 														></i>

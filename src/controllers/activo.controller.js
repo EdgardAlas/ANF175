@@ -1,6 +1,7 @@
 const { StatusCodes } = require('http-status-codes');
 const { db } = require('../database/db');
 const { Activo } = require('../models/Activo');
+const { Baja } = require('../models/Baja');
 const { Empleado } = require('../models/Empleado');
 const { TipoActivo } = require('../models/TipoActivo');
 
@@ -86,6 +87,32 @@ const registrarActivo = async (req, res) => {
 	}
 };
 
+const registrarBaja = async (req, res) => {
+	try {
+		const { motivo, observacion, activo_fk } = req.body;
+
+		let activo = null;
+
+		await db.transaction(async (t) => {
+			activo = await Baja.create(
+				{
+					motivo,
+					observacion,
+					activo_fk,
+					fecha_baja: new Date().getDate(),
+				},
+				{ transaction: t }
+			);
+		});
+		return res.status(StatusCodes.CREATED).json({
+			msg: 'se ha registrado con exito el activo fijo',
+			activo,
+		});
+	} catch (error) {
+		console.log(error);
+	}
+};
+
 const editarActivo = async (req, res) => {
 	try {
 		const {
@@ -119,10 +146,38 @@ const editarActivo = async (req, res) => {
 	}
 };
 
+const editarEstadoActivo = async (req, res) => {
+	try {
+		const { estado_adquisicion } = req.body;
+		const { id } = req.params;
+
+		await db.transaction(async (t) => {
+			await Activo.update(
+				{
+					estado_adquisicion,
+				},
+				{
+					transaction: t,
+					where: {
+						id,
+					},
+				}
+			);
+		});
+		return res.status(StatusCodes.CREATED).json({
+			msg: 'se ha editado con exito el activo',
+		});
+	} catch (error) {
+		console.log(error);
+	}
+};
+
 module.exports = {
 	obtenerActivo,
 	obtenerEmpleado,
 	obtenerTipoactivo,
 	registrarActivo,
 	editarActivo,
+	registrarBaja,
+	editarEstadoActivo,
 };
