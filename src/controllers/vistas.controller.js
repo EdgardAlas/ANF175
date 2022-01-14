@@ -1,4 +1,7 @@
 const { eliminarSesion } = require('../helpers/crear-sesion');
+const { Cartera } = require('../models/Cartera');
+const { Cliente } = require('../models/Cliente');
+const { Empleado } = require('../models/Empleado');
 
 const render = (vista) => `autenticacion/${vista}`;
 
@@ -22,8 +25,43 @@ const inicio = (req, res) => {
 	res.render('inicio', { rol: req.rol, pagina: 'inicio' });
 };
 
-const vistaClientes = (req, res) => {
-	res.render('clientes/clientes', { rol: req.rol, pagina: 'clientes' });
+const vistaClientes = async (req, res) => {
+	let clientes = [];
+	try {
+		const empleado = await Empleado.findOne({
+			where: {
+				id: req.id,
+			},
+		});
+
+		console.log(empleado);
+		if (empleado.rol_fk === 1) {
+			clientes = await Cliente.findAll();
+		} else {
+			clientes = await Cartera.findAll({
+				include: [
+					{
+						model: Cliente,
+					},
+				],
+				where: {
+					empleado_fk: empleado.id,
+				},
+			});
+
+			clientes = clientes.map((c) => c.cliente);
+			// console.log(clientes);
+		}
+
+		// clientes = await Cliente.findAll();
+	} catch (error) {
+		console.log(error);
+	}
+	res.render('clientes/clientes', {
+		rol: req.rol,
+		pagina: 'clientes',
+		clientes,
+	});
 };
 
 const vistaVehiculos = (req, res) => {
