@@ -70,8 +70,15 @@ const vistaActivo = (req, res) => {
 
 const vistaInfoContable = (req, res) => {
 	res.render('infocontable/infocontable', {
-		rol: 'Administrador',
+		rol: req.rol,
 		pagina: 'Informacion contable',
+	});
+};
+
+const vistaCarteraemp = (req, res) => {
+	res.render('carteraempleado/carteraempledo', {
+		rol: req.rol,
+		pagina: 'carteraempleado',
 	});
 };
 
@@ -88,4 +95,5 @@ module.exports = {
 	vistaActivo,
 	vistaPago,
 	vistaInfoContable,
+	vistaCarteraemp,
 };

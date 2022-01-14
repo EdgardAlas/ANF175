@@ -1,0 +1,170 @@
+<div
+	class="modal fade"
+	id="agregar-prestamo-modal"
+	tabindex="-1"
+	data-bs-focus="false"
+	aria-labelledby="agregarPrestamoModal"
+	aria-hidden="true"
+	data-bs-backdrop="static"
+	data-bs-keyboard="false"
+	tabindex="-1"
+>
+	<div class="modal-dialog modal-lg">
+		<form class="modal-content" id="agregar-prestamo-form">
+			<div class="modal-header bg-dark text-white">
+				<h5 class="modal-title" id="agregarPrestamoModal">
+					Registrar datos del prestamo.
+				</h5>
+				<button
+					type="button"
+					class="btn-close"
+					data-bs-dismiss="modal"
+					aria-label="Close"
+				></button>
+			</div>
+			<div class="modal-body">
+				<div class="col-12 col-md-12 mb-3">
+					<label for="cliente" class="form-label">Cliente</label>
+					<select class="form-select" id="combocliente">
+						<option value="-1">Seleccione</option>
+					</select>
+				</div>
+				<div class="row">
+					<div class="col-12 col-md-6 mb-3">
+						<label for="monto" class="form-label"
+							>Monto del prestamo</label
+						>
+						<input
+							type="number"
+							class="form-control"
+							id="monto"
+							name="monto"
+							autocomplete="off"
+							required
+							placeholder="05326269-8"
+						/>
+					</div>
+					<div class="col-12 col-md-6 mb-3">
+						<label for="interes" class="form-label"
+							>Tasa de interes</label
+						>
+						<input
+							type="text"
+							class="form-control"
+							id="interes"
+							name="interes"
+							autocomplete="off"
+							required
+						/>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12 col-md-6 mb-3">
+						<label for="diapago" class="form-label"
+							>Dia de pago a 30 dias</label
+						>
+						<input
+							type="number"
+							class="form-control"
+							id="diapago"
+							name="diapago"
+							placeholder="27"
+							autocomplete="off"
+							required
+						/>
+					</div>
+					<div class="col-12 col-md-6 mb-3">
+						<label for="duracion" class="form-label"
+							>Duración del préstamo</label
+						>
+						<input
+							type="text"
+							class="form-control"
+							id="duracion"
+							name="duracion"
+							autocomplete="off"
+							required
+						/>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12 col-md-6 mb-3">
+						<label for="anio" class="form-label"
+							>Fecha de aprobación</label
+						>
+						<input
+							type="number"
+							class="form-control"
+							id="anio"
+							name="anio"
+							autocomplete="off"
+							required
+							max="2022"
+							min="2000"
+						/>
+					</div>
+					<div class="col-12 col-md-6 mb-3">
+						<label for="valor" class="form-label">Valor Cuota</label>
+						<input
+							type="number"
+							class="form-control"
+							id="valor"
+							name="valor"
+							autocomplete="off"
+							required
+							max="100000"
+							min="6000"
+							placeholder="$"
+						/>
+					</div>
+					<div class="col-12 col-md-6 mb-3">
+						<label for="direccion" class="form-label"
+							>Monto al finalizar el crédito
+						</label>
+						<input
+							type="text"
+							class="form-control"
+							id="direccion"
+							name="direccion"
+							autocomplete="off"
+							required
+						/>
+					</div>
+					<div class="col-12 col-md-6 mb-3">
+						<label for="archivo_compra" class="form-label"
+							>Gastos financieros</label
+						>
+						<input
+							type="text"
+							class="form-control"
+							id="archivo_compra"
+							name="archivo_compra"
+							required
+							autocomplete="off"
+							accept=".pdf,.doc,.docx,image/*"
+						/>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button
+					type="button"
+					class="btn btn-secondary"
+					data-bs-dismiss="modal"
+					id="btn-cerrar"
+				>
+					<i class="bi bi-x-circle"></i>
+					Cerrar
+				</button>
+				<button
+					type="submit"
+					class="btn btn-primary text-white"
+					id="btn-agregar-prestamo"
+				>
+					<i class="bi bi-check-square" id="icono-editar"></i>
+					<span id="btn-texto"> Agregar </span>
+				</button>
+			</div>
+		</form>
+	</div>
+</div>

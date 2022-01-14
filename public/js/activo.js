@@ -25,6 +25,7 @@
 		dfechasal = document.getElementById('dfechasal'),
 		motivo = document.getElementById('motivo'),
 		observacion = document.getElementById('observacion'),
+		btnbaja = document.getElementById('btn-agregar-baja'),
 		btnactivoForm = document.getElementById('btn-agregar-activo');
 	let array = [];
 	let idactivo;
@@ -59,14 +60,19 @@
 		.getElementById('tabla-activos')
 		.addEventListener('click', function ({ target }) {
 			const editar = target.classList.contains('registrar-baja');
-
+			motivo.disabled = false;
+			observacion.disabled = false;
+			btnbaja.disabled = false;
 			if (!editar) {
 				return;
 			}
+			id = target.dataset.id;
 			console.log(target);
 			if (target.dataset.destado == 3) {
 				motivo.disabled = true;
 				observacion.disabled = true;
+				btnbaja.disabled = true;
+				//obtenerDetalleBaja();
 			}
 			//tituloModal.textContent = 'mostrarHipoteca';
 			idactivo = target.dataset.rtipoactivo;
@@ -119,8 +125,6 @@
 			document.getElementById('tbody-depreciacion').innerHTML = '';
 			document.getElementById('tbody-depreciacion').append(fragmento);
 			tabla('tabla-depreciacion');
-
-			id = target.dataset.id;
 
 			//iconoEditar.classList.add('bi-pencil-square');
 			//iconoEditar.classList.remove('bi-check-square');
@@ -393,6 +397,29 @@
 						tactivos.codigo_correlativo + ' ' + tactivos.nombre;
 					select.appendChild(option);
 				});
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
+	async function obtenerDetalleBaja() {
+		console.log('id=' + id);
+		let url = `activo/detallebaja/${id}`;
+		try {
+			//registrando();
+			const [resp, data] = await api({
+				url,
+				method: 'GET',
+				json: {},
+			});
+
+			if (data.status === 200) {
+				const baja = resp.baja;
+				console.log(baja['motivo']);
+				console.log(baja.observacion);
+				motivo.value = resp.baja.motivo;
+				observacion.value = resp.baja.observacion;
 			}
 		} catch (error) {
 			console.log(error);

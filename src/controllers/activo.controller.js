@@ -43,6 +43,22 @@ const obtenerTipoactivo = async (req, res) => {
 	}
 };
 
+const obtenerBajaDetalle = async (req, res) => {
+	try {
+		const { id } = req.params;
+		const baja = await Baja.findAll({
+			attributes: ['id', 'motivo', 'observacion', 'fecha_baja', 'activo_fk'],
+			where: [{ activo_fk: id }],
+		});
+		console.log('baja=' + baja);
+		return res.status(StatusCodes.OK).json({
+			baja,
+		});
+	} catch (error) {
+		console.log(error);
+	}
+};
+
 const registrarActivo = async (req, res) => {
 	try {
 		const {
@@ -180,4 +196,5 @@ module.exports = {
 	editarActivo,
 	registrarBaja,
 	editarEstadoActivo,
+	obtenerBajaDetalle,
 };
