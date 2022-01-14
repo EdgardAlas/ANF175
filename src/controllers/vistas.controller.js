@@ -1,4 +1,5 @@
 const { eliminarSesion } = require('../helpers/crear-sesion');
+const { Cliente } = require('../models/Cliente');
 
 const render = (vista) => `autenticacion/${vista}`;
 
@@ -71,8 +72,26 @@ const vistaActivo = (req, res) => {
 const vistaInfoContable = (req, res) => {
 	res.render('infocontable/infocontable', {
 		rol: 'Administrador',
-		pagina: 'Informacion contable',
+		pagina: 'Informacpion contable',
 	});
+};
+
+const vistaPrestamo = async (req, res) => {
+	try {
+		const cliente = await Cliente.findOne({
+			where: {
+				id: req.params.id,
+			},
+		});
+		res.render('prestamo/prestamo', {
+			cliente,
+			rol: 'Administrador',
+			pagina: 'Informacpion contable',
+		});
+	} catch (error) {
+		console.log(error);
+	}
+	// res.render(render('login'));
 };
 
 module.exports = {
@@ -88,4 +107,5 @@ module.exports = {
 	vistaActivo,
 	vistaPago,
 	vistaInfoContable,
+	vistaPrestamo,
 };

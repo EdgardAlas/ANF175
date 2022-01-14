@@ -127,6 +127,14 @@
 															class="bi bi-pencil-square editar-cartera"
 															></i>
 													</button>
+													<a 
+														class="btn btn-info text-white editar-cartera" 
+														href="/prestamo/${row.cliente.id}"
+													>
+														<i 
+															class="bi bi-pencil-square"
+															></i>
+													</a>
 														
 												</td>
 											</tr>`;
