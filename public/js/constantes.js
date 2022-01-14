@@ -59,18 +59,40 @@ const alerta = (texto, alerta) => {
 
 const tabla = (tabla) => {
 	const datatablesSimple = document.getElementById(tabla);
+	let tbl = null;
 	if (datatablesSimple) {
-		new simpleDatatables.DataTable(datatablesSimple, {
-			perPage: 5,
-			labels: {
-				placeholder: 'Buscar...', // The search input placeholder
-				perPage: '{select} por página', // per-page dropdown label
-				noRows: 'No hay datos para mostrar', // Message shown when there are no records to show
-				noResults: 'No hay datos para mostrar en la busqueda', // Message shown when there are no search results
-				info: 'Mostrando {start} de {end} de {rows} registros', //
+		tbl = $(datatablesSimple).DataTable({
+			language: {
+				sProcessing: 'Procesando...',
+				sLengthMenu: 'Mostrar _MENU_ registros',
+				sZeroRecords: 'No se encontraron resultados',
+				sEmptyTable: 'Ningún dato disponible en esta tabla',
+				sInfo: 'Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros',
+				sInfoEmpty:
+					'Mostrando registros del 0 al 0 de un total de 0 registros',
+				sInfoFiltered: '(filtrado de un total de _MAX_ registros)',
+				sInfoPostFix: '',
+				sSearch: 'Buscar:',
+				sUrl: '',
+				sInfoThousands: ',',
+				sLoadingRecords: 'Cargando...',
+				oPaginate: {
+					sFirst: 'Primero',
+					sLast: 'Último',
+					sNext: 'Siguiente',
+					sPrevious: 'Anterior',
+				},
+				oAria: {
+					sSortAscending:
+						': Activar para ordenar la columna de manera ascendente',
+					sSortDescending:
+						': Activar para ordenar la columna de manera descendente',
+				},
 			},
 		});
 	}
+
+	return tbl;
 };
 
 const confirmacion = ({
@@ -96,16 +118,30 @@ const confirmacion = ({
 };
 
 const select = (elemento, modal) => {
-	$(elemento).select2({
-		theme: 'bootstrap4',
-		dropdownParent: $(modal),
-		language: {
-			noResults: function () {
-				return 'No hay resultados';
+	if (modal) {
+		$(elemento).select2({
+			theme: 'bootstrap4',
+			dropdownParent: $(modal),
+			language: {
+				noResults: function () {
+					return 'No hay resultados';
+				},
+				searching: function () {
+					return 'Buscando..';
+				},
 			},
-			searching: function () {
-				return 'Buscando..';
+		});
+	} else {
+		$(elemento).select2({
+			theme: 'bootstrap4',
+			language: {
+				noResults: function () {
+					return 'No hay resultados';
+				},
+				searching: function () {
+					return 'Buscando..';
+				},
 			},
-		},
-	});
+		});
+	}
 };

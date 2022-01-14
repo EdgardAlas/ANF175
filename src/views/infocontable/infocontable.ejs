@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<%- include("../partials/header.ejs", { titulo: "Informacion contable"
+		})%>
+	</head>
+	<body class="sb-nav-fixed">
+		<%- include("../partials/navbar.ejs")%>
+		<div id="layoutSidenav">
+			<%- include("../partials/sidebar.ejs", {rol, pagina})%>
+			<div id="layoutSidenav_content">
+				<main>
+					<div class="container-fluid px-4">
+						<h1 class="mt-4">Información contable</h1>
+						<div class="row gap-3">
+							<div class="col-12">
+								<button
+									class="btn btn-primary text-white"
+									data-bs-toggle="modal"
+									data-bs-target="#agregar-infocontable-modal"
+									data-backdrop="static"
+									data-keyboard="false"
+								>
+									<i class="bi bi-plus-square"></i>
+									Registrar Información
+								</button>
+							</div>
+							<div class="col-5">
+								<label for="cliente" class="form-label">Cliente</label>
+								<select class="form-select" id="combo-cliente-tabla">
+									<option value="-1">Seleccione</option>
+								</select>
+							</div>
+							<div class="col-12 table-responsive">
+								<table
+									id="tabla-infocontable"
+									class="table table-striped"
+								>
+									<thead>
+										<tr>
+											<th>Año</th>
+											<th>Ver balance general</th>
+											<th>Ver información del estado resultados</th>
+										</tr>
+									</thead>
+									<tbody id="tbody-infocontable"></tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</main>
+				<%- include("../partials/footer.ejs") %>
+			</div>
+		</div>
+		<%- include("../modales/agregar-infocontable.ejs") %> <%-
+		include("../modales/informacion-estador.ejs") %> <%-
+		include("../modales/balance-general.ejs") %> <%-
+		include("../partials/scripts.ejs")%> <%-
+		include("../modales/mostrar-hipoteca.ejs") %>
+		<script src="/js/infocontable.js?t=<%= Date.now() %>"></script>
+	</body>
+</html>

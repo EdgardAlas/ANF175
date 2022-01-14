@@ -15,8 +15,8 @@ const InfoContable = db.define(
 		anio: {
 			type: DataTypes.INTEGER,
 		},
-		tipo_cuenta: {
-			type: DataTypes.INTEGER,
+		codigo: {
+			type: DataTypes.UUID,
 		},
 	},
 	{
