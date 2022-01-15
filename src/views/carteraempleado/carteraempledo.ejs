@@ -14,9 +14,13 @@
 						<div class="row gap-3">
 							<div class="col-12"></div>
 							<div class="col-12 table-responsive">
-								<table id="tabla-carteraemp">
+								<table
+									id="tabla-carteraemp"
+									class="table table-striped"
+								>
 									<thead>
 										<tr>
+											<th>ID</th>
 											<th>Cliente</th>
 											<th>Tipo de crédito</th>
 											<th>Estado del crédito</th>
@@ -32,8 +36,8 @@
 				<%- include("../partials/footer.ejs") %>
 			</div>
 		</div>
-		<%- include("../modales/agregar-prestamo.ejs")%> <%-
-		include("../partials/scripts.ejs")%>
+		<%- include("../modales/agregar-prestamo.ejs")%>
+		<%-include("../partials/scripts.ejs")%>
 		<script src="/js/carteraemp.js?t=<%= Date.now() %>"></script>
 	</body>
 </html>

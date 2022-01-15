@@ -1,12 +1,23 @@
 ((api, alerta, tabla, confirmacion, select) => {
 	const comboempleado = document.getElementById('comboempleado'),
 		combocliente = document.getElementById('combocliente'),
-		carteraForm = document.getElementById('agregar-cartera-form'),
+		prestamoForm = document.getElementById('agregar-prestamo-form'),
 		btnCarteraForm = document.getElementById('btn-agregar-cartera'),
 		tituloModal = document.getElementById('agregarCarteraModal'),
 		iconoEditar = document.getElementById('icono-editar'),
-		btnTexto = document.getElementById('btn-texto');
-	btnCerrar = document.getElementById('btn-cerrar');
+		monto = document.getElementById('monto'),
+		interes = document.getElementById('interes'),
+		dia_pago = document.getElementById('diapago'),
+		duracion = document.getElementById('duracion'),
+		fecha_aprobacion = document.getElementById('fechaaprobacion'),
+		valor_cuota = document.getElementById('valor'),
+		valor_total = document.getElementById('montofin'),
+		gastosfinan = document.getElementById('gastosfinan'),
+		btnTexto = document.getElementById('btn-texto'),
+		pcliente = document.getElementById('pcliente'),
+		btnCerrar = document.getElementById('btn-cerrar');
+	let idcartera;
+	let activar;
 	select('#combocliente', '#agregar-cartera-modal');
 	select('#comboempleado', '#agregar-cartera-modal');
 
@@ -17,6 +28,29 @@
 		//obtenerClientes();
 		//obtenerEmpleado();
 	});
+
+	prestamoForm.addEventListener('submit', registrarPrestamo);
+
+	document
+		.getElementById('tbody-carteraemp')
+		.addEventListener('click', function ({ target }) {
+			const editar = target.classList.contains('agregar-prestamo');
+			if (!editar) {
+				return;
+			}
+			idcartera = target.dataset.id;
+		});
+
+	// document
+	// 	.getElementById('tbody-carteraemp')
+	// 	.addEventListener('click', function ({ target }) {
+	// 		const editar = target.classList.contains('mostrar-prestamo');
+	// 		if (!editar) {
+	// 			return;
+	// 		}
+	// 		pcliente = target.dataset.cliente;
+	// 		//idcartera = target.dataset.id;
+	// 	});
 
 	async function obtenerCartera() {
 		try {
@@ -34,7 +68,6 @@
 				let estado;
 
 				cartera.forEach((row) => {
-					console.log('cliente' + row.empleado.id);
 					const tipoCredito =
 						row.cliente['vehiculos'].length == 0
 							? 'Hipotecario'
@@ -43,8 +76,36 @@
 						estado = 'Activo';
 					}
 					var tpl = document.createElement('template');
-					tpl.innerHTML = `
+					if (row.prestamos.length > 0) {
+						tpl.innerHTML = `
 											<tr>
+												<td>${row.id}</td>
+												<td>${row.cliente.nombre + ' ' + row.cliente.apellido}</td>
+												<td>${tipoCredito}</td>
+												
+												<td class="d-flex justify-content-center"><a class='btn btn-success' >${estado}</a></td>
+												
+												<td>
+												
+												
+					
+						
+													<a 
+													type="button"
+														class="btn btn-info text-white btnpago" 
+														href="/pagoprestamo/${row.id}" 
+													>
+													<i class="bi bi-wallet2 "></i>
+													</a>
+													
+					
+														
+												</td>
+											</tr>`;
+					} else {
+						tpl.innerHTML = `
+											<tr>
+												<td>${row.id}</td>
 												<td>${row.cliente.nombre + ' ' + row.cliente.apellido}</td>
 												<td>${tipoCredito}</td>
 												
@@ -75,9 +136,10 @@
 															class="bi bi-pencil-square agregar-prestamo"
 															></i>
 													</button>
-														
+													
 												</td>
 											</tr>`;
+					}
 					fragmento.appendChild(tpl.content);
 				});
 				document.getElementById('tbody-carteraemp').innerHTML = '';
@@ -124,8 +186,9 @@
 		}
 	}
 
-	async function obtenerEmpleado() {
-		let url = `cartera/empleado`;
+	async function obtenerprestamo(idcartera) {
+		console.log(idcartera);
+		let url = `carteraemp/${idcartera}`;
 		try {
 			//registrando();
 			const [resp, data] = await api({
@@ -136,35 +199,30 @@
 
 			if (data.status === 200) {
 				//console.log('OK');
-				const select = document.getElementById('comboempleado');
-				const empleados = resp.empleados;
 
-				empleados.forEach((client) => {
-					option = document.createElement('option');
-					option.value = client.id;
-					option.text = client.nombre;
-					select.appendChild(option);
-				});
-				//document.getElementById('cliente').innerHTML = '';
-				//document.getElementById('cliente').append(fragmento);
-				//tabla('tabla-vehiculos');
-
-				//registrando();
+				const prestamo = resp.prestamo;
+				console.log(prestamo);
+				if (prestamo) {
+					activar = true;
+					console.log(activar);
+				}
 			}
 		} catch (error) {
 			console.log(error);
 		}
 	}
 
-	async function registrarCartera(e) {
+	async function registrarPrestamo(e) {
 		e.preventDefault();
-		let cliente_fk = combocliente.value;
-		let empleado_fk = comboempleado.value;
-		console.log(empleado_fk);
 
 		const json = {
-			cliente_fk,
-			empleado_fk,
+			monto: monto.value,
+			duracion: duracion.value,
+			dia_pago: dia_pago.value,
+			fecha_aprobacion: fecha_aprobacion.value,
+			valor_cuota: valor_cuota.value,
+			valor_total: valor_total.value,
+			cartera_fk: idcartera,
 		};
 
 		if (btnTexto.textContent === 'Editar') {
@@ -173,20 +231,20 @@
 
 		confirmacion({
 			icon: 'warning',
-			texto: '¿Seguro de agregar esta cartera?',
+			texto: '¿Seguro de agregar esta prestamo?',
 			titulo: 'Advertencia',
 			cb: async function () {
 				try {
 					const [resp, data] = await api({
-						url: 'cartera',
+						url: 'carteraemp',
 						method: 'POST',
 						json,
 					});
 					if (data.status === 201) {
-						combocliente.remove(combocliente.selectedIndex);
-						alerta('Se ha regitrado la cartera con exito', 'success');
+						//combocliente.remove(combocliente.selectedIndex);
+						alerta('Se ha regitrado el prestamo con exito', 'success');
 						bootstrap.Modal.getInstance(
-							document.getElementById('agregar-cartera-modal')
+							document.getElementById('agregar-prestamo-modal')
 						).hide();
 						obtenerCartera();
 					}

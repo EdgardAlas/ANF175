@@ -1,4 +1,9 @@
+//const { where } = require('sequelize/types');
 const { eliminarSesion } = require('../helpers/crear-sesion');
+const { Cartera } = require('../models/Cartera');
+const { Cliente } = require('../models/Cliente');
+const { Pago } = require('../models/Pago');
+const { Prestamo } = require('../models/Prestamo');
 
 const render = (vista) => `autenticacion/${vista}`;
 
@@ -82,6 +87,86 @@ const vistaCarteraemp = (req, res) => {
 	});
 };
 
+const vistaPagoPrestamo = (req, res) => {
+	console.log('sii');
+	res.render('pagoprestamo/pagoprestamo', {
+		rol: req.rol,
+		pagina: '',
+	});
+};
+
+// const vistaPrestamo = async (req, res) => {
+// 	console.log('vistaPrestamo');
+// 	try {
+// 		const prestamo = await Prestamo.findOne({
+// 			Attributes: ['id', 'monto', 'duracion', 'dia_pago', 'cartera_fk'],
+// 			include: [
+// 				{
+// 					model: Cartera,
+// 					include: [{ model: Cliente }],
+// 				},
+// 				{
+// 					model: Pago,
+// 				},
+// 			],
+// 			where: {
+// 				cartera_fk: req.params.id,
+// 			},
+// 		});
+// 		console.log(prestamo.pagos[{}]);
+
+// 		res.render('pagoprestamo/pagoprestamo', {
+// 			prestamo,
+// 			rol: req.rol,
+// 			pagina: 'carteraempleado',
+// 		});
+// 	} catch (error) {
+// 		console.log('error=' + error);
+// 	}
+// 	// res.render(render('login'));
+// };
+
+const vistaPrestamo = async (req, res) => {
+	console.log('vistaPrestamo');
+	try {
+		const pago = await Pago.findOne({
+			include: [
+				{
+					model: Prestamo,
+					Attributes: [
+						'id',
+						'monto',
+						'duracion',
+						'dia_pago',
+						'cartera_fk',
+					],
+					include: [
+						{
+							model: Cartera,
+							include: [{ model: Cliente }],
+						},
+					],
+					where: [
+						{
+							cartera_fk: req.params.id,
+						},
+					],
+				},
+			],
+		});
+		console.log(pago.monto_cuota);
+
+		res.render('pagoprestamo/pagoprestamo', {
+			pago,
+			rol: req.rol,
+			pagina: 'carteraempleado',
+		});
+	} catch (error) {
+		console.log('error=' + error);
+	}
+	// res.render(render('login'));
+};
+
 module.exports = {
 	vistaLogin,
 	logout,
@@ -96,4 +181,6 @@ module.exports = {
 	vistaPago,
 	vistaInfoContable,
 	vistaCarteraemp,
+	vistaPrestamo,
+	vistaPagoPrestamo,
 };

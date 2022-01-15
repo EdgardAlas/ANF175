@@ -25,6 +25,7 @@
 											class="form-control"
 											id="pcliente"
 											name="pcliente"
+											value="<%= `${pago.prestamo.cartera.cliente['nombre']} ${pago.prestamo.cartera.cliente['apellido']}` %>"
 										/>
 									</div>
 									<div class="col-12 col-md-6 mb-3">
@@ -36,11 +37,12 @@
 											class="form-control"
 											id="nombre"
 											name="nombre"
+											value="<%= `${pago.prestamo.monto}` %>"
 										/>
 									</div>
 								</div>
 								<div class="row">
-									<div class="col-12 col-md-6 mb-3">
+									<div class="col-12 col-md-3 mb-3">
 										<label for="telefono" class="form-label"
 											>Interes</label
 										>
@@ -51,45 +53,80 @@
 											name="telefono"
 										/>
 									</div>
-									<div class="col-12 col-md-6 mb-3">
-										<label for="correo" class="form-label"></label>
+									<div class="col-12 col-md-3 mb-3">
+										<label for="correo" class="form-label"
+											>Dia de pago</label
+										>
 										<input
-											type="email"
+											type="text"
 											class="form-control"
 											id="correo"
 											name="correo"
+											value="<%= `${pago.prestamo.dia_pago} ` %>"
 										/>
 									</div>
-								</div>
-								<div class="row">
-									<div class="col-12 col-md-6 mb-3">
-										<label for="usuario" class="form-label"></label>
+
+									<div class="col-12 col-md-3 mb-3">
+										<label for="usuario" class="form-label"
+											>Duración del credito</label
+										>
 										<input
 											type="text"
 											class="form-control"
 											id="usuario"
 											name="usuario"
+											value="<%= `${pago.prestamo.duracion} años` %>"
 										/>
 									</div>
-									<div class="col-12 col-md-6 mb-3">
-										<label for="clave" class="form-label"></label>
+									<div class="col-12 col-md-3 mb-3">
+										<label for="clave" class="form-label"
+											>Valor de la cuota</label
+										>
 										<input
-											type="password"
+											type="text"
 											class="form-control"
 											id="clave"
 											name="clave"
+											value="<%= `${pago.monto_cuota}` %>"
 										/>
 									</div>
 								</div>
 							</div>
+							<div class="col-12 table-responsive">
+								<table
+									id="tabla-pagoprestamo"
+									class="table table-striped"
+								>
+									<thead>
+										<tr>
+											<th>Fecha de pago</th>
+											<th>Saldo anterior</th>
+											<th>Capital</th>
+											<th>Intereses</th>
+											<th>Mora</th>
+											<th>Saldo actual</th>
+
+											<th>Acciones</th>
+										</tr>
+									</thead>
+									<tbody id="tbody-pagoprestamo">
+										<tr>
+											<td><%= `${pago.monto_cuota}` %></td>
+											<td><%= `${pago.monto_cuota}` %></td>
+											<td><%= `${pago.monto_cuota}` %></td>
+											<td><%= `${pago.monto_cuota}` %></td>
+											<td><%= `${pago.monto_cuota}` %></td>
+											<td><%= `${pago.monto_cuota}` %></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
 						</div>
 					</div>
 				</main>
-				<%- include("../partials/footer.ejs") %>
 			</div>
 		</div>
-		<!-- <%- include("../modales/agregar-vehiculos.ejs") %>  -->
-		<%- include("../partials/scripts.ejs")%>
+
 		<script src="/js/pagoprestamo.js?t=<%= Date.now() %>"></script>
 	</body>
 </html>

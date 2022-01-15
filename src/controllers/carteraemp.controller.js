@@ -4,7 +4,8 @@ const { Cartera } = require('../models/Cartera');
 const { Cliente } = require('../models/Cliente');
 const { Vehiculo } = require('../models/Vehiculo');
 const { Hipoteca } = require('../models/Hipoteca');
-//const { db } = require('../database/db');
+const { Prestamo } = require('../models/Prestamo');
+const { db } = require('../database/db');
 
 const obtenerCartera = async (req, res) => {
 	try {
@@ -30,9 +31,13 @@ const obtenerCartera = async (req, res) => {
 					model: Empleado,
 					attributes: ['id', 'nombre'],
 					required: true,
-					where: [{ id: '7026a2d6-598c-436f-b910-cee26d0e7bb2' }],
+				},
+
+				{
+					model: Prestamo,
 				},
 			],
+			where: [{ empleado_fk: req.id }],
 		});
 
 		return res.status(StatusCodes.OK).json({
@@ -43,6 +48,65 @@ const obtenerCartera = async (req, res) => {
 	}
 };
 
+const obtenerprestamo = async (req, res) => {
+	try {
+		const prestamo = await Prestamo.findAll({
+			attributes: ['id', 'monto', 'duracion', 'dia_pago', 'cartera_fk'],
+			include: [
+				{
+					model: Cartera,
+				},
+			],
+			where: [{ cartera_fk: req.params.id }],
+		});
+
+		return res.status(StatusCodes.OK).json({
+			prestamo,
+		});
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+const registrarPrestamo = async (req, res) => {
+	try {
+		const {
+			monto,
+			duracion,
+			dia_pago,
+			fecha_aprobacion,
+			valor_cuota,
+			valor_total,
+			cartera_fk,
+		} = req.body;
+
+		let prestamo = null;
+
+		await db.transaction(async (t) => {
+			prestamo = await Prestamo.create(
+				{
+					monto,
+					duracion,
+					dia_pago,
+					fecha_aprobacion,
+					valor_cuota,
+					valor_total,
+					cartera_fk,
+				},
+				{ transaction: t }
+			);
+		});
+		return res.status(StatusCodes.CREATED).json({
+			msg: 'se ha registrado con exito el prestamo',
+			prestamo,
+		});
+	} catch (error) {
+		console.log(error);
+	}
+};
+
 module.exports = {
 	obtenerCartera,
+	registrarPrestamo,
+	obtenerprestamo,
 };

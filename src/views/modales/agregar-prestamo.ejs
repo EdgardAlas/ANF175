@@ -23,12 +23,12 @@
 				></button>
 			</div>
 			<div class="modal-body">
-				<div class="col-12 col-md-12 mb-3">
+				<!-- <div class="col-12 col-md-12 mb-3">
 					<label for="cliente" class="form-label">Cliente</label>
 					<select class="form-select" id="combocliente">
 						<option value="-1">Seleccione</option>
 					</select>
-				</div>
+				</div> -->
 				<div class="row">
 					<div class="col-12 col-md-6 mb-3">
 						<label for="monto" class="form-label"
@@ -89,14 +89,14 @@
 				</div>
 				<div class="row">
 					<div class="col-12 col-md-6 mb-3">
-						<label for="anio" class="form-label"
+						<label for="fechaaprobacion" class="form-label"
 							>Fecha de aprobación</label
 						>
 						<input
-							type="number"
+							type="date"
 							class="form-control"
-							id="anio"
-							name="anio"
+							id="fechaaprobacion"
+							name="fechaaprobacion"
 							autocomplete="off"
 							required
 							max="2022"
@@ -118,27 +118,26 @@
 						/>
 					</div>
 					<div class="col-12 col-md-6 mb-3">
-						<label for="direccion" class="form-label"
+						<label for="montofin" class="form-label"
 							>Monto al finalizar el crédito
 						</label>
 						<input
 							type="text"
 							class="form-control"
-							id="direccion"
-							name="direccion"
-							autocomplete="off"
+							id="montofin"
+							name="montofin"
 							required
 						/>
 					</div>
 					<div class="col-12 col-md-6 mb-3">
-						<label for="archivo_compra" class="form-label"
+						<label for="gastosfinan" class="form-label"
 							>Gastos financieros</label
 						>
 						<input
 							type="text"
 							class="form-control"
-							id="archivo_compra"
-							name="archivo_compra"
+							id="gastosfinan"
+							name="gastosfinan"
 							required
 							autocomplete="off"
 							accept=".pdf,.doc,.docx,image/*"

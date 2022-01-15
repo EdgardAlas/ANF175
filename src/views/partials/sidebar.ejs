@@ -57,19 +57,22 @@
 				</div>
 				<% } %>
 				<div class="sb-sidenav-menu-heading">Créditos</div>
-				
+				<% if(rol==="Administrador"){ %>
 				<a class="nav-link <%= pagina === 'cartera' ? "active" : "" %>" href="/cartera">
 					<div class="sb-nav-link-icon">
 						<i class="bi bi-wallet-fill"></i>
 					</div>
 					Cartera de clientes
 				</a>
+				<% } %>
+				<% if(rol!=="Administrador"){ %>
 				<a class="nav-link <%= pagina === 'carteraempleado' ? "active" : "" %>" href="/carteraemp">
 					<div class="sb-nav-link-icon">
 						<i class="bi bi-wallet-fill"></i>
 					</div>
-					Cartera de clientes 2
+					Cartera de clientes
 				</a>
+				<% } %>
 				<a
 					class="nav-link collapsed"
 					href="#"
