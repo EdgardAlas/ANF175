@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<%- include("../partials/header.ejs", { titulo: "Prestamo" })%>
+	</head>
+	<body class="sb-nav-fixed">
+		<%- include("../partials/navbar.ejs")%>
+		<div id="layoutSidenav">
+			<%- include("../partials/sidebar.ejs", {rol, pagina})%>
+			<div id="layoutSidenav_content">
+				<main>
+					<div class="container-fluid px-4">
+						<a href="/carteraemp">Regresar</a>
+						<h1 class="mt-4">Prestamo</h1>
+						<h1 class="mt-4"></h1>
+						<div class="row gap-3">
+							<div class="col-12">
+								<div class="row">
+									<div class="col-12 col-md-6 mb-3">
+										<label for="pcliente" class="form-label"
+											>Cliente</label
+										>
+										<input
+											type="text"
+											class="form-control"
+											id="pcliente"
+											name="pcliente"
+										/>
+									</div>
+									<div class="col-12 col-md-6 mb-3">
+										<label for="nombre" class="form-label"
+											>Monto del prestamo</label
+										>
+										<input
+											type="text"
+											class="form-control"
+											id="nombre"
+											name="nombre"
+										/>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-12 col-md-6 mb-3">
+										<label for="telefono" class="form-label"
+											>Interes</label
+										>
+										<input
+											type="tel"
+											class="form-control"
+											id="telefono"
+											name="telefono"
+										/>
+									</div>
+									<div class="col-12 col-md-6 mb-3">
+										<label for="correo" class="form-label"></label>
+										<input
+											type="email"
+											class="form-control"
+											id="correo"
+											name="correo"
+										/>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-12 col-md-6 mb-3">
+										<label for="usuario" class="form-label"></label>
+										<input
+											type="text"
+											class="form-control"
+											id="usuario"
+											name="usuario"
+										/>
+									</div>
+									<div class="col-12 col-md-6 mb-3">
+										<label for="clave" class="form-label"></label>
+										<input
+											type="password"
+											class="form-control"
+											id="clave"
+											name="clave"
+										/>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</main>
+				<%- include("../partials/footer.ejs") %>
+			</div>
+		</div>
+		<!-- <%- include("../modales/agregar-vehiculos.ejs") %>  -->
+		<%- include("../partials/scripts.ejs")%>
+		<script src="/js/pagoprestamo.js?t=<%= Date.now() %>"></script>
+	</body>
+</html>
