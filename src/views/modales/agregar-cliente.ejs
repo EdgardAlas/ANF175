@@ -1,0 +1,254 @@
+<div
+	class="modal fade"
+	id="agregar-cliente-modal"
+	tabindex="-1"
+	data-bs-focus="false"
+	aria-labelledby="agregarclienteModal"
+	aria-hidden="true"
+	data-bs-backdrop="static"
+	data-bs-keyboard="false"
+	tabindex="-1"
+>
+	<div class="modal-dialog modal-xl">
+		<form class="modal-content" id="agregar-cliente-form">
+			<div class="modal-header bg-dark text-white">
+				<h5 class="modal-title" id="agregarclienteModal">
+					Agregar cliente
+				</h5>
+				<button
+					type="button"
+					class="btn-close"
+					data-bs-dismiss="modal"
+					aria-label="Close"
+				></button>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-12 mb-3 col-md-4">
+						<div class="col-12 mb-3">
+							<label for="dui" class="form-label">DUI *</label>
+							<input
+								type="text"
+								class="form-control"
+								id="dui"
+								name="dui"
+								autocomplete="off"
+								required
+								placeholder="12345678-9"
+							/>
+						</div>
+						<div class="col-12 mb-3">
+							<label for="nit" class="form-label">NIT *</label>
+							<input
+								type="text"
+								class="form-control"
+								id="nit"
+								name="nit"
+								autocomplete="off"
+								required
+								placeholder="12345678-9"
+							/>
+						</div>
+						<div class="col-12 mb-3">
+							<label for="nombre" class="form-label">Nombre *</label>
+							<input
+								type="text"
+								class="form-control"
+								id="nombre"
+								name="nombre"
+								autocomplete="off"
+								required
+								placeholder="Nombre"
+							/>
+						</div>
+						<div class="col-12 mb-3">
+							<label for="apellido" class="form-label">Apellido *</label>
+							<input
+								type="text"
+								class="form-control"
+								id="apellido"
+								name="apellido"
+								autocomplete="off"
+								required
+								placeholder="Apellido"
+							/>
+						</div>
+						<div class="col-12">
+							<label for="estado_civil" class="form-label"
+								>Estado civil *</label
+							>
+							<select
+								name="estado_civil"
+								id="estado_civil"
+								class="form-select"
+							>
+								<option value="0">Casado(a)</option>
+								<option value="1">Soltero(a)</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-12 mb-3 col-md-4">
+						<div class="col-12 mb-3">
+							<label for="tipo_cliente" class="form-label"
+								>Tipo de cliente *</label
+							>
+							<select
+								name="tipo_cliente"
+								id="tipo_cliente"
+								class="form-select"
+							>
+								<option value="0">Persona natural</option>
+								<option value="1">Persona juridica</option>
+							</select>
+						</div>
+						<div class="col-12 mb-3">
+							<label for="correo" class="form-label">Correo *</label>
+							<input
+								type="email"
+								class="form-control"
+								id="correo"
+								name="correo"
+								autocomplete="off"
+								required
+								placeholder="correo@dominio.com"
+							/>
+						</div>
+						<div class="col-12 mb-3">
+							<label
+								for="fecha_nacimiento"
+								id="lbl_fecha_nacimiento"
+								class="form-label"
+								>Fecha de nacimiento *</label
+							>
+							<input
+								type="date"
+								class="form-control"
+								id="fecha_nacimiento"
+								name="fecha_nacimiento"
+								autocomplete="off"
+								required
+								placeholder=""
+								value="<%= new Date().toISOString().split('T')[0] %>"
+							/>
+						</div>
+						<div class="col-12 mb-3">
+							<label for="direccion" class="form-label"
+								>Dirección *</label
+							>
+							<textarea
+								class="form-control"
+								id="direccion"
+								name="direccion"
+								autocomplete="off"
+								required
+								placeholder="Direccion"
+							></textarea>
+						</div>
+						<div class="col-12">
+							<label for="telefonos" class="form-label"
+								>Telefonos *</label
+							>
+							<input
+								pattern="[0-9]{4}-[0-9]{4}"
+								id="telefonos"
+								name="telefonos"
+								value=""
+								class="form-control"
+								required
+							/>
+						</div>
+					</div>
+
+					<div class="col-12 mb-3 col-md-4">
+						<div class="col-12 mb-3">
+							<label for="municipio_fk" class="form-label"
+								>Departamento
+							</label>
+							<select
+								name="departamento"
+								id="departamento"
+								class="form-select"
+							>
+								<% departamentos.forEach(function(departamento) { %>
+
+								<option value="<%= departamento.id%>">
+									<%= departamento.departamento%>
+								</option>
+								<% }); %>
+							</select>
+						</div>
+						<div class="col-12 mb-3">
+							<label for="municipio_fk" class="form-label"
+								>Municipio *</label
+							>
+							<select
+								name="municipio_fk"
+								id="municipio_fk"
+								class="form-select"
+							>
+								<% municipios.forEach(function(municipio) { %>
+
+								<option value="<%= municipio.id%>">
+									<%= municipio.municipio%>
+								</option>
+								<% }); %>
+							</select>
+						</div>
+						<div class="col-12 mb-3">
+							<label for="tipo_empleo" class="form-label"
+								>Tipo de empleo *</label
+							>
+							<select
+								name="tipo_empleo"
+								id="tipo_empleo"
+								class="form-select"
+							>
+								<option value="0">Informal</option>
+								<option value="1">Formal</option>
+							</select>
+						</div>
+						<div class="col-12 mb-3">
+							<label for="ingresos" class="form-label">Ingresos *</label>
+							<input
+								type="text"
+								name="ingresos"
+								id="ingresos"
+								class="form-control"
+							/>
+						</div>
+						<div class="col-12">
+							<label for="archivo_constancia_laboral" class="form-label"
+								>Constancia laboral *</label
+							>
+							<input
+								type="file"
+								accept="application/pdf"
+								name="archivo_constancia_laboral"
+								id="archivo_constancia_laboral"
+								class="form-control"
+							/>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button
+					type="button"
+					class="btn btn-secondary"
+					data-bs-dismiss="modal"
+				>
+					<i class="bi bi-x-circle"></i>
+					Cerrar
+				</button>
+				<button
+					type="submit"
+					class="btn btn-primary text-white"
+					id="btn-agregar-cliente"
+				>
+					<i class="bi bi-check-square" id="icono-editar"></i>
+					<span id="btn-texto"> Agregar </span>
+				</button>
+			</div>
+		</form>
+	</div>
+</div>

@@ -16,7 +16,7 @@
 								<button
 									class="btn btn-primary text-white"
 									data-bs-toggle="modal"
-									data-bs-target="#agregar-empleado-modal"
+									data-bs-target="#agregar-cliente-modal"
 									data-backdrop="static"
 									data-keyboard="false"
 								>
@@ -42,7 +42,7 @@
 										<tr>
 											<td><%= cliente.codigo_cliente %></td>
 											<td><%= cliente.dui %></td>
-											<td><%= cliente.nit %></td>
+											<td style="width: 20%"><%= cliente.nit %></td>
 											<td>
 												<%= cliente.nombre + " " + cliente.apellido
 												%>
@@ -53,8 +53,35 @@
 												Juridica` : `Persona Natural`%>
 											</td>
 											<td>
-												<button class="btn btn-warning text-white">
-													<i class="bi bi-eye mostrar-balance"></i>
+												<button
+													class="btn btn-info text-white"
+													data-id="<%= cliente.id %>"
+												>
+													<i
+														class="bi bi-eye mostrar-balance"
+														data-id="<%= cliente.id %>"
+													></i>
+												</button>
+												<button
+													type="button"
+													class="
+														btn btn-warning
+														text-white
+														editar-empleado
+													"
+													data-bs-toggle="modal"
+													data-bs-target="#agregar-empleado-modal"
+													data-backdrop="static"
+													data-keyboard="false"
+													data-id="<%= cliente.id %>"
+												>
+													<i
+														data-id="<%= cliente.id %>"
+														class="
+															bi bi-pencil-square
+															editar-empleado
+														"
+													></i>
 												</button>
 											</td>
 										</tr>
@@ -65,7 +92,8 @@
 						</div>
 					</div>
 				</main>
-				<%- include("../partials/footer.ejs") %> <%-
+				<%- include("../modales/agregar-cliente.ejs", {municipios,
+				departamentos}) %> <%- include("../partials/footer.ejs") %> <%-
 				include("../partials/scripts.ejs") %>
 			</div>
 		</div>

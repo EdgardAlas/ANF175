@@ -2,6 +2,8 @@ const { eliminarSesion } = require('../helpers/crear-sesion');
 const { Cartera } = require('../models/Cartera');
 const { Cliente } = require('../models/Cliente');
 const { Empleado } = require('../models/Empleado');
+const { Departamento } = require('../models/Departamento');
+const { Municipio } = require('../models/Municipio');
 
 const render = (vista) => `autenticacion/${vista}`;
 
@@ -27,10 +29,19 @@ const inicio = (req, res) => {
 
 const vistaClientes = async (req, res) => {
 	let clientes = [];
+	let departamentos = [];
+	let municipios = [];
 	try {
 		const empleado = await Empleado.findOne({
 			where: {
 				id: req.id,
+			},
+		});
+
+		departamentos = await Departamento.findAll();
+		municipios = await Municipio.findAll({
+			where: {
+				departamento_fk: 1,
 			},
 		});
 
@@ -61,6 +72,8 @@ const vistaClientes = async (req, res) => {
 		rol: req.rol,
 		pagina: 'clientes',
 		clientes,
+		departamentos,
+		municipios,
 	});
 };
 

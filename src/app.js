@@ -152,6 +152,7 @@ class App {
 		this.server.use('/api/fiador', require('./routes/fiador.route'));
 		this.server.use('/api/activo', require('./routes/activo.route'));
 		this.server.use('/api/pago', require('./routes/pago.route'));
+		this.server.use('/api/cliente', require('./routes/cliente.route'));
 		this.server.use(
 			'/api/informacion-contable',
 			require('./routes/infocontable.route')
