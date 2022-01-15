@@ -25,7 +25,7 @@
 											class="form-control"
 											id="pcliente"
 											name="pcliente"
-											value="<%= `${pago.prestamo.cartera.cliente['nombre']} ${pago.prestamo.cartera.cliente['apellido']}` %>"
+											value="<%= `${ (!pago.prestamo)? pago.cartera.cliente['nombre']: pago.prestamo.cartera.cliente['nombre'] } ` %>"
 										/>
 									</div>
 									<div class="col-12 col-md-6 mb-3">
@@ -37,7 +37,7 @@
 											class="form-control"
 											id="nombre"
 											name="nombre"
-											value="<%= `${pago.prestamo.monto}` %>"
+											value="<%= `${ (!pago.prestamo)? pago.monto: pago.prestamo['monto'] } ` %>"
 										/>
 									</div>
 								</div>
@@ -62,7 +62,7 @@
 											class="form-control"
 											id="correo"
 											name="correo"
-											value="<%= `${pago.prestamo.dia_pago} ` %>"
+											value="<%= `${ (!pago.prestamo)? pago.dia_pago: pago.prestamo['dia_pago'] } ` %>"
 										/>
 									</div>
 
@@ -75,7 +75,7 @@
 											class="form-control"
 											id="usuario"
 											name="usuario"
-											value="<%= `${pago.prestamo.duracion} años` %>"
+											value="<%= `${ (!pago.prestamo)? pago.duracion: pago.prestamo['duracion'] } ` %>"
 										/>
 									</div>
 									<div class="col-12 col-md-3 mb-3">
@@ -87,7 +87,7 @@
 											class="form-control"
 											id="clave"
 											name="clave"
-											value="<%= `${pago.monto_cuota}` %>"
+											value="<%= `${ (!pago.prestamo)? pago.valor_cuota: pago.prestamo['valor_cuota'] } ` %>"
 										/>
 									</div>
 								</div>

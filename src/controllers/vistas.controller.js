@@ -127,9 +127,9 @@ const vistaPagoPrestamo = (req, res) => {
 // };
 
 const vistaPrestamo = async (req, res) => {
-	console.log('vistaPrestamo');
+	console.log('vistaPrestamo=' + req.params.id);
 	try {
-		const pago = await Pago.findOne({
+		let pago = await Pago.findOne({
 			include: [
 				{
 					model: Prestamo,
@@ -154,7 +154,23 @@ const vistaPrestamo = async (req, res) => {
 				},
 			],
 		});
-		console.log(pago.monto_cuota);
+		if (!pago) {
+			console.log('entro al segundo');
+			pago = await Prestamo.findOne({
+				include: [
+					{
+						model: Cartera,
+						include: [{ model: Cliente }],
+					},
+				],
+				where: [
+					{
+						cartera_fk: req.params.id,
+					},
+				],
+			});
+		}
+		console.log('pago=' + pago);
 
 		res.render('pagoprestamo/pagoprestamo', {
 			pago,

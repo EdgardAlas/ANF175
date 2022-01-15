@@ -1,4 +1,5 @@
 ((api, alerta, tabla, confirmacion, select) => {
+	let tablapago = null;
 	const comboempleado = document.getElementById('comboempleado'),
 		combocliente = document.getElementById('combocliente'),
 		prestamoForm = document.getElementById('agregar-prestamo-form'),
@@ -39,7 +40,33 @@
 				return;
 			}
 			idcartera = target.dataset.id;
+			interes.value = 0.01;
+			interes.disabled = true;
+			valor_cuota.disabled = true;
+			valor_total.disabled = true;
 		});
+
+	document.getElementById('monto').addEventListener('keyup', () => {
+		calcularcuota(monto.value, interes.value, duracion.value);
+	});
+
+	function calcularcuota(monto, interes, duracion) {
+		console.log('monto=' + monto);
+		const numerador = parseFloat(interes) * parseFloat(monto);
+		const denominador =
+			parseInt(1) -
+			Math.pow(parseInt(1) + parseFloat(interes), -parseInt(duracion));
+		console.log(numerador);
+		console.log(denominador);
+		console.log(parseFloat(numerador) / parseFloat(denominador));
+		valor_cuota.value = (parseFloat(numerador) / parseFloat(denominador))
+			.toFixed(2)
+			.toLocaleString('es-SV');
+
+		valor_total.value = (
+			parseFloat(valor_cuota.value) * parseInt(duracion)
+		).toFixed(2);
+	}
 
 	// document
 	// 	.getElementById('tbody-carteraemp')
@@ -144,7 +171,10 @@
 				});
 				document.getElementById('tbody-carteraemp').innerHTML = '';
 				document.getElementById('tbody-carteraemp').append(fragmento);
-				tabla('tabla-carteraemp');
+				if (tablapago) {
+					tablapago.destroy();
+				}
+				tablapago = tabla('tabla-carteraemp');
 
 				//registrando();
 			}

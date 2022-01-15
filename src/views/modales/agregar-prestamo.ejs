@@ -41,7 +41,7 @@
 							name="monto"
 							autocomplete="off"
 							required
-							placeholder="05326269-8"
+							placeholder=""
 						/>
 					</div>
 					<div class="col-12 col-md-6 mb-3">
@@ -70,19 +70,25 @@
 							name="diapago"
 							placeholder="27"
 							autocomplete="off"
+							max="30"
+							min="1"
 							required
 						/>
 					</div>
 					<div class="col-12 col-md-6 mb-3">
 						<label for="duracion" class="form-label"
-							>Duración del préstamo</label
+							>Duración del préstamo en meses</label
 						>
+
 						<input
-							type="text"
+							type="number"
 							class="form-control"
 							id="duracion"
 							name="duracion"
 							autocomplete="off"
+							value="12"
+							max="120"
+							min="12"
 							required
 						/>
 					</div>
@@ -106,7 +112,7 @@
 					<div class="col-12 col-md-6 mb-3">
 						<label for="valor" class="form-label">Valor Cuota</label>
 						<input
-							type="number"
+							type="text"
 							class="form-control"
 							id="valor"
 							name="valor"
