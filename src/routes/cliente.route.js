@@ -6,6 +6,7 @@ const {
 	existeCorreo,
 	agregarCliente,
 	obtenerClientes,
+	obtenerInformacion,
 } = require('../controllers/cliente.controller');
 const { rutaProtegida } = require('../middlewares/valida-rutas');
 
@@ -17,5 +18,6 @@ routes.get('/dui/:dui', existeDUI);
 routes.get('/nit/:nit', existeNIT);
 routes.post('/', rutaProtegida, agregarCliente);
 routes.get('/', rutaProtegida, obtenerClientes);
+routes.get('/:id', rutaProtegida, obtenerInformacion);
 
 module.exports = routes;

@@ -10,6 +10,7 @@ const { Empleado } = require('../models/Empleado');
 const { Municipio } = require('../models/Municipio');
 const { Telefono } = require('../models/Telefono');
 const { Cartera } = require('../models/Cartera');
+const Departamento = require('../models/Departamento');
 
 const obtenerMunicipios = async (req, res) => {
 	const { municipio } = req.params;
@@ -141,7 +142,9 @@ const agregarCliente = async (req, res) => {
 		});
 
 		let filename = null;
-		console.log('aqui');
+		console.log({
+			guardar,
+		});
 		//console.log(req.files.archivo_compra);
 		if (req.files) {
 			let archivos = req.files.archivo_constancia_laboral;
@@ -229,6 +232,33 @@ const obtenerClientes = async (req, res) => {
 	res.status(200).json(clientes);
 };
 
+const obtenerInformacion = async (req, res) => {
+	let cliente = {};
+	try {
+		cliente = await Cliente.findOne({
+			include: [
+				{
+					model: Telefono,
+				},
+				{
+					model: Municipio,
+					include: [
+						{
+							model: Departamento,
+						},
+					],
+				},
+			],
+			where: {
+				id: req.params.id,
+			},
+		});
+	} catch (error) {
+		console.log(error);
+	}
+	res.status(200).json(cliente);
+};
+
 module.exports = {
 	obtenerMunicipios,
 	existeDUI,
@@ -236,4 +266,5 @@ module.exports = {
 	existeNIT,
 	agregarCliente,
 	obtenerClientes,
+	obtenerInformacion,
 };

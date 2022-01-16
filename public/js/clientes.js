@@ -98,6 +98,15 @@
 		e.preventDefault();
 	});
 
+	document
+		.getElementById('tbody-clientes')
+		.addEventListener('click', function (e) {
+			if (e.target.classList.contains('mostrar-informacion')) {
+				const id = e.target.dataset.id;
+				mostrarInformacion(id);
+			}
+		});
+
 	agregar.addEventListener('click', function (e) {
 		const telefonos = tagify.value.map((tel) => ({
 			telefono: tel.value,
@@ -114,7 +123,7 @@
 			fecha_nacimiento: fechaNacimiento.value,
 			direccion: direccion.value,
 			telefonos,
-			municipio: municipio.value,
+			municipio_fk: municipio.value,
 			tipo_empleo: tipoEmpleo.value == '1',
 			ingresos: ingresos.value.replaceAll('$', '').replaceAll(',', ''),
 			archivo_constancia_laboral: archivoConstanciaLaboral.files[0],
@@ -236,6 +245,54 @@
 	dui.addEventListener('keyup', existeDUI);
 	nit.addEventListener('keyup', existeNIT);
 
+	async function mostrarInformacion(id) {
+		try {
+			const [resp, data] = await api({
+				url: `cliente/${id}`,
+				method: 'GET',
+			});
+			if (data.status === 200) {
+				console.log(resp);
+				document.getElementById(
+					'nombre-cliente'
+				).textContent = `${resp.nombre} ${resp.apellido}`;
+
+				document.getElementById('codigo-cliente').textContent =
+					resp.codigo_cliente;
+
+				document.getElementById('dui-cliente').textContent = resp.dui;
+
+				document.getElementById('nit-cliente').textContent = resp.nit;
+
+				if (resp.estado_civil) {
+					document.getElementById('estado-civil-div').style.display =
+						'none';
+				} else {
+					document.getElementById('estado-civil-div').style.display =
+						'block';
+				}
+				document.getElementById('estado-civil-cliente').textContent =
+					resp.estado_civil ? 'Soltero(a)' : 'Casado(a)';
+
+				document.getElementById('correo-cliente').textContent =
+					resp.correo_electronico;
+
+				if (resp.estado_civil) {
+					document.getElementById('fecha-nacimiento-div').style.display =
+						'none';
+				} else {
+					document.getElementById('fecha-nacimiento-div').style.display =
+						'block';
+				}
+				document.getElementById('fecha-nacimiento-cliente').textContent =
+					dayjs(resp.fecha_nacimiento).format('DD-MM-YYYY');
+
+				document.getElementById('direccion-cliente').textContent =
+					resp.direccion;
+			}
+		} catch (error) {}
+	}
+
 	async function existCorreo({ target }) {
 		if (correo.value.trim().length === 0) {
 			return;
@@ -340,11 +397,11 @@
 												<td>${cliente.tipo_cliente ? 'Persona Juridica' : 'Persona Natural'}</td>
 												<td>
 													<button
-														class="btn btn-info text-white"
+														class="btn btn-info text-white mostrar-informacion"
 														data-id=${cliente.id}
 													>
 														<i
-															class="bi bi-eye mostrar-balance"
+															class="bi bi-eye mostrar-informacion"
 															data-id=${cliente.id}
 														></i>
 													</button>

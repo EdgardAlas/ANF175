@@ -54,11 +54,19 @@
 											</td>
 											<td>
 												<button
-													class="btn btn-info text-white"
+													class="
+														btn btn-info
+														text-white
+														mostrar-informacion
+													"
+													data-bs-toggle="modal"
+													data-bs-target="#mostrar-cliente-modal"
+													data-backdrop="static"
+													data-keyboard="false"
 													data-id="<%= cliente.id %>"
 												>
 													<i
-														class="bi bi-eye mostrar-balance"
+														class="bi bi-eye mostrar-informacion"
 														data-id="<%= cliente.id %>"
 													></i>
 												</button>
@@ -93,7 +101,8 @@
 					</div>
 				</main>
 				<%- include("../modales/agregar-cliente.ejs", {municipios,
-				departamentos}) %> <%- include("../partials/footer.ejs") %> <%-
+				departamentos}) %> <%- include("../modales/ver-client.ejs") %> <%-
+				include("../partials/footer.ejs") %> <%-
 				include("../partials/scripts.ejs") %>
 			</div>
 		</div>

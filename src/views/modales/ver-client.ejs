@@ -1,0 +1,69 @@
+<div
+	class="modal fade"
+	id="mostrar-cliente-modal"
+	tabindex="-1"
+	data-bs-focus="false"
+	aria-labelledby="mostrarClienteModal"
+	aria-hidden="true"
+	data-bs-backdrop="static"
+	data-bs-keyboard="false"
+	tabindex="-1"
+>
+	<div class="modal-dialog modal-lg">
+		<form class="modal-content" id="agregar-activo-form">
+			<div class="modal-header bg-dark text-white">
+				<h5 class="modal-title" id="nombre-cliente"></h5>
+				<button
+					type="button"
+					class="btn-close"
+					data-bs-dismiss="modal"
+					aria-label="Close"
+				></button>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-6">
+						<div class="col-12">
+							<span class="fw-bold">Código de cliente: </span
+							><span id="codigo-cliente"></span>
+						</div>
+						<div class="col-12">
+							<span class="fw-bold">DUI: </span
+							><span id="dui-cliente"></span>
+						</div>
+						<div class="col-12">
+							<span class="fw-bold">NIT: </span
+							><span id="nit-cliente"></span>
+						</div>
+						<div class="col-12" id="estado-civil-div">
+							<span class="fw-bold">Estado civil: </span
+							><span id="estado-civil-cliente"></span>
+						</div>
+						<div class="col-12">
+							<span class="fw-bold">Correo: </span
+							><span id="correo-cliente"></span>
+						</div>
+						<div class="col-12" id="fecha-nacimiento-div">
+							<span class="fw-bold">Fecha nacimiento: </span
+							><span id="fecha-nacimiento-cliente"></span>
+						</div>
+						<div class="col-12">
+							<span class="fw-bold">Dirección: </span
+							><span id="direccion-cliente"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button
+					type="button"
+					class="btn btn-secondary"
+					data-bs-dismiss="modal"
+				>
+					<i class="bi bi-x-circle"></i>
+					Cerrar
+				</button>
+			</div>
+		</form>
+	</div>
+</div>
