@@ -140,9 +140,11 @@ const vistaPrestamo = async (req, res) => {
 						'dia_pago',
 						'cartera_fk',
 					],
+
 					include: [
 						{
 							model: Cartera,
+
 							include: [{ model: Cliente }],
 						},
 					],
@@ -170,7 +172,7 @@ const vistaPrestamo = async (req, res) => {
 				],
 			});
 		}
-		console.log('pago=' + pago);
+		console.log('pago=' + pago.prestamo.cliente);
 
 		res.render('pagoprestamo/pagoprestamo', {
 			pago,

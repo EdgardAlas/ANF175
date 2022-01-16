@@ -44,7 +44,7 @@
 					</div>
 				</div>
 				<div class="row mb-3">
-					<div class="col-12 col-md-6 mb-3">
+					<div class="col-12 col-md-4 mb-3">
 						<label for="monto" class="form-label">Monto</label>
 						<input
 							type="number"
@@ -54,12 +54,27 @@
 							autocomplete="off"
 							required
 							max="60000"
-							min="600"
+							min="50"
 							placeholder="$"
 							step="any"
 						/>
 					</div>
-					<div class="col-12 col-md-6 mb-3">
+					<div class="col-12 col-md-4 mb-3">
+						<label for="interes" class="form-label">Interes</label>
+						<input
+							type="number"
+							class="form-control"
+							id="interes"
+							name="interes"
+							autocomplete="off"
+							required
+							max="60000"
+							min="50"
+							placeholder="$"
+							step="any"
+						/>
+					</div>
+					<div class="col-12 col-md-4 mb-3">
 						<label for="fecha" class="form-label">Fecha</label>
 						<input
 							type="datetime-local"
@@ -77,6 +92,8 @@
 							<thead>
 								<tr>
 									<th>Monto ($)</th>
+									<th>Interes ($)</th>
+
 									<th>Fecha</th>
 								</tr>
 							</thead>

@@ -66,7 +66,15 @@ const obtenerPagosReal = async (req, res) => {
 
 const registrarPago = async (req, res) => {
 	try {
-		const { monto_cuota, fecha, prestamo_fk, empleado_fk } = req.body;
+		const {
+			monto_cuota,
+			fecha,
+			prestamo_fk,
+			empleado_fk,
+			interes,
+			saldo_actual,
+			saldo_mora,
+		} = req.body;
 		let pago = null;
 		await db.transaction(async (t) => {
 			pago = await Pago.create(
@@ -75,6 +83,9 @@ const registrarPago = async (req, res) => {
 					fecha,
 					prestamo_fk,
 					empleado_fk,
+					interes,
+					saldo_actual,
+					saldo_mora,
 				},
 				{ transaction: t }
 			);

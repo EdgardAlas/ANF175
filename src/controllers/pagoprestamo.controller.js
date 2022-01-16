@@ -8,10 +8,22 @@ const vistaPrestamo = async (req, res) => {
 
 const obtenerPago2 = async (req, res) => {
 	try {
-		const pago = await Pago.findAll({});
-		console.log('pago=' + pago);
+		const pagos = await Pago.findAll({
+			attributes: [
+				'id',
+				'monto_cuota',
+				'fecha',
+				'prestamo_fk',
+				'empleado_fk',
+				'interes',
+				'saldo_actual',
+				'saldo_mora',
+			],
+			where: [{ prestamo_fk: req.params.id }],
+		});
+		console.log('p=' + pagos);
 		return res.status(StatusCodes.OK).json({
-			pago,
+			pagos,
 		});
 	} catch (error) {
 		console.log(error);
