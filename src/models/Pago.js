@@ -15,6 +15,15 @@ const Pago = db.define(
 		fecha: {
 			type: DataTypes.DATE,
 		},
+		interes: {
+			type: DataTypes.FLOAT,
+		},
+		saldo_actual: {
+			type: DataTypes.FLOAT,
+		},
+		saldo_mora: {
+			type: DataTypes.FLOAT,
+		},
 	},
 	{
 		tableName: 'pago',

@@ -15,6 +15,7 @@ const {
 	vistaInfoContable,
 	vistaCarteraemp,
 	vistaPrestamo,
+	vistaPagoPrestamo,
 } = require('../controllers/vistas.controller');
 const { vistaPublica, vistaProtegida } = require('../middlewares/valida-rutas');
 
@@ -33,5 +34,6 @@ routes.get('/pago', vistaProtegida, vistaPago);
 routes.get('/informacion-contable', vistaProtegida, vistaInfoContable);
 routes.get('/carteraemp', vistaProtegida, vistaCarteraemp);
 routes.get('/pagoprestamo/:id', vistaProtegida, vistaPrestamo);
+routes.get('/pago', vistaProtegida, vistaPagoPrestamo);
 
 module.exports = routes;

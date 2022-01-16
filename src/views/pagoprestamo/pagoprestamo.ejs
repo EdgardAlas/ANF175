@@ -10,9 +10,26 @@
 			<div id="layoutSidenav_content">
 				<main>
 					<div class="container-fluid px-4">
-						<a href="/carteraemp">Regresar</a>
-						<h1 class="mt-4">Prestamo</h1>
-						<h1 class="mt-4"></h1>
+						<div class="container-fluid">
+							<a
+								type="button"
+								class="btn btn-light m-2"
+								href="/carteraemp"
+								><i class="bi bi-arrow-left-square"></i
+							></a>
+							<label class="h2 mt-4 mb-0">Detalle de prestamo</label>
+							<button
+								type="button"
+								class="btn btn-warning"
+								data-bs-toggle="modal"
+								data-bs-target="#agregar-modal"
+								data-backdrop="static"
+								data-keyboard="false"
+							>
+								<i class="bi bi-cash-coin"></i>Registrar pago
+							</button>
+						</div>
+						<hr />
 						<div class="row gap-3">
 							<div class="col-12">
 								<div class="row">
@@ -22,36 +39,82 @@
 										>
 										<input
 											type="text"
-											class="form-control"
+											class="form-control bg-white"
 											id="pcliente"
 											name="pcliente"
-											value="<%= `${ (!pago.prestamo)? pago.cartera.cliente['nombre']: pago.prestamo.cartera.cliente['nombre'] } ` %>"
+											value="<%= `${ (!pago.prestamo)? pago.cartera.cliente['nombre']+' '+pago.cartera.cliente['apellido'] : pago.prestamo.cartera.cliente['nombre']+' '+pago.prestamo.cartera.cliente['apellido'] } ` %>"
+											disabled
+										/>
+										<input
+											type="hidden"
+											class="form-control bg-white"
+											id="idprestamo"
+											name="pcliente"
+											value="<%= `${ (!pago.prestamo)? pago.id : pago.prestamo.id} ` %>"
+										/>
+										<input
+											type="hidden"
+											class="form-control bg-white"
+											id="idempleado"
+											name="pcliente"
+											value="<%= `${ (!pago.prestamo)? pago.cartera.empleado_fk : pago.prestamo.cartera.empleado_fk} ` %>"
 										/>
 									</div>
-									<div class="col-12 col-md-6 mb-3">
-										<label for="nombre" class="form-label"
+									<div class="col-12 col-md-3 mb-3">
+										<label for="montoprestamo" class="form-label"
 											>Monto del prestamo</label
 										>
 										<input
 											type="text"
-											class="form-control"
+											class="form-control bg-white"
+											id="montoprestamo"
+											name="montoprestamo"
+											value="<%= `${ (!pago.prestamo)? pago.monto: pago.prestamo['monto'] } ` %>"
+											disabled
+										/>
+									</div>
+									<div class="col-12 col-md-3 mb-3">
+										<label for="nombre" class="form-label"
+											>Monto al finalizar</label
+										>
+										<input
+											type="text"
+											class="form-control bg-white"
 											id="nombre"
 											name="nombre"
-											value="<%= `${ (!pago.prestamo)? pago.monto: pago.prestamo['monto'] } ` %>"
+											value="<%= `${ (!pago.prestamo)? pago.valor_total: pago.prestamo['valor_total'] } ` %>"
+											disabled
 										/>
 									</div>
 								</div>
 								<div class="row">
 									<div class="col-12 col-md-3 mb-3">
-										<label for="telefono" class="form-label"
-											>Interes</label
-										>
-										<input
-											type="tel"
-											class="form-control"
-											id="telefono"
-											name="telefono"
-										/>
+										<div class="row">
+											<div class="col-6 col-md-6 mb-3">
+												<label for="telefono" class="form-label"
+													>Tasa de interes
+												</label>
+												<input
+													type="tel"
+													class="form-control bg-white"
+													id="telefono"
+													name="telefono"
+													disabled
+												/>
+											</div>
+											<div class="col-6 col-md-6 mb-3">
+												<label for="interesacum" class="form-label"
+													>Interes acumulado
+												</label>
+												<input
+													type="text"
+													class="form-control bg-white"
+													id="interesacum"
+													name="interesacum"
+													disabled
+												/>
+											</div>
+										</div>
 									</div>
 									<div class="col-12 col-md-3 mb-3">
 										<label for="correo" class="form-label"
@@ -59,10 +122,11 @@
 										>
 										<input
 											type="text"
-											class="form-control"
+											class="form-control bg-white"
 											id="correo"
 											name="correo"
 											value="<%= `${ (!pago.prestamo)? pago.dia_pago: pago.prestamo['dia_pago'] } ` %>"
+											disabled
 										/>
 									</div>
 
@@ -72,10 +136,11 @@
 										>
 										<input
 											type="text"
-											class="form-control"
+											class="form-control bg-white"
 											id="usuario"
 											name="usuario"
 											value="<%= `${ (!pago.prestamo)? pago.duracion: pago.prestamo['duracion'] } ` %>"
+											disabled
 										/>
 									</div>
 									<div class="col-12 col-md-3 mb-3">
@@ -84,10 +149,11 @@
 										>
 										<input
 											type="text"
-											class="form-control"
+											class="form-control bg-white"
 											id="clave"
 											name="clave"
 											value="<%= `${ (!pago.prestamo)? pago.valor_cuota: pago.prestamo['valor_cuota'] } ` %>"
+											disabled
 										/>
 									</div>
 								</div>
@@ -105,20 +171,9 @@
 											<th>Intereses</th>
 											<th>Mora</th>
 											<th>Saldo actual</th>
-
-											<th>Acciones</th>
 										</tr>
 									</thead>
-									<tbody id="tbody-pagoprestamo">
-										<tr>
-											<td><%= `${pago.monto_cuota}` %></td>
-											<td><%= `${pago.monto_cuota}` %></td>
-											<td><%= `${pago.monto_cuota}` %></td>
-											<td><%= `${pago.monto_cuota}` %></td>
-											<td><%= `${pago.monto_cuota}` %></td>
-											<td><%= `${pago.monto_cuota}` %></td>
-										</tr>
-									</tbody>
+									<tbody id="tbody-pagoprestamo"></tbody>
 								</table>
 							</div>
 						</div>
@@ -126,7 +181,8 @@
 				</main>
 			</div>
 		</div>
-
+		<%- include("../modales/agregar-pago.ejs")%>
+		<%-include("../partials/scripts.ejs")%>
 		<script src="/js/pagoprestamo.js?t=<%= Date.now() %>"></script>
 	</body>
 </html>

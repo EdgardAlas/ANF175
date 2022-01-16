@@ -40,7 +40,7 @@
 				return;
 			}
 			idcartera = target.dataset.id;
-			interes.value = 0.01;
+			interes.value = 0.09;
 			interes.disabled = true;
 			valor_cuota.disabled = true;
 			valor_total.disabled = true;
