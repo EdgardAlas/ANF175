@@ -1,0 +1,65 @@
+<div
+	class="modal fade"
+	id="modal-razones"
+	tabindex="-1"
+	data-bs-focus="false"
+	aria-labelledby="modalRazones"
+	aria-hidden="true"
+	data-bs-backdrop="static"
+	data-bs-keyboard="false"
+	tabindex="-1"
+>
+	<div class="modal-dialog modal-lg">
+		<form class="modal-content" id="agregar-hipoteca-form">
+			<div class="modal-header bg-dark text-white">
+				<h5 class="modal-title" id="agregarHipotecaModal">
+					Razónes Financieras
+				</h5>
+				<button
+					type="button"
+					class="btn-close"
+					data-bs-dismiss="modal"
+					aria-label="Close"
+				></button>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-12">
+						<div class="row mb-3">
+							<div class="col-6">Razón circulante</div>
+							<div class="col d-flex flex-row-reverse">
+								<span class="fw-bold" id="razon-circulante">$0.00</span>
+							</div>
+							<input id="circulante" type="text" disabled="true"/>
+						</div>
+						<div class="row mb-3">
+							<div class="col-6">Indice de endeudamiento</div>
+							<div class="col d-flex flex-row-reverse">
+								<span class="fw-bold" id="endeudamiento">$0.00</span>
+							</div>
+							<input id="endeuda" type="text" disabled="true"/>
+						</div>
+						<div class="row mb-3">
+							<div class="col-6">Razón de deuda a patrimonio</div>
+							<div class="col d-flex flex-row-reverse">
+								<span class="fw-bold" id="razon-patrimonio">$0.00</span>
+							</div>
+							<input id="patrimo" type="text" disabled="true" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button
+					id="cerrar"
+					type="button"
+					class="btn btn-secondary"
+					data-bs-dismiss="modal"
+				>
+					<i class="bi bi-x-circle"></i>
+					Cerrar
+				</button>
+			</div>
+		</form>
+	</div>
+</div>
