@@ -264,7 +264,7 @@
 
 				document.getElementById('nit-cliente').textContent = resp.nit;
 
-				if (resp.estado_civil) {
+				if (resp.tipo_cliente) {
 					document.getElementById('estado-civil-div').style.display =
 						'none';
 				} else {
@@ -277,7 +277,7 @@
 				document.getElementById('correo-cliente').textContent =
 					resp.correo_electronico;
 
-				if (resp.estado_civil) {
+				if (resp.tipo_cliente) {
 					document.getElementById('fecha-nacimiento-div').style.display =
 						'none';
 				} else {
@@ -287,10 +287,52 @@
 				document.getElementById('fecha-nacimiento-cliente').textContent =
 					dayjs(resp.fecha_nacimiento).format('DD-MM-YYYY');
 
-				document.getElementById('direccion-cliente').textContent =
-					resp.direccion;
+				document.getElementById(
+					'direccion-cliente'
+				).textContent = `${resp.direccion}, ${resp.municipio.municipio}, ${resp.municipio.departamento.departamento}`;
+
+				if (resp.tipo_cliente) {
+					document.getElementById('tipo-empleo-div').style.display =
+						'none';
+				} else {
+					document.getElementById('tipo-empleo-div').style.display =
+						'block';
+				}
+				document.getElementById('tipo-empleo-cliente').textContent =
+					resp.tipo_empleo ? 'Informal' : 'Formal';
+
+				if (resp.tipo_cliente) {
+					document.getElementById('ingresos-div').style.display = 'none';
+				} else {
+					document.getElementById('ingresos-div').style.display = 'block';
+				}
+				document.getElementById('ingresos-cliente').textContent =
+					'$' + resp.ingresos.toLocaleString();
+
+				if (resp.tipo_cliente) {
+					document.getElementById('constancia-div').style.display = 'none';
+				} else {
+					document.getElementById('constancia-div').style.display =
+						'block';
+				}
+				document.getElementById(
+					'constancia-cliente'
+				).href = `/api/cliente/ver-constancia-laboral/${resp.archivo_constancia_laboral}`;
+
+				const fragmento = document.createDocumentFragment();
+
+				resp.telefonos.forEach(({ telefono }) => {
+					var tpl = document.createElement('template');
+					tpl.innerHTML = `
+											<li>${telefono}</li>`;
+					fragmento.appendChild(tpl.content);
+				});
+				document.getElementById('telefonos-ul').innerHTML = '';
+				document.getElementById('telefonos-ul').appendChild(fragmento);
 			}
-		} catch (error) {}
+		} catch (error) {
+			console.log(error);
+		}
 	}
 
 	async function existCorreo({ target }) {

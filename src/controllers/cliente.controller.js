@@ -10,7 +10,7 @@ const { Empleado } = require('../models/Empleado');
 const { Municipio } = require('../models/Municipio');
 const { Telefono } = require('../models/Telefono');
 const { Cartera } = require('../models/Cartera');
-const Departamento = require('../models/Departamento');
+const { Departamento } = require('../models/Departamento');
 
 const obtenerMunicipios = async (req, res) => {
 	const { municipio } = req.params;
@@ -258,6 +258,9 @@ const obtenerInformacion = async (req, res) => {
 	}
 	res.status(200).json(cliente);
 };
+const verConstancia = async (req, res) => {
+	res.sendFile(path.resolve(__dirname, `../../uploads/${req.params.archivo}`));
+};
 
 module.exports = {
 	obtenerMunicipios,
@@ -267,4 +270,5 @@ module.exports = {
 	agregarCliente,
 	obtenerClientes,
 	obtenerInformacion,
+	verConstancia,
 };

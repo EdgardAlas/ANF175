@@ -7,6 +7,7 @@ const {
 	agregarCliente,
 	obtenerClientes,
 	obtenerInformacion,
+	verConstancia,
 } = require('../controllers/cliente.controller');
 const { rutaProtegida } = require('../middlewares/valida-rutas');
 
@@ -19,5 +20,6 @@ routes.get('/nit/:nit', existeNIT);
 routes.post('/', rutaProtegida, agregarCliente);
 routes.get('/', rutaProtegida, obtenerClientes);
 routes.get('/:id', rutaProtegida, obtenerInformacion);
+routes.get('/ver-constancia-laboral/:archivo', verConstancia);
 
 module.exports = routes;
