@@ -200,6 +200,82 @@ const agregarCliente = async (req, res) => {
 		});
 	}
 };
+const editarCliente = async (req, res) => {
+	try {
+		const id = req.params.id;
+		let guardar = {
+			...req.body,
+
+			fecha_nacimiento: fechaLocal(req.body.fecha_nacimiento).toDate(),
+		};
+
+		let telefonos = JSON.parse(req.body.telefonos).map((telefono) => ({
+			...telefono,
+			cliente_fk: id,
+		}));
+
+		let filename = null;
+
+		//console.log(req.files.archivo_compra);
+		if (req.files) {
+			let archivos = req.files.archivo_constancia_laboral;
+			filename = uuid.v4() + '.' + archivos.name.replace(/\s/g, '_');
+			const uploadPath = path.resolve(
+				__dirname,
+				'../../uploads/' + filename
+			);
+			archivos.mv(uploadPath, async function (err) {
+				if (err) return res.status(500).send(err);
+			});
+		}
+
+		if (filename) {
+			guardar = {
+				...guardar,
+				archivo_constancia_laboral: filename,
+			};
+		}
+
+		await db.transaction(async (t) => {
+			await Telefono.destroy({
+				where: {
+					cliente_fk: id,
+				},
+				include: [
+					{
+						model: Telefono,
+					},
+				],
+				transaction: t,
+			});
+		});
+
+		await db.transaction(async (t) => {
+			await Cliente.update(guardar, {
+				where: {
+					id,
+				},
+				include: [
+					{
+						model: Telefono,
+					},
+				],
+				transaction: t,
+			});
+			console.log(telefonos);
+			await Telefono.bulkCreate(telefonos, {
+				transaction: t,
+			});
+		});
+
+		res.status(200).json(guardar);
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({
+			msg: 'Ha ocurrido un error al momento de registrar el cliente',
+		});
+	}
+};
 
 const obtenerClientes = async (req, res) => {
 	let clientes = [];
@@ -271,4 +347,5 @@ module.exports = {
 	obtenerClientes,
 	obtenerInformacion,
 	verConstancia,
+	editarCliente,
 };

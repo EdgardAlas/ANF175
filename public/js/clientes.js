@@ -22,6 +22,7 @@
 	const agregar = document.getElementById('btn-agregar-cliente');
 	let tagify;
 	let tbl = null;
+	let editarID = null;
 
 	document.addEventListener('DOMContentLoaded', () => {
 		// obtenerclientes();
@@ -78,6 +79,8 @@
 			});
 			municipio.innerHTML = '';
 			municipio.appendChild(fragmento);
+			municipio.value = document.getElementById('muni').value;
+			iniciarMunicipios();
 		}
 	});
 
@@ -92,6 +95,12 @@
 		mascaraNombre.updateValue();
 		mascaraApellido.updateValue();
 		archivoConstanciaLaboral.value = null;
+		btnTexto.textContent = 'Agregar';
+		document.getElementById('archivo-editar').style.display = 'none';
+		document.getElementById('agregarClienteTitulo').textContent =
+			'Agregar cliente';
+		const btn = document.getElementById('btn-agregar-cliente');
+		btn.disabled = false;
 	});
 
 	clientesForm.addEventListener('submit', function (e) {
@@ -104,6 +113,13 @@
 			if (e.target.classList.contains('mostrar-informacion')) {
 				const id = e.target.dataset.id;
 				mostrarInformacion(id);
+				return;
+			}
+
+			if (e.target.classList.contains('editar-empleado')) {
+				const id = e.target.dataset.id;
+				modalEditarEmpleado(id);
+				return;
 			}
 		});
 
@@ -129,121 +145,30 @@
 			archivo_constancia_laboral: archivoConstanciaLaboral.files[0],
 		};
 
-		if (json.dui.length === 0 || json.dui.length < 10) {
-			alerta('El DUI no puede quedar vacio o esta incompleto', 'warning');
-			setTimeout(() => dui.focus(), 0);
-			return;
+		if (btnTexto.textContent === 'Editar') {
+			return editarCliente(json);
 		}
 
-		if (json.nit.length === 0 || json.nit.length < 17) {
-			alerta('El NIT no puede quedar vacio o esta incompleto', 'warning');
-			setTimeout(() => nit.focus(), 0);
-			return;
-		}
-
-		if (json.nombre.length === 0) {
-			alerta('El nombre no puede quedar vacio', 'warning');
-			setTimeout(() => nombre.focus(), 0);
-			return;
-		}
-
-		if (json.apellido.length === 0) {
-			alerta('El apellido no puede quedar vacio', 'warning');
-			setTimeout(() => apellido.focus(), 0);
-			return;
-		}
-
-		if (json.correo.length === 0 || !validator.isEmail(json.correo)) {
-			alerta(
-				'El correo no puede quedar vacio o no tiene el formato correcto',
-				'warning'
-			);
-			setTimeout(() => correo.focus(), 0);
-			return;
-		}
-
-		if (json.direccion.length === 0) {
-			alerta('La dirección no puede quedar vacia', 'warning');
-			setTimeout(() => direccion.focus(), 0);
-			return;
-		}
-
-		if (json.telefonos.length === 0) {
-			alerta('El telefono no puede quedar vacio', 'warning');
-			return;
-		}
-
-		if (
-			(json.ingresos.length === 0 || isNaN(json.ingresos)) &&
-			!json.tipo_cliente
-		) {
-			alerta('El ingreso no puede quedar vacio', 'warning');
-			setTimeout(() => ingresos.focus(), 0);
-			return;
-		}
-
-		if (!json.archivo_constancia_laboral && !json.tipo_cliente) {
-			alerta('La constancia laboral no puede quedar vacia', 'warning');
-			return;
-		}
-
-		json = {
-			...json,
-			ingresos: Number(json.ingresos),
-			correo_electronico: json.correo,
-			telefonos: JSON.stringify(json.telefonos),
-		};
-
-		delete json['correo'];
-
-		const formData = new FormData();
-
-		Object.keys(json).forEach(function (key) {
-			formData.append(key, json[key]);
-		});
-		registrando();
-		confirmacion({
-			icon: 'warning',
-			texto: '¿Seguro de agregar este cliente?',
-			titulo: 'Advertencia',
-			cb: async function () {
-				try {
-					const [resp, data] = await api({
-						url: 'cliente',
-						method: 'POST',
-						json: formData,
-						archivo: true,
-					});
-					if (data.status === 200) {
-						console.log(data, resp);
-						alerta('Se ha registrado el cliente con exito', 'success');
-						bootstrap.Modal.getInstance(
-							document.getElementById('agregar-cliente-modal')
-						).hide();
-						obtenerClientes();
-					}
-				} catch (error) {
-					console.log(error);
-				} finally {
-					registrando();
-				}
-			},
-		});
+		return agregarCliente(json);
 	});
 
-	tipoCliente.addEventListener('change', function (e) {
-		const tipo = this.value;
+	tipoCliente.addEventListener('change', (e) =>
+		desabilitarCampos(e.target.value)
+	);
+
+	correo.addEventListener('keyup', existCorreo);
+	dui.addEventListener('keyup', existeDUI);
+	nit.addEventListener('keyup', existeNIT);
+
+	function desabilitarCampos(e) {
+		const tipo = e;
 		const desabilitado = tipo == '1';
 		estadoCivil.disabled = desabilitado;
 		tipoEmpleo.disabled = desabilitado;
 		ingresos.readOnly = desabilitado;
 		archivoConstanciaLaboral.readOnly = desabilitado;
 		fechaNacimiento.readOnly = desabilitado;
-	});
-
-	correo.addEventListener('keyup', existCorreo);
-	dui.addEventListener('keyup', existeDUI);
-	nit.addEventListener('keyup', existeNIT);
+	}
 
 	async function mostrarInformacion(id) {
 		try {
@@ -252,7 +177,6 @@
 				method: 'GET',
 			});
 			if (data.status === 200) {
-				console.log(resp);
 				document.getElementById(
 					'nombre-cliente'
 				).textContent = `${resp.nombre} ${resp.apellido}`;
@@ -330,9 +254,68 @@
 				document.getElementById('telefonos-ul').innerHTML = '';
 				document.getElementById('telefonos-ul').appendChild(fragmento);
 			}
-		} catch (error) {
-			console.log(error);
-		}
+		} catch (error) {}
+	}
+	async function modalEditarEmpleado(id) {
+		try {
+			const [resp, data] = await api({
+				url: `cliente/${id}`,
+				method: 'GET',
+			});
+			if (data.status === 200) {
+				btnTexto.textContent = 'Editar';
+				editarID = resp.id;
+				document.getElementById('archivo-editar').style.display = 'block';
+				document.getElementById('agregarClienteTitulo').textContent =
+					'Editar cliente';
+				document.getElementById('muni').value = resp.municipio_fk;
+
+				dui.value = resp.dui;
+				nit.value = resp.nit;
+				nombre.value = resp.nombre;
+				apellido.value = resp.apellido;
+				estadoCivil.value = resp.estado_civil ? '1' : '0';
+				tipoCliente.value = resp.tipo_cliente ? '1' : '0';
+				correo.value = resp.correo_electronico;
+				fechaNacimiento.value = new Date(resp.fecha_nacimiento)
+					.toISOString()
+					.split('T')[0];
+				direccion.value = resp.direccion;
+				tagify.addTags(
+					resp.telefonos.reduce((prev, curr) => {
+						return [
+							...prev,
+							{
+								value: curr.telefono,
+							},
+						];
+					}, [])
+				);
+				departamento.value = resp.municipio.departamento_fk;
+
+				$(departamento).trigger({
+					type: 'select2:select',
+				});
+
+				desabilitarCampos(resp.tipo_cliente ? '1' : '0');
+
+				iniciarDepartamentos();
+
+				// iniciarMunicipios();
+				tipoEmpleo.value = resp.tipo_empleo ? '1' : '0';
+				ingresos.value = resp.ingresos;
+				IMask(document.querySelector(`#ingresos`), {
+					mask: '$num',
+					blocks: {
+						num: {
+							mask: Number,
+							thousandsSeparator: ',',
+							radix: '.',
+						},
+					},
+				});
+			}
+		} catch (error) {}
 	}
 
 	async function existCorreo({ target }) {
@@ -451,7 +434,7 @@
 														type="button" 
 														class="btn btn-warning text-white editar-empleado" 
 														data-bs-toggle="modal"
-														data-bs-target="#agregar-empleado-modal"
+														data-bs-target="#agregar-cliente-modal"
 														data-backdrop="static"
 														data-keyboard="false"
 														data-id=${cliente.id}
@@ -476,8 +459,202 @@
 
 				registrando();
 			}
-		} catch (error) {
-			console.log(error);
+		} catch (error) {}
+	}
+	function agregarCliente(json) {
+		if (json.dui.length === 0 || json.dui.length < 10) {
+			alerta('El DUI no puede quedar vacio o esta incompleto', 'warning');
+			setTimeout(() => dui.focus(), 0);
+			return;
 		}
+
+		if (json.nit.length === 0 || json.nit.length < 17) {
+			alerta('El NIT no puede quedar vacio o esta incompleto', 'warning');
+			setTimeout(() => nit.focus(), 0);
+			return;
+		}
+
+		if (json.nombre.length === 0) {
+			alerta('El nombre no puede quedar vacio', 'warning');
+			setTimeout(() => nombre.focus(), 0);
+			return;
+		}
+
+		if (json.apellido.length === 0) {
+			alerta('El apellido no puede quedar vacio', 'warning');
+			setTimeout(() => apellido.focus(), 0);
+			return;
+		}
+
+		if (json.correo.length === 0 || !validator.isEmail(json.correo)) {
+			alerta(
+				'El correo no puede quedar vacio o no tiene el formato correcto',
+				'warning'
+			);
+			setTimeout(() => correo.focus(), 0);
+			return;
+		}
+
+		if (json.direccion.length === 0) {
+			alerta('La dirección no puede quedar vacia', 'warning');
+			setTimeout(() => direccion.focus(), 0);
+			return;
+		}
+
+		if (json.telefonos.length === 0) {
+			alerta('El telefono no puede quedar vacio', 'warning');
+			return;
+		}
+
+		if (
+			(json.ingresos.length === 0 || isNaN(json.ingresos)) &&
+			!json.tipo_cliente
+		) {
+			alerta('El ingreso no puede quedar vacio', 'warning');
+			setTimeout(() => ingresos.focus(), 0);
+			return;
+		}
+
+		if (!json.archivo_constancia_laboral && !json.tipo_cliente) {
+			alerta('La constancia laboral no puede quedar vacia', 'warning');
+			return;
+		}
+
+		json = {
+			...json,
+			ingresos: Number(json.ingresos),
+			correo_electronico: json.correo,
+			telefonos: JSON.stringify(json.telefonos),
+		};
+
+		delete json['correo'];
+
+		const formData = new FormData();
+
+		Object.keys(json).forEach(function (key) {
+			formData.append(key, json[key]);
+		});
+		registrando();
+		confirmacion({
+			icon: 'warning',
+			texto: '¿Seguro de agregar este cliente?',
+			titulo: 'Advertencia',
+			cb: async function () {
+				try {
+					const [resp, data] = await api({
+						url: 'cliente',
+						method: 'POST',
+						json: formData,
+						archivo: true,
+					});
+					if (data.status === 200) {
+						alerta('Se ha registrado el cliente con exito', 'success');
+						bootstrap.Modal.getInstance(
+							document.getElementById('agregar-cliente-modal')
+						).hide();
+						obtenerClientes();
+					}
+				} catch (error) {
+				} finally {
+					const btn = document.getElementById('btn-agregar-cliente');
+					btn.disabled = false;
+				}
+			},
+			cbn: registrando,
+		});
+	}
+
+	function editarCliente(json) {
+		if (json.dui.length === 0 || json.dui.length < 10) {
+			alerta('El DUI no puede quedar vacio o esta incompleto', 'warning');
+			setTimeout(() => dui.focus(), 0);
+			return;
+		}
+
+		if (json.nit.length === 0 || json.nit.length < 17) {
+			alerta('El NIT no puede quedar vacio o esta incompleto', 'warning');
+			setTimeout(() => nit.focus(), 0);
+			return;
+		}
+
+		if (json.nombre.length === 0) {
+			alerta('El nombre no puede quedar vacio', 'warning');
+			setTimeout(() => nombre.focus(), 0);
+			return;
+		}
+
+		if (json.apellido.length === 0) {
+			alerta('El apellido no puede quedar vacio', 'warning');
+			setTimeout(() => apellido.focus(), 0);
+			return;
+		}
+
+		if (json.correo.length === 0 || !validator.isEmail(json.correo)) {
+			alerta(
+				'El correo no puede quedar vacio o no tiene el formato correcto',
+				'warning'
+			);
+			setTimeout(() => correo.focus(), 0);
+			return;
+		}
+
+		if (json.direccion.length === 0) {
+			alerta('La dirección no puede quedar vacia', 'warning');
+			setTimeout(() => direccion.focus(), 0);
+			return;
+		}
+
+		if (json.telefonos.length === 0) {
+			alerta('El telefono no puede quedar vacio', 'warning');
+			return;
+		}
+
+		if (
+			(json.ingresos.length === 0 || isNaN(json.ingresos)) &&
+			!json.tipo_cliente
+		) {
+			alerta('El ingreso no puede quedar vacio', 'warning');
+			setTimeout(() => ingresos.focus(), 0);
+			return;
+		}
+
+		json = {
+			...json,
+			ingresos: Number(json.ingresos),
+			correo_electronico: json.correo,
+			telefonos: JSON.stringify(json.telefonos),
+		};
+
+		delete json['correo'];
+
+		const formData = new FormData();
+
+		Object.keys(json).forEach(function (key) {
+			formData.append(key, json[key]);
+		});
+		registrando();
+		confirmacion({
+			icon: 'warning',
+			texto: '¿Seguro de editar este cliente?',
+			titulo: 'Advertencia',
+			cb: async function () {
+				try {
+					const [resp, data] = await api({
+						url: `cliente/${editarID}`,
+						method: 'PUT',
+						json: formData,
+						archivo: true,
+					});
+					if (data.status === 200) {
+						alerta('Se ha editado el cliente con exito', 'success');
+						bootstrap.Modal.getInstance(
+							document.getElementById('agregar-cliente-modal')
+						).hide();
+						obtenerClientes();
+					}
+				} catch (error) {}
+			},
+			cbn: registrando,
+		});
 	}
 })(api, alerta, tabla, confirmacion, select);

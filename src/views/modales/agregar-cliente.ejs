@@ -12,7 +12,7 @@
 	<div class="modal-dialog modal-xl">
 		<form class="modal-content" id="agregar-cliente-form">
 			<div class="modal-header bg-dark text-white">
-				<h5 class="modal-title" id="agregarclienteModal">
+				<h5 class="modal-title" id="agregarClienteTitulo">
 					Agregar cliente
 				</h5>
 				<button
@@ -23,6 +23,7 @@
 				></button>
 			</div>
 			<div class="modal-body">
+				<input type="hidden" id="muni" value="" />
 				<div class="row">
 					<div class="col-12 mb-3 col-md-4">
 						<div class="col-12 mb-3">
@@ -227,6 +228,10 @@
 								id="archivo_constancia_laboral"
 								class="form-control"
 							/>
+							<small id="archivo-editar" style="display: none">
+								Si no desea editar la documentación no eliga ningun
+								archivo
+							</small>
 						</div>
 					</div>
 				</div>
