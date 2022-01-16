@@ -424,6 +424,10 @@
 													<button
 														class="btn btn-info text-white mostrar-informacion"
 														data-id=${cliente.id}
+														data-bs-toggle="modal"
+														data-bs-target="#mostrar-cliente-modal"
+														data-backdrop="static"
+														data-keyboard="false"
 													>
 														<i
 															class="bi bi-eye mostrar-informacion"
