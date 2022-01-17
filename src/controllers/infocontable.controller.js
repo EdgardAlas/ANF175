@@ -1,5 +1,7 @@
 const { db } = require('../database/db');
+const { Cartera } = require('../models/Cartera');
 const { Cliente } = require('../models/Cliente');
+const { Empleado } = require('../models/Empleado');
 const { InfoContable } = require('../models/InfoContable');
 const { TipoCuenta } = require('../models/TipoCuenta');
 
@@ -15,20 +17,57 @@ const obtenerTipoCuenta = async (req, res) => {
 };
 
 const obtenerClientes = async (req, res) => {
+	// try {
+	// 	const clientes = await Cliente.findAll({
+	// 		attributes: ['id', 'nombre', 'apellido', 'dui', 'nit'],
+	// 		where: {
+	// 			tipo_cliente: 1,
+	// 		},
+	// 	});
+	// 	return res.status(200).json({
+	// 		clientes,
+	// 	});
+	// } catch (error) {
+	// 	console.log(error);
+	// 	return res.status(500).json({ msg: 'Ha ocurrido un error' });
+	// }
+	let clientes = [];
 	try {
-		const clientes = await Cliente.findAll({
-			attributes: ['id', 'nombre', 'apellido', 'dui', 'nit'],
+		const empleado = await Empleado.findOne({
 			where: {
-				tipo_cliente: 1,
+				id: req.id,
 			},
 		});
-		return res.status(200).json({
-			clientes,
-		});
+		if (empleado.rol_fk === 1) {
+			clientes = await Cliente.findAll({
+				attributes: ['id', 'nombre', 'apellido', 'dui', 'nit'],
+				where: {
+					tipo_cliente: 1,
+				},
+			});
+		} else {
+			clientes = await Cartera.findAll({
+				include: [
+					{
+						model: Cliente,
+						attributes: ['id', 'nombre', 'apellido', 'dui', 'nit'],
+						where: {
+							tipo_cliente: 1,
+						},
+					},
+				],
+				where: {
+					empleado_fk: empleado.id,
+				},
+			});
+
+			clientes = clientes.map((c) => c.cliente);
+			// console.log(clientes);
+		}
 	} catch (error) {
 		console.log(error);
-		return res.status(500).json({ msg: 'Ha ocurrido un error' });
 	}
+	res.status(200).json(clientes);
 };
 
 const obtenerInformacion = async (req, res) => {
