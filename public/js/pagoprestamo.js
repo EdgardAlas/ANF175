@@ -10,6 +10,7 @@
 	let saldoactual = montoprestamo.value;
 	let interesacumulado = 0;
 	let totalinteres;
+	let totalsaldo;
 	let primerafecha = new Date();
 	let fechafutura = new Date();
 	const monto = document.getElementById('monto'),
@@ -34,13 +35,16 @@
 	fechaapro = document.getElementById('fechaapro');
 	fechaacum = document.getElementById('fechaacum');
 	valorcuota = document.getElementById('valorcuota');
+	montofin = document.getElementById('montofin');
+	let formato;
 
 	document.addEventListener('DOMContentLoaded', () => {
-		let formato = fechaapro.value;
+		formato = fechaapro.value;
 		fechaapro.value = dayjs(formato).format('DD/MM/YYYY');
 		obtenerPago();
 		total.textContent = 'Monto: $' + montoprestamo.value;
 		primerafecha = diapago + '/' + dayjs(fechaapro).format('MM/YYYY');
+
 		//obtenerFiador();
 	});
 
@@ -49,6 +53,8 @@
 			'Total restante: $' + (saldoactual - monto.value).toFixed(2);
 	});
 
+	//alert(montofin.value - montoprestamo.value, 'success');
+
 	fiadorForm.addEventListener('submit', registrarPago);
 
 	document
@@ -56,6 +62,7 @@
 		.addEventListener('hidden.bs.modal', () => {
 			btnTexto.textContent = 'Agregar';
 			tituloModal.textContent = 'Agregar Pago';
+
 			fiadorForm.reset();
 			select('#combocliente', '#agregar-modal');
 
@@ -68,6 +75,10 @@
 	document
 		.getElementById('agregar-modal')
 		.addEventListener('shown.bs.modal', () => {
+			if (interesacum.value == montofin.value - montoprestamo.value) {
+				interes.disabled = true;
+				interes.value = 0;
+			}
 			monto.focus();
 		});
 
@@ -145,6 +156,17 @@
 
 	async function registrarPago(e) {
 		e.preventDefault();
+		fechaacum.value = dayjs(formato);
+		console.log(parseFloat(interesacum.value) + parseFloat(interes.value));
+		console.log(montofin.value - montoprestamo.value);
+		if (
+			parseFloat(interesacum.value) + parseFloat(interes.value) >
+			montofin.value - montoprestamo.value
+		) {
+			interes.max = montofin.value - montoprestamo.value;
+			interes.value = '';
+			return;
+		}
 
 		if (monto.value < 1) {
 			monto.focus();
