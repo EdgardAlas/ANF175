@@ -511,7 +511,7 @@
 					var tpl = document.createElement('template');
 					tpl.innerHTML = `
 											<option value="${tipo.id}">${tipo.dui ? tipo.dui : tipo.nit} - ${tipo.nombre} ${
-						tipo.nombre
+						tipo.apellido
 					}</option>`;
 					fragmento.appendChild(tpl.content);
 				});

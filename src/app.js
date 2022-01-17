@@ -154,6 +154,7 @@ class App {
 		this.server.use('/api/pago', require('./routes/pago.route'));
 		this.server.use('/api/carteraemp', require('./routes/carteraemp.route'));
 		this.server.use('/api/pago', require('./routes/pagoprestamo.route'));
+		this.server.use('/api/cliente', require('./routes/cliente.route'));
 		this.server.use(
 			'/api/informacion-contable',
 			require('./routes/infocontable.route')

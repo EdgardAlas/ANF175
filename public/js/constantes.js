@@ -100,6 +100,7 @@ const confirmacion = ({
 	texto = '',
 	icon = '',
 	cb = () => {},
+	cbn = () => {},
 }) => {
 	Swal.fire({
 		title: titulo,
@@ -113,6 +114,8 @@ const confirmacion = ({
 	}).then((result) => {
 		if (result.isConfirmed) {
 			cb();
+		} else {
+			cbn();
 		}
 	});
 };

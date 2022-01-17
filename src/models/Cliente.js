@@ -15,6 +15,9 @@ const Cliente = db.define(
 		nit: {
 			type: DataTypes.STRING(18),
 		},
+		codigo_cliente: {
+			type: DataTypes.STRING(7),
+		},
 		nombre: {
 			type: DataTypes.STRING(255),
 		},

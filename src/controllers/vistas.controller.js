@@ -4,7 +4,10 @@ const { Cartera } = require('../models/Cartera');
 const { Cliente } = require('../models/Cliente');
 //const { Pago } = require('../models/Pago');
 const { Prestamo } = require('../models/Prestamo');
-const { TasaInteres } = require('../models/TasaInteres');
+//const { TasaInteres } = require('../models/TasaInteres');
+const { Empleado } = require('../models/Empleado');
+const { Departamento } = require('../models/Departamento');
+const { Municipio } = require('../models/Municipio');
 
 const render = (vista) => `autenticacion/${vista}`;
 
@@ -28,8 +31,54 @@ const inicio = (req, res) => {
 	res.render('inicio', { rol: req.rol, pagina: 'inicio' });
 };
 
-const vistaClientes = (req, res) => {
-	res.render('clientes/clientes', { rol: req.rol, pagina: 'clientes' });
+const vistaClientes = async (req, res) => {
+	let clientes = [];
+	let departamentos = [];
+	let municipios = [];
+	try {
+		const empleado = await Empleado.findOne({
+			where: {
+				id: req.id,
+			},
+		});
+
+		departamentos = await Departamento.findAll();
+		municipios = await Municipio.findAll({
+			where: {
+				departamento_fk: 1,
+			},
+		});
+
+		console.log(empleado);
+		if (empleado.rol_fk === 1) {
+			clientes = await Cliente.findAll();
+		} else {
+			clientes = await Cartera.findAll({
+				include: [
+					{
+						model: Cliente,
+					},
+				],
+				where: {
+					empleado_fk: empleado.id,
+				},
+			});
+
+			clientes = clientes.map((c) => c.cliente);
+			// console.log(clientes);
+		}
+
+		// clientes = await Cliente.findAll();
+	} catch (error) {
+		console.log(error);
+	}
+	res.render('clientes/clientes', {
+		rol: req.rol,
+		pagina: 'clientes',
+		clientes,
+		departamentos,
+		municipios,
+	});
 };
 
 const vistaVehiculos = (req, res) => {
