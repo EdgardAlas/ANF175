@@ -10,7 +10,7 @@
 					</div>
 					Empleados
 				</a>
-				
+				<% } %>
 				<div class="sb-sidenav-menu-heading">Clientes</div>
 				<a
 					class="nav-link <%= pagina === 'clientes' ? "active" : "" %>""
@@ -21,34 +21,17 @@
 					</div>
 					Clientes
 				</a>
-				<div
-					class="collapse"
-					id="collapsePages"
-					aria-labelledby="headingTwo"
-					data-bs-parent="#sidenavAccordion"
+				<a
+					class="nav-link <%= pagina === 'informacion-contable' ? "active" : "" %>""
+					href="/informacion-contable"
 				>
-					<nav
-						class="sb-sidenav-menu-nested nav accordion"
-						id="sidenavAccordionPages"
-					>
-					<a class="nav-link <%= pagina === 'cliente' ? "active" : "" %>" href="/clientes">
-						<div class="sb-nav-link-icon">
-							<i class="fas fa-tachometer-alt"></i>
-						</div>
-						Registrar Cliente
-					</a>
-					<a class="nav-link <%= pagina === 'empresas' ? "active" : "" %>" href="/infocontable">
-						<div class="sb-nav-link-icon">
-							<i class="fas fa-tachometer-alt"></i>
-						</div>
-						Empresas
-					</a>
-						
-						
-						
-					</nav>
-				</div>
-				<% } %>
+					<div class="sb-nav-link-icon">
+						<i class="fas fa-book-open"></i>
+					</div>
+					Información contable
+				</a>
+				
+				
 				<div class="sb-sidenav-menu-heading">Créditos</div>
 				<% if(rol==="Administrador"){ %>
 				<a class="nav-link <%= pagina === 'cartera' ? "active" : "" %>" href="/cartera">

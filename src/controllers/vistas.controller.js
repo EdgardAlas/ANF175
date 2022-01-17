@@ -126,7 +126,7 @@ const vistaActivo = (req, res) => {
 const vistaInfoContable = (req, res) => {
 	res.render('infocontable/infocontable', {
 		rol: req.rol,
-		pagina: 'Informacion contable',
+		pagina: 'informacion-contable',
 	});
 };
 

@@ -30,6 +30,7 @@
 	let array = [];
 	let idactivo;
 	let tbl = null;
+	let tbldepreciacion = null;
 	select('#comboempleado', '#agregar-activo-modal');
 	select('#combotipoactivo', '#agregar-activo-modal');
 
@@ -123,9 +124,12 @@
 												</tr>`;
 				fragmento.appendChild(tpl.content);
 			});
+			if (tbldepreciacion) {
+				tbldepreciacion.destroy();
+			}
 			document.getElementById('tbody-depreciacion').innerHTML = '';
 			document.getElementById('tbody-depreciacion').append(fragmento);
-			tabla('tabla-depreciacion');
+			tbldepreciacion = tabla('tabla-depreciacion');
 
 			//iconoEditar.classList.add('bi-pencil-square');
 			//iconoEditar.classList.remove('bi-check-square');

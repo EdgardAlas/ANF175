@@ -25,7 +25,7 @@
 								</button>
 							</div>
 							<div class="col-12 table-responsive">
-								<table id="tabla-hipoteca">
+								<table id="tabla-hipoteca" class="table table-striped">
 									<thead>
 										<tr>
 											<th>Cliente</th>
@@ -33,7 +33,7 @@
 											<th>DUI</th>
 											<th>Valor</th>
 											<th>Documento</th>
-                                            <th>Ver mas</th>
+											<th>Ver mas</th>
 											<th>Acciones</th>
 										</tr>
 									</thead>
@@ -47,8 +47,8 @@
 			</div>
 		</div>
 		<%- include("../modales/agregar-hipoteca.ejs") %> <%-
-		include("../partials/scripts.ejs")%>
-		<%- include("../modales/mostrar-hipoteca.ejs") %>
+		include("../partials/scripts.ejs")%> <%-
+		include("../modales/mostrar-hipoteca.ejs") %>
 		<script src="/js/hipoteca.js?t=<%= Date.now() %>"></script>
 	</body>
 </html>
