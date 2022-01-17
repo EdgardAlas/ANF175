@@ -29,6 +29,7 @@
 		btnactivoForm = document.getElementById('btn-agregar-activo');
 	let array = [];
 	let idactivo;
+	let tbl = null;
 	select('#comboempleado', '#agregar-activo-modal');
 	select('#combotipoactivo', '#agregar-activo-modal');
 
@@ -552,9 +553,13 @@
 											</tr>`;
 					fragmento.appendChild(tpl.content);
 				});
+
 				document.getElementById('tbody-activos').innerHTML = '';
 				document.getElementById('tbody-activos').append(fragmento);
-				tabla('tabla-activos');
+				if (tbl) {
+					tbl.destroy();
+				}
+				tbl = tabla('tabla-activos');
 			}
 		} catch (error) {
 			console.log(error);

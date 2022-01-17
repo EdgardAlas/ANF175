@@ -41,6 +41,7 @@
 											<th>Año</th>
 											<th>Ver balance general</th>
 											<th>Ver información del estado resultados</th>
+											<th>Ver razónes financieras</th>
 										</tr>
 									</thead>
 									<tbody id="tbody-infocontable"></tbody>
@@ -56,7 +57,8 @@
 		include("../modales/informacion-estador.ejs") %> <%-
 		include("../modales/balance-general.ejs") %> <%-
 		include("../partials/scripts.ejs")%> <%-
-		include("../modales/mostrar-hipoteca.ejs") %>
+		include("../modales/mostrar-hipoteca.ejs") %> <%-
+		 include("../modales/razones-financieras.ejs") %>
 		<script src="/js/infocontable.js?t=<%= Date.now() %>"></script>
 	</body>
 </html>

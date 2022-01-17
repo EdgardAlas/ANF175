@@ -7,6 +7,9 @@
 		tiposCuenta = document.getElementById('combo-tipo-cuenta'),
 		infoContableForm = document.getElementById('agregar-form'),
 		anio = document.getElementById('anio'),
+		circulante = document.getElementById('circulante'),
+		endeuda = document.getElementById('endeuda'),
+		patrimo = document.getElementById('patrimo'),
 		btnAgregarInfoContable = document.getElementById(
 			'btn-agregar-info-contable'
 		);
@@ -70,6 +73,63 @@
 			document.getElementById('u').textContent = `$${Number(
 				utilidad
 			).toLocaleString()}`;
+		} else if (target.classList.contains('mostrar-razones')) {
+			const activoCorriente = Number(target.dataset['1']),
+				activoNoCorriente = Number(target.dataset['2']),
+				pasivoCorriente = Number(target.dataset['3']),
+				pasivoNoCorriente = Number(target.dataset['4']),
+				patrimonio = Number(target.dataset['5']);
+
+			document.getElementById('razon-circulante').textContent =
+				'$' +
+				`${
+					Math.round((activoCorriente / pasivoCorriente) * 100) / 100
+				}`.toLocaleString('es-SV');
+
+			circulante.value =
+				'La empresa tiene $' +
+				`${
+					Math.round((activoCorriente / pasivoCorriente) * 100) / 100
+				}`.toLocaleString('es-SV') +
+				' de activo para cubrir $1 de pasivo.';
+
+			document.getElementById('endeudamiento').textContent =
+				'$' +
+				`${
+					Math.round(
+						((pasivoCorriente + pasivoCorriente) /
+							(activoCorriente + activoCorriente)) *
+							100
+					) / 100
+				}`.toLocaleString('es-SV');
+
+			endeuda.value =
+				'La empresa ha financiado ' +
+				`${
+					Math.round(
+						((pasivoCorriente + pasivoCorriente) /
+							(activoCorriente + activoCorriente)) *
+							100
+					) / 100
+				}`.toLocaleString('es-SV') +
+				'% de sus activos con deudas a terceros.';
+
+			document.getElementById('razon-patrimonio').textContent =
+				'$' +
+				`${
+					Math.round(
+						((pasivoCorriente + pasivoCorriente) / patrimonio) * 100
+					) / 100
+				}`.toLocaleString('es-SV');
+
+			patrimo.value =
+				'La empresa tiene una deuda de $' +
+				`${
+					Math.round(
+						((pasivoCorriente + pasivoCorriente) / patrimonio) * 100
+					) / 100
+				}`.toLocaleString('es-SV') +
+				' por cada dolar de patrimonio.';
 		}
 	});
 
@@ -356,6 +416,32 @@
 												data-keyboard="false"><i class="bi bi-eye mostrar-estador" ${infox[info].reduce(
 													(prev, curr, arr) => {
 														if (curr.tipo_cuenta_fk > 5) {
+															return (prev += `data-${curr.tipo_cuenta_fk}='${curr.saldo}' `);
+														} else {
+															return prev;
+														}
+													},
+													''
+												)}>
+					</i></button>
+											</td>
+											<td>
+												<button class='btn btn-info text-white mostrar-razones' ${infox[info].reduce(
+													(prev, curr, arr) => {
+														if (curr.tipo_cuenta_fk < 6) {
+															return (prev += `data-${curr.tipo_cuenta_fk}='${curr.saldo}' `);
+														} else {
+															return prev;
+														}
+													},
+													''
+												)}
+												data-bs-toggle="modal"
+												data-bs-target="#modal-razones"
+												data-backdrop="static"
+												data-keyboard="false"><i class="bi bi-eye mostrar-razones" ${infox[info].reduce(
+													(prev, curr, arr) => {
+														if (curr.tipo_cuenta_fk < 6) {
 															return (prev += `data-${curr.tipo_cuenta_fk}='${curr.saldo}' `);
 														} else {
 															return prev;
