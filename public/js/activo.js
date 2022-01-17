@@ -456,6 +456,7 @@
 						: 'Restaurado';
 					tpl.innerHTML = `
 											<tr>
+											<td>${'AL-00' + activo.id}</td>
 												<td>${activo.nombre_activo}</td>
 												<td>${dayjs(activo.fecha_adquisicion).format('DD/MM/YYYY')}</td>
 												<td>${activo.valor_adquisicion}</td>
