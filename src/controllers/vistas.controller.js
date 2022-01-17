@@ -2,8 +2,9 @@
 const { eliminarSesion } = require('../helpers/crear-sesion');
 const { Cartera } = require('../models/Cartera');
 const { Cliente } = require('../models/Cliente');
-const { Pago } = require('../models/Pago');
+//const { Pago } = require('../models/Pago');
 const { Prestamo } = require('../models/Prestamo');
+const { TasaInteres } = require('../models/TasaInteres');
 
 const render = (vista) => `autenticacion/${vista}`;
 
@@ -129,50 +130,61 @@ const vistaPagoPrestamo = (req, res) => {
 const vistaPrestamo = async (req, res) => {
 	console.log('vistaPrestamo=' + req.params.id);
 	try {
-		let pago = await Pago.findOne({
+		// let pago = await Pago.findOne({
+		// 	include: [
+		// 		{
+		// 			model: Prestamo,
+		// 			Attributes: [
+		// 				'id',
+		// 				'monto',
+		// 				'duracion',
+		// 				'dia_pago',
+		// 				'cartera_fk',
+		// 			],
+
+		// 			include: [
+		// 				{
+		// 					model: Cartera,
+
+		// 					include: [{ model: Cliente }],
+		// 				},
+		// 			],
+		// 			where: [
+		// 				{
+		// 					cartera_fk: req.params.id,
+		// 				},
+		// 			],
+		// 		},
+		// 	],
+		// });
+		//if (!pago) {
+
+		const pago = await Prestamo.findOne({
+			Attributes: [
+				'id',
+				'monto',
+				'duracion',
+				'dia_pago',
+				'fecha_aprobacion',
+				'valor_cuota',
+				'valor_total',
+				'cartera_fk',
+				'tasa_interes_fk',
+			],
 			include: [
 				{
-					model: Prestamo,
-					Attributes: [
-						'id',
-						'monto',
-						'duracion',
-						'dia_pago',
-						'cartera_fk',
-					],
-
-					include: [
-						{
-							model: Cartera,
-
-							include: [{ model: Cliente }],
-						},
-					],
-					where: [
-						{
-							cartera_fk: req.params.id,
-						},
-					],
+					model: Cartera,
+					include: [{ model: Cliente }],
+				},
+			],
+			where: [
+				{
+					cartera_fk: req.params.id,
 				},
 			],
 		});
-		if (!pago) {
-			console.log('entro al segundo');
-			pago = await Prestamo.findOne({
-				include: [
-					{
-						model: Cartera,
-						include: [{ model: Cliente }],
-					},
-				],
-				where: [
-					{
-						cartera_fk: req.params.id,
-					},
-				],
-			});
-		}
-		console.log('pago=' + pago.prestamo.cliente);
+		//}
+		console.log('pago=' + pago.tasa_interes_fk);
 
 		res.render('pagoprestamo/pagoprestamo', {
 			pago,

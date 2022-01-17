@@ -7,8 +7,11 @@
 	let cuota;
 	let totales;
 	let aux;
-	let saldoactual;
+	let saldoactual = montoprestamo.value;
 	let interesacumulado = 0;
+	let totalinteres;
+	let primerafecha = new Date();
+	let fechafutura = new Date();
 	const monto = document.getElementById('monto'),
 		total = document.getElementById('total'),
 		cliente = document.getElementById('cliente'),
@@ -27,11 +30,17 @@
 	interes = document.getElementById('interes');
 	interesacum = document.getElementById('interesacum');
 	montoprestamo = document.getElementById('montoprestamo');
+	diapago = document.getElementById('diapago');
+	fechaapro = document.getElementById('fechaapro');
+	fechaacum = document.getElementById('fechaacum');
+	valorcuota = document.getElementById('valorcuota');
 
 	document.addEventListener('DOMContentLoaded', () => {
+		let formato = fechaapro.value;
+		fechaapro.value = dayjs(formato).format('DD/MM/YYYY');
 		obtenerPago();
 		total.textContent = 'Monto: $' + montoprestamo.value;
-
+		primerafecha = diapago + '/' + dayjs(fechaapro).format('MM/YYYY');
 		//obtenerFiador();
 	});
 
@@ -89,13 +98,23 @@
 			if (data.status === 200) {
 				const fragmento = document.createDocumentFragment();
 				const pago = resp.pagos;
-				console.log('pago=' + pago);
+				console.log(saldoactual);
 				pago.forEach((row) => {
+					const date1 = dayjs(fechaacum.value).add(1, 'month');
+
+					console.log('resta=', date1.isAfter(row.fecha));
+					if (!date1.isAfter(row.fecha)) {
+						const mora = (valorcuota.value * 0.03).toFixed(2);
+						row.saldo_mora = mora;
+						const saldo = parseFloat(row.saldo_actual) + parseFloat(mora);
+						row.saldo_actual = saldo;
+					}
 					saldoactual = row.saldo_actual;
 					interesacumulado = interesacumulado + row.interes;
 					var tpl = document.createElement('template');
 					tpl.innerHTML = `
 											<tr>
+												<td>${dayjs(date1).format('DD/MM/YYYY')}</td>
 												<td>${dayjs(row.fecha).format('DD/MM/YYYY')}</td>
 												<td>${(row.monto_cuota + row.saldo_actual).toFixed(2)}</td>
 												<td>${row.monto_cuota}</td>
@@ -108,6 +127,7 @@
 												</td>
 											</tr>`;
 					fragmento.appendChild(tpl.content);
+					fechaacum.value = date1;
 				});
 				interesacum.value = interesacumulado;
 				if (tblpago) {

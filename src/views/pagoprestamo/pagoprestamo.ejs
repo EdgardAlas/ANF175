@@ -91,14 +91,15 @@
 									<div class="col-12 col-md-3 mb-3">
 										<div class="row">
 											<div class="col-6 col-md-6 mb-3">
-												<label for="telefono" class="form-label"
+												<label for="tasainteres" class="form-label"
 													>Tasa de interes
 												</label>
 												<input
 													type="tel"
 													class="form-control bg-white"
-													id="telefono"
-													name="telefono"
+													id="tasainteres"
+													name="tasainteres"
+													value="<%= `${(pago.tasa_interes_fk == 1) ? 9+'%' : 5+'%'}  ` %>"
 													disabled
 												/>
 											</div>
@@ -117,22 +118,8 @@
 										</div>
 									</div>
 									<div class="col-12 col-md-3 mb-3">
-										<label for="correo" class="form-label"
-											>Dia de pago</label
-										>
-										<input
-											type="text"
-											class="form-control bg-white"
-											id="correo"
-											name="correo"
-											value="<%= `${ (!pago.prestamo)? pago.dia_pago: pago.prestamo['dia_pago'] } ` %>"
-											disabled
-										/>
-									</div>
-
-									<div class="col-12 col-md-3 mb-3">
-										<label for="usuario" class="form-label"
-											>Duración del credito</label
+										<label for="diapago" class="form-label"
+											>Duracion del credito</label
 										>
 										<input
 											type="text"
@@ -143,15 +130,37 @@
 											disabled
 										/>
 									</div>
+
 									<div class="col-12 col-md-3 mb-3">
-										<label for="clave" class="form-label"
+										<label for="fechaapro" class="form-label"
+											>Fecha de aprobacion</label
+										>
+										<input
+											type="text"
+											class="form-control bg-white"
+											id="fechaapro"
+											name="fechaapro"
+											value="<%= `${ (!pago.prestamo)? pago.fecha_aprobacion: pago.prestamo['fecha_aprobacion'] } ` %>"
+											disabled
+										/>
+										<input
+											type="hidden"
+											class="form-control bg-white"
+											id="fechaacum"
+											name="fechaacum"
+											value="<%= `${ (!pago.prestamo)? pago.fecha_aprobacion: pago.prestamo['fecha_aprobacion'] } ` %>"
+											disabled
+										/>
+									</div>
+									<div class="col-12 col-md-3 mb-3">
+										<label for="valorcuota" class="form-label"
 											>Valor de la cuota</label
 										>
 										<input
 											type="text"
 											class="form-control bg-white"
-											id="clave"
-											name="clave"
+											id="valorcuota"
+											name="valorcuota"
 											value="<%= `${ (!pago.prestamo)? pago.valor_cuota: pago.prestamo['valor_cuota'] } ` %>"
 											disabled
 										/>
@@ -165,6 +174,7 @@
 								>
 									<thead>
 										<tr>
+											<th>Fecha de vencimiento</th>
 											<th>Fecha de pago</th>
 											<th>Saldo anterior</th>
 											<th>Capital</th>

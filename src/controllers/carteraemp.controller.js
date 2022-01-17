@@ -78,6 +78,7 @@ const registrarPrestamo = async (req, res) => {
 			valor_cuota,
 			valor_total,
 			cartera_fk,
+			tasa_interes_fk,
 		} = req.body;
 
 		let prestamo = null;
@@ -92,6 +93,7 @@ const registrarPrestamo = async (req, res) => {
 					valor_cuota,
 					valor_total,
 					cartera_fk,
+					tasa_interes_fk,
 				},
 				{ transaction: t }
 			);
