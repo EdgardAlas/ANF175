@@ -91,14 +91,15 @@
 									<div class="col-12 col-md-3 mb-3">
 										<div class="row">
 											<div class="col-6 col-md-6 mb-3">
-												<label for="telefono" class="form-label"
+												<label for="tasainteres" class="form-label"
 													>Tasa de interes
 												</label>
 												<input
 													type="tel"
 													class="form-control bg-white"
-													id="telefono"
-													name="telefono"
+													id="tasainteres"
+													name="tasainteres"
+													value="<%= `${(pago.tasa_interes_fk == 1) ? 9+'%' : 5+'%'}  ` %>"
 													disabled
 												/>
 											</div>
@@ -117,34 +118,17 @@
 										</div>
 									</div>
 									<div class="col-12 col-md-3 mb-3">
-										<div class="row">
-											<div class="col-6 col-md-6 mb-3">
-												<label for="diapago" class="form-label"
-													>Dia de pago</label
-												>
-												<input
-													type="text"
-													class="form-control bg-white"
-													id="diapago"
-													name="diapago"
-													value="<%= `${ (!pago.prestamo)? pago.dia_pago: pago.prestamo['dia_pago'] } ` %>"
-													disabled
-												/>
-											</div>
-											<div class="col-6 col-md-6 mb-3">
-												<label for="diapago" class="form-label"
-													>Duracion del credito</label
-												>
-												<input
-													type="text"
-													class="form-control bg-white"
-													id="usuario"
-													name="usuario"
-													value="<%= `${ (!pago.prestamo)? pago.duracion: pago.prestamo['duracion'] } ` %>"
-													disabled
-												/>
-											</div>
-										</div>
+										<label for="diapago" class="form-label"
+											>Duracion del credito</label
+										>
+										<input
+											type="text"
+											class="form-control bg-white"
+											id="usuario"
+											name="usuario"
+											value="<%= `${ (!pago.prestamo)? pago.duracion: pago.prestamo['duracion'] } ` %>"
+											disabled
+										/>
 									</div>
 
 									<div class="col-12 col-md-3 mb-3">

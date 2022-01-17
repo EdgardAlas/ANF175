@@ -4,6 +4,7 @@ const { Cartera } = require('../models/Cartera');
 const { Cliente } = require('../models/Cliente');
 //const { Pago } = require('../models/Pago');
 const { Prestamo } = require('../models/Prestamo');
+const { TasaInteres } = require('../models/TasaInteres');
 
 const render = (vista) => `autenticacion/${vista}`;
 
@@ -168,6 +169,7 @@ const vistaPrestamo = async (req, res) => {
 				'valor_cuota',
 				'valor_total',
 				'cartera_fk',
+				'tasa_interes_fk',
 			],
 			include: [
 				{
@@ -182,7 +184,7 @@ const vistaPrestamo = async (req, res) => {
 			],
 		});
 		//}
-		console.log('pago=' + pago.cliente);
+		console.log('pago=' + pago.tasa_interes_fk);
 
 		res.render('pagoprestamo/pagoprestamo', {
 			pago,

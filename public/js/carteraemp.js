@@ -19,6 +19,7 @@
 		btnCerrar = document.getElementById('btn-cerrar');
 	let idcartera;
 	let activar;
+	let tasainteres;
 	select('#combocliente', '#agregar-cartera-modal');
 	select('#comboempleado', '#agregar-cartera-modal');
 
@@ -39,18 +40,29 @@
 			if (!editar) {
 				return;
 			}
+			prestamoForm.reset();
 			idcartera = target.dataset.id;
-			interes.value = 0.09;
+			tasainteres =
+				target.dataset.tipo == 'Hipotecario'
+					? 9
+					: target.dataset.tipo == 'Garantía Prendaria Vehículo'
+					? 5
+					: '';
+			interes.value = tasainteres + '%';
 			interes.disabled = true;
 			valor_cuota.disabled = true;
 			valor_total.disabled = true;
 		});
 
 	document.getElementById('monto').addEventListener('keyup', () => {
-		calcularcuota(monto.value, interes.value, duracion.value);
+		calcularcuota(monto.value, tasainteres, duracion.value);
+	});
+	document.getElementById('duracion').addEventListener('keyup', () => {
+		calcularcuota(monto.value, tasainteres, duracion.value);
 	});
 
 	function calcularcuota(monto, interes, duracion) {
+		interes = interes / 100;
 		console.log('monto=' + monto);
 		const numerador = parseFloat(interes) * parseFloat(monto);
 		const denominador =
@@ -98,7 +110,9 @@
 					const tipoCredito =
 						row.cliente['vehiculos'].length == 0
 							? 'Hipotecario'
-							: 'Garantía Prendaria Vehículo';
+							: row.cliente['hipotecas'].length == 0
+							? 'Garantía Prendaria Vehículo'
+							: '';
 					if (row.incobrable) {
 						estado = 'Activo';
 					}
@@ -151,7 +165,7 @@
 														data-combocliente=${row.cliente.id}
 														data-comboempleado=${row.empleado.id}
 														data-cliente='${row.cliente.nombre + ' ' + row.cliente.apellido}'
-														
+														data-tipo='${tipoCredito}'
 														
 
 													>
@@ -160,6 +174,7 @@
 														data-combocliente=${row.cliente.id}
 														data-comboempleado=${row.empleado.id}
 														data-cliente='${row.cliente.nombre + ' ' + row.cliente.apellido}'
+														data-tipo='${tipoCredito}'
 															class="bi bi-pencil-square agregar-prestamo"
 															></i>
 													</button>
@@ -244,7 +259,7 @@
 
 	async function registrarPrestamo(e) {
 		e.preventDefault();
-
+		const idinteres = tasainteres == 9 ? 1 : 2;
 		const json = {
 			monto: monto.value,
 			duracion: duracion.value,
@@ -253,6 +268,7 @@
 			valor_cuota: valor_cuota.value,
 			valor_total: valor_total.value,
 			cartera_fk: idcartera,
+			tasa_interes_fk: idinteres,
 		};
 
 		if (btnTexto.textContent === 'Editar') {
