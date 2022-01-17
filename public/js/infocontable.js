@@ -505,7 +505,7 @@
 
 			if (data.status === 200) {
 				const fragmento = document.createDocumentFragment();
-				const clientes = resp.clientes;
+				const clientes = resp;
 
 				clientes.forEach((tipo) => {
 					var tpl = document.createElement('template');
@@ -518,7 +518,9 @@
 				comboClientes.appendChild(fragmento);
 				obtenerClientesTabla(clientes);
 			}
-		} catch (error) {}
+		} catch (error) {
+			console.log(error);
+		}
 	}
 
 	async function obtenerClientesTabla(clientes) {
